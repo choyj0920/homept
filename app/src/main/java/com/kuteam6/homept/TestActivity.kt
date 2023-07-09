@@ -101,5 +101,23 @@ class TestActivity : AppCompatActivity() {
 
             }
         }
+
+
+        binding.btnUnregister.setOnClickListener {
+            var id = binding.etUnregisterid.text.toString()
+            var password = binding.etUnregisterpassword.text.toString()
+            if (id == "" || password == "") { //빈값x
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var result:Boolean =ApiManager.unRegister(id, password); // 로그인된 Userdata
+                binding.tvUnregisterResult.setText(if(result)"탈퇴 완료" else "탈퇴 실패");
+
+
+
+            }
+        }
+
     }
 }

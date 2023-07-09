@@ -207,6 +207,7 @@
             android:layout_margin="3dp"
             android:hint="ID 입력 "
             android:minWidth="100dp"
+            android:layout_weight="1"
             android:text=""
             android:textSize="15sp" />
 
@@ -216,7 +217,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:hint="비밀번호 입력"
-
+            android:layout_weight="1"
             android:minWidth="100dp"
             android:text=""
 
@@ -246,6 +247,76 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_loginresult">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="회원탈퇴" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+
+        <EditText
+            android:id="@+id/et_unregisterid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:hint="ID 입력 "
+            android:layout_weight="1"
+            android:minWidth="100dp"
+            android:text=""
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_unregisterpassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:hint="비밀번호 입력"
+            android:layout_weight="1"
+            android:minWidth="100dp"
+            android:text=""
+
+            android:textSize="15sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btn_unregister"
+            android:layout_width="wrap_content"
+            android:text="회원탈퇴"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_unregister_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+
+        android:text="Unregister result"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
 
 
