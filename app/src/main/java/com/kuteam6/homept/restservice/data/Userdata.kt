@@ -18,7 +18,7 @@ open class UserData(
     val gender: String,
     val birth: LocalDate,
     val isTrainee: Boolean,
-    val userCategory: String,
+    var userCategory: String,
     var uid:Int=-1
 ){
 
@@ -39,8 +39,8 @@ class TrainerData(
     birth: LocalDate,
     isTrainee: Boolean,
     userCategory: String,
-    val career: String,
-    val lesson: String,
+    var career: String,
+    var lesson: String,
     var trainerid:Int=-1
 ) : UserData(name, id, password, gender, birth, isTrainee, userCategory){
     override fun toString(): String {
@@ -60,7 +60,7 @@ class TraineeData(
     birth: LocalDate,
     isTrainee: Boolean,
     userCategory: String,
-    val description: String,
+    var description: String,
     var traineeid:Int=-1
 ) : UserData(name, id, password, gender, birth, isTrainee, userCategory){
     override fun toString(): String {

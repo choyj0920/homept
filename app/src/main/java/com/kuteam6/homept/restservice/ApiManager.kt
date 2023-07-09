@@ -44,6 +44,11 @@ interface ApiService {
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse?>
 
+    @POST("/user/unregister")
+    suspend fun unRegisterUser(
+        @Body unRegisterRequest: UnRegisterRequest
+    ): Response<UnRegisterResponse?>
+
 
 
 
@@ -184,6 +189,34 @@ object ApiManager {
     }
 
 
+    /**
+     * 회원 탈퇴 id,password를 매개로 받아
+     * 탈퇴에 성공하면 true, 해당 id 비번이 없어 탈퇴에 실패하면 false
+     */
+    suspend fun unRegister(id:String,password:String): Boolean= withContext(Dispatchers.IO){
+
+        try {
+            val response= apiService.unRegisterUser(
+                UnRegisterRequest(id,password)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext response.body()?.isDeleted!!
+                }
+                else{
+                    Log.d("TAG","회원 탈퇴 실패 ${response.body()?.message}")
+                }
+
+            }else{
+                Log.d("TAG","회원 탈퇴 오류 ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
 
 }
 

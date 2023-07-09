@@ -108,3 +108,21 @@ data class SubUserData(
     @SerializedName("kkt") val kkt: String?,
     @SerializedName("email") val email: String?,
 )
+
+
+/**
+ * 회원탈퇴 req , res
+ */
+data class UnRegisterRequest(
+    @SerializedName("id") val id: String,
+    @SerializedName("password") val password: String
+)
+data class UnRegisterResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("isDeleted")
+    val isDeleted: Boolean,
+
+)
