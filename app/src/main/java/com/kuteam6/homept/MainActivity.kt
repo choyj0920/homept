@@ -11,8 +11,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.btnTestact.setOnClickListener {
-            val nextIntent = Intent(this, TestActivity::class.java)
+            val nextIntent = Intent(this, LoginActivity::class.java)
             startActivity(nextIntent)
         }
     }
