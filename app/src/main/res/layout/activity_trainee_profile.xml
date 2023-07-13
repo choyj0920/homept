@@ -50,7 +50,9 @@
                 android:layout_height="150dp"
                 android:background="@drawable/edge"
                 android:layout_marginTop="15dp"
-                android:layout_marginHorizontal="20dp" />
+                android:layout_marginHorizontal="20dp"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,14 +155,6 @@
                 android:gravity="center"
                 android:layout_margin="20dp"
                 android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/tv_regiresult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="..."
-                android:textSize="20sp" />
 
         </LinearLayout>
 
