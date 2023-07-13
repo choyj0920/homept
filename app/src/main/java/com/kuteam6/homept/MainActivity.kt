@@ -13,6 +13,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnTestact.setOnClickListener {
+            val nextIntent = Intent(this, TestActivity::class.java)
+            startActivity(nextIntent)
+        }
+        binding.btnLoginact.setOnClickListener {
             val nextIntent = Intent(this, LoginActivity::class.java)
             startActivity(nextIntent)
         }

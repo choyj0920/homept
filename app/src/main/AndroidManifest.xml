@@ -47,6 +47,13 @@
         <activity
             android:name=".SignUpTrainerActivity"
             android:exported="true" />
+
+
+
+
+
+
+>>>>>>> 73f812f46b89759750177b5458cff298e5074eaf
     </application>
 
 </manifest>

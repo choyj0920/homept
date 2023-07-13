@@ -30,7 +30,7 @@ class TestActivity : AppCompatActivity() {
             lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
                 var checkid=binding.etCheckid.text.toString()
                 binding.tvCheckid.setText("load...");
-                var result =ApiManager.checkIdDupicated(checkid);
+                var result = ApiManager.checkIdDupicated(checkid);
                 binding.tvCheckid.setText("${ if(result)"아이디중복" else "아이디중복x"}")
 
             }
