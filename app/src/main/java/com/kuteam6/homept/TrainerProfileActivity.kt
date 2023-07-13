@@ -31,15 +31,22 @@ class TrainerProfileActivity : AppCompatActivity() {
                 category += binding.purpose5.isChecked.toString()
                 category += binding.purpose6.isChecked.toString()
 
-                var user: UserData = TrainerData(    // 트레이너 일경우 TraineeData생성해서 register함수 매개로
-                    name = "test용", id = "binding.etRegisterId.text.toString()", password = "binding.etRegisterpassword.text.toString()", gender = "m", birth = LocalDate.now(),
+                var name = intent.getStringExtra("name")
+                var id = intent.getStringExtra("id")
+                var pwd = intent.getStringExtra("pwd")
+                var gender = intent.getStringExtra("gender")
+                var birth = intent.getStringExtra("birth")
+
+
+
+                var user: UserData = TrainerData(    // 트레이너 일경우 TrainerData생성해서 register함수 매개로
+                    name = name.toString(), id = id.toString(), password = pwd.toString(), gender = gender.toString(), birth = LocalDate.parse(birth),
                     isTrainee = false, userCategory = category, career = binding.careerHistory.text.toString(), lesson =  binding.lessionInfo.text.toString()
                 )
 
                 var userData: UserData? = ApiManager.register(user);
+                binding.tvRegiresult.setText(userData.toString());
             }
-
-
 
         }
     }

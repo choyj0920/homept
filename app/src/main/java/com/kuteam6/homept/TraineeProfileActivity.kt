@@ -32,12 +32,19 @@ class TraineeProfileActivity : AppCompatActivity() {
                 category += binding.purpose5.isChecked.toString()
                 category += binding.purpose6.isChecked.toString()
 
+                var name = intent.getStringExtra("name")
+                var id = intent.getStringExtra("id")
+                var pwd = intent.getStringExtra("pwd")
+                var gender = intent.getStringExtra("gender")
+                var birth = intent.getStringExtra("birth")
+
                 var user: UserData = TraineeData(
-                    name = "test용", id = "binding.etRegisterId.text.toString()", password = "binding.etRegisterpassword.text.toString()", gender = "m", birth = LocalDate.now(),
+                    name = name.toString(), id = id.toString(), password = pwd.toString(), gender = gender.toString(), birth = LocalDate.parse(birth),
                     isTrainee = true, userCategory = category, description = binding.injuryHistory.text.toString()
                 )
 
                 var userData: UserData? = ApiManager.register(user);
+                binding.tvRegiresult.setText(userData.toString());
             }
 
         }
