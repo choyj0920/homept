@@ -16,17 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Homept"
         tools:targetApi="31">
-        <activity
-            android:name=".SubMainActivity"
-            android:exported="false" />
+
         <activity
             android:name=".TrainerProfileActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".TestActivity"
             android:exported="true">
@@ -50,10 +44,15 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
-        <activity
-            android:name=".TestActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
     </application>
 
 </manifest>
