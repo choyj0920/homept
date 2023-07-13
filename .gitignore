@@ -108,6 +108,8 @@ proguard/
 *~
 *.swp
 
+/*/build.gradle
+
 # Keystore files
 
 # Google Services (e.g. APIs or Firebase)
