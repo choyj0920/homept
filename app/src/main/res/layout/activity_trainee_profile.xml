@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TraineeProfileActivity"
+    >
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/trainee"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="트레이니"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:background="@drawable/radius"
+                android:layout_marginStart="20dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="부상이력 / 특이사항"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="20dp" />
+
+            <EditText
+                android:id="@+id/injuryHistory"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/edge"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="운동 목적"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="vertical"
+                android:background="@drawable/edge">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <CheckBox
+                        android:id="@+id/purpose1"
+                        android:text="체형 교정"
+                        android:checked="false"
+                        android:layout_marginStart="70dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/purpose2"
+                        android:text="근력,체력 강화"
+                        android:checked="false"
+                        android:layout_marginStart="23dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <CheckBox
+                        android:id="@+id/purpose3"
+                        android:text="유아 체육"
+                        android:checked="false"
+                        android:layout_marginStart="70dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/purpose4"
+                        android:text="재활"
+                        android:checked="false"
+                        android:layout_marginStart="23dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <CheckBox
+                        android:id="@+id/purpose5"
+                        android:text="시니어 건강"
+                        android:checked="false"
+                        android:layout_marginStart="70dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/purpose6"
+                        android:text="다이어트"
+                        android:checked="false"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmitTraineeProfile"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/green"
+                android:text="완료" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="회원가입 시 서비스 이용 약관과 개인 정보 보호 정책에 동의하게 됩니다."
+                android:textSize="10sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</LinearLayout>

@@ -21,7 +21,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         //트레이니 가입 버튼 이벤트
-        binding.trainerSignupBtn.setOnClickListener {
+        binding.traineeSignupBtn.setOnClickListener {
             val traineeSignUpIntent = Intent(this@SignUpActivity, SignUpTraineeActivity::class.java)
             startActivity(traineeSignUpIntent)
         }
