@@ -16,29 +16,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Homept"
         tools:targetApi="31">
-
         <activity
             android:name=".TrainerProfileActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"/>
         <activity android:name=".TestActivity"
             android:exported="true">
         </activity>
         <activity android:name=".LoginActivity"
             android:exported="false">
         </activity>
-        <activity android:name=".SignUpActivity"
-            android:exported="false">
-        </activity>
-        <activity android:name=".SignUpTraineeActivity"
-            android:exported="false">
-        </activity>
-        <activity android:name=".SignUpTrainerActivity"
-            android:exported="false">
-        </activity>
-
-
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SignUpTraineeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SignUpTrainerActivity"
+            android:exported="true" />
         <activity
             android:name=".TraineeProfileActivity"
             android:exported="false" />
@@ -50,7 +45,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
     </application>
