@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/snsFragment"
+        android:icon="@drawable/home"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title="sns"
+        tools:ignore="AlwaysShowAction"/>
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/search"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title="search"/>
+    <item
+        android:id="@+id/scheduleFragment"
+        android:icon="@drawable/calendar"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title="schedule"/>
+    <item
+        android:id="@+id/recordFragment"
+        android:icon="@drawable/writing"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title="record"/>
+
+    <item
+        android:id="@+id/mypageFragment"
+        android:icon="@drawable/mypage"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title="mypage"/>
+
+</menu>
