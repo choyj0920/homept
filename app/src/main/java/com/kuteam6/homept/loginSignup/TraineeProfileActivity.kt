@@ -1,22 +1,16 @@
-package com.kuteam6.homept
+package com.kuteam6.homept.loginSignup
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.lifecycleScope
-import com.kuteam6.homept.databinding.ActivityTestBinding
 import com.kuteam6.homept.databinding.ActivityTraineeProfileBinding
-import com.kuteam6.homept.databinding.ActivityTrainerProfileBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.TraineeData
-import com.kuteam6.homept.restservice.data.TrainerData
 import com.kuteam6.homept.restservice.data.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.math.log10
 
 class TraineeProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityTraineeProfileBinding
