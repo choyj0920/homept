@@ -23,28 +23,28 @@
 
         </activity>
         <activity
-            android:name=".TrainerProfileActivity"
+            android:name=".loginSignup.TrainerProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".TestActivity"
+            android:name=".loginSignup.TestActivity"
             android:exported="true"/>
         <activity
-            android:name=".LoginActivity"
+            android:name=".loginSignup.LoginActivity"
             android:exported="false"/>
         <activity
-            android:name=".SignUpActivity"
+            android:name=".loginSignup.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".SignUpTraineeActivity"
+            android:name=".loginSignup.SignUpTraineeActivity"
             android:exported="true" />
         <activity
-            android:name=".SignUpTrainerActivity"
+            android:name=".loginSignup.SignUpTrainerActivity"
             android:exported="true" />
         <activity
-            android:name=".TraineeProfileActivity"
+            android:name=".loginSignup.TraineeProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".loginSignup.MainActivity"
             android:exported="true">
 
             <intent-filter>

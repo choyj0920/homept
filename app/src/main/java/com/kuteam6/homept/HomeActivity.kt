@@ -2,6 +2,12 @@ package com.kuteam6.homept
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.kuteam6.homept.MypageFragment
+import com.kuteam6.homept.R
+import com.kuteam6.homept.RecordFragment
+import com.kuteam6.homept.ScheduleFragment
+import com.kuteam6.homept.SearchFragment
+import com.kuteam6.homept.SnsFragment
 import com.kuteam6.homept.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.kuteam6.homept
+package com.kuteam6.homept.loginSignup
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,10 +1,9 @@
-package com.kuteam6.homept
+package com.kuteam6.homept.loginSignup
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.kuteam6.homept.databinding.ActivityLoginBinding
-import com.kuteam6.homept.databinding.ActivityMainBinding
 
 class LoginActivity : AppCompatActivity() {
 
