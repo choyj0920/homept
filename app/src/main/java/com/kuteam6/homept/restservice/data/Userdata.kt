@@ -47,10 +47,12 @@ class TrainerData(
     var lesson: String,
     var trainerid:Int=-1,
     location: String?=null,
+    var certificate: String?=null,
+
 
     ) : UserData(name, id, password, gender, birth, isTrainee, userCategory,location){
     override fun toString(): String {
-        return "[트레이너] ${super.toString()}, 이력 : ${career} , lesson : ${lesson}"
+        return "[트레이너] ${super.toString()}, 이력 : ${career} , lesson : ${lesson}, 자격사항 : ${certificate}"
     }
 }
 
