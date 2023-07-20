@@ -19,12 +19,13 @@ open class UserData(
     val birth: LocalDate,
     val isTrainee: Boolean,
     var userCategory: String,
-    var uid:Int=-1
+    var uid:Int=-1,
+    var registerDate:LocalDate?=null
 ){
 
     override fun toString(): String {
 
-        return "uid : ${uid} 이름 :${name}, id: ${id}, password : ${password}, gender : ${gender}, birth : ${birth}, usercategroy :${userCategory}, "
+        return "uid : ${uid} 이름 :${name}, id: ${id}, password : ${password}, gender : ${gender}, birth : ${birth}, usercategroy :${userCategory},가입일자 ${registerDate} "
     }
 }
 /**

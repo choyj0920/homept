@@ -91,8 +91,11 @@ data class LoginUserData(
     @SerializedName("birth") val birth: String,
     @SerializedName("role") val role: String,
     @SerializedName("usercategory") val usercategory: String,
+    @SerializedName("register_date") val registerDate: String,
+    @SerializedName("login_date") val loginDate: String,
 
-)
+
+    )
 
 /**
  * 현재 이 데이터에는 phone,certificate,kkt,email등의 변수가 있으나 이것을 입력하는 부분이 클라이언트에 없어서 항상 null -추후 수정 필요

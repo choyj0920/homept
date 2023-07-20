@@ -164,13 +164,16 @@ object ApiManager {
                     if(userdata.role=="1"){ // 트레이니
                         return@withContext TraineeData(userdata.name,userdata.login_id,userdata.password, userdata.gender,birthdate,true,userdata.usercategory,
                             subdata.description!!,subdata.trainee_id!!  ).apply {
-                                this.uid=userdata.uid
+                            this.uid=userdata.uid;
+                            this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
                         }
 
                     }else{ //트레이너
                         return@withContext TrainerData(userdata.name,userdata.login_id,userdata.password, userdata.gender,birthdate,true,userdata.usercategory,
                             subdata.career!!,subdata.lesson!!,subdata.trainer_id!!  ).apply {
                             this.uid=userdata.uid
+                            this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
+
                         }
                     }
 
