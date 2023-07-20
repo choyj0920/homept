@@ -31,13 +31,13 @@ data class RegisterRequest(
     @SerializedName("birth") val birth: String,
     @SerializedName("isTrainee") val isTrainee: Boolean,
     @SerializedName("usercategory") val usercategory: String,
+    @SerializedName("location") val location: String?,
     @SerializedName("description") val description: String?,
     @SerializedName("career") val career: String?,
     @SerializedName("lesson") val lesson: String?,
 )
+
 fun createRegisterReq(user: UserData) :RegisterRequest{
-
-
     return RegisterRequest(
         name = user.name,
         id = user.id,
@@ -46,6 +46,7 @@ fun createRegisterReq(user: UserData) :RegisterRequest{
         birth = user.birth.toString(),
         isTrainee = user.isTrainee,
         usercategory = user.userCategory,
+        location = user.location,
         description = if(user is TraineeData) (user as TraineeData).description else null,
         career = if(user is TrainerData) (user as TrainerData).career else null,
         lesson = if(user is TrainerData) (user as TrainerData).lesson else null,
@@ -61,7 +62,7 @@ data class RegisterResponse(
     @SerializedName("subuid")
     val subuid: Int?,
 
-)
+    )
 
 
 /**
@@ -91,6 +92,7 @@ data class LoginUserData(
     @SerializedName("birth") val birth: String,
     @SerializedName("role") val role: String,
     @SerializedName("usercategory") val usercategory: String,
+    @SerializedName("location") val location: String?,
     @SerializedName("register_date") val registerDate: String,
     @SerializedName("login_date") val loginDate: String,
 
@@ -128,4 +130,4 @@ data class UnRegisterResponse(
     @SerializedName("isDeleted")
     val isDeleted: Boolean,
 
-)
+    )

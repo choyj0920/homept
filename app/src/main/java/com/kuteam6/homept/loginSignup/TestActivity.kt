@@ -55,7 +55,7 @@ class TestActivity : AppCompatActivity() {
                 ) else
                     TrainerData(    // 트레이너 일경우 TraineeData생성해서 register함수 매개로
                     name = "test용", id = binding.etRegisterId.text.toString(), password = binding.etRegisterpassword.text.toString(), gender = "m", birth = LocalDate.now(),
-                    isTrainee = false, userCategory = "100000", career = binding.etTemp1.text.toString(), lesson =  binding.etLesson.text.toString()
+                    isTrainee = false, userCategory = "100000", career = binding.etTemp1.text.toString(), lesson =  binding.etLesson.text.toString(), location = "서울,경기"
                 )
 
 

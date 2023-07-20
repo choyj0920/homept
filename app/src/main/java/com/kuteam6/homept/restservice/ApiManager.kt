@@ -170,7 +170,7 @@ object ApiManager {
 
                     }else{ //트레이너
                         return@withContext TrainerData(userdata.name,userdata.login_id,userdata.password, userdata.gender,birthdate,true,userdata.usercategory,
-                            subdata.career!!,subdata.lesson!!,subdata.trainer_id!!  ).apply {
+                            subdata.career!!,subdata.lesson!!,subdata.trainer_id!!,userdata.location ).apply {
                             this.uid=userdata.uid
                             this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
 
