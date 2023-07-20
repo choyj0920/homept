@@ -112,7 +112,7 @@ app.post("/user/register", function (req, res) {
   var location = dereq.body.location;
 
   var sql =
-    "INSERT INTO user (login_id,name,password,gender,birth,role,usercategory,register_date,login_date,location) VALUES (?,?,?,?,?,?,?,now(),now(),?);";
+    "INSERT INTO user (login_id,name,password,gender,birth,role,usercategory,register_date,login_date,location) VALUES (?,?,?,?,?,?,b?,now(),now(),?);";
   var params = [
     id,
     name,
@@ -184,6 +184,16 @@ function changeDatetoKoreaStr(date) {
   return formattedDate;
 }
 
+function bitToString(bit, slicecnt) {
+  const binaryString = bit
+    .toString("hex")
+    .split("")
+    .map((hexChar) => parseInt(hexChar, 16).toString(2).padStart(4, "0"))
+    .join("");
+
+  return binaryString.slice(slicecnt);
+}
+
 app.post("/user/login", function (req, res) {
   console.log(`${new Date().toLocaleString("ko-kr")} [login]`);
 
@@ -216,6 +226,9 @@ app.post("/user/login", function (req, res) {
         message = "로그인 성공";
         var user = result[0];
 
+        console.log(user.usercategory);
+        console.log(typeof user.usercategory);
+
         userdata = {
           uid: user.uid,
           login_id: user.login_id,
@@ -224,7 +237,8 @@ app.post("/user/login", function (req, res) {
           gender: user.gender,
           birth: changeDatetoKoreaStr(user.birth),
           role: user.role,
-          usercategory: user.usercategory,
+          // 현재 category는 6개 밖에 없으나 db의 자료구조가 BIT(8)이어서 앞에 2개를 자르는 처리가 필요
+          usercategory: bitToString(user.usercategory, 2),
           location: user.location,
           register_date: changeDatetoKoreaStr(user.register_date),
           login_date: changeDatetoKoreaStr(user.login_date),
@@ -405,6 +419,51 @@ app.post("/user/findpassword/change", function (req, res) {
       code: resultCode,
       message: message,
       result: ischanged,
+    });
+  });
+});
+
+app.post("/search/trainer", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [트레이너 서치...]`);
+  console.log(req.body);
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  var category = dereq.body.category;
+  var gender = dereq.body.gender;
+  var location = dereq.body.location;
+
+  console.log(gender);
+
+  // 트레이너 찾기 쿼리
+  var sql =
+    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location from trainer as t inner join user as u on t.uid=u.uid where (usercategory & b?)=b? and location LIKE ?' +
+    (gender != null ? "and gender=?;" : ";");
+  console.log(sql);
+  var params = [category, category, "%" + location + "%"];
+  if (gender != null) {
+    params.push(gender);
+  }
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var trainerlist = null;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else {
+      resultCode = 200;
+      message = "해당하는 트레이너 리스트 리턴";
+      trainerlist = result;
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      trainerlist: trainerlist,
     });
   });
 });
