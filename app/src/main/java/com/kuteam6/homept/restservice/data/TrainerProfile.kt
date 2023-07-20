@@ -25,7 +25,7 @@ data class TrainerProfile(
     val location: String,
 ){
     override fun toString(): String {
-        return "${name} , 이력 : ${career}, 자격사항 ${certificate}, lesson : ${lesson}, category ${usercategory}, location : ${location}"
+        return "${name} , 이력 : ${career}, 자격사항 ${certificate}, lesson : ${lesson}, category ${usercategory}, location : ${location}\n"
     }
 }
 

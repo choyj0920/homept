@@ -147,5 +147,24 @@ data class PasswordFindResponse(
     val message: String,
     @SerializedName("result")
     val result: Boolean,
+)
 
-    )
+/**
+ * 트레이너 찾기 req , res
+ */
+data class TrainerSearchRequest(
+    @SerializedName("category") val category: String,
+    // m or f
+    @SerializedName("gender") val gender: String?,
+    @SerializedName("location") val location: String,
+)
+
+data class TrainerSearchResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("trainerlist")
+    val trainerlist: List<TrainerProfile>,
+)
+

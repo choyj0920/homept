@@ -45,6 +45,11 @@ interface ApiService {
         @Body passwordFindRequest: PasswordFindRequest
     ): Response<PasswordFindResponse?>
 
+    @POST("/search/trainer")
+    suspend fun serachTrainer(
+        @Body trainerSearchRequest: TrainerSearchRequest
+    ): Response<TrainerSearchResponse?>
+
 
 
 }
@@ -165,7 +170,7 @@ object ApiManager {
 
                     }else{ //트레이너
                         return@withContext TrainerData(userdata.name,userdata.login_id,userdata.password, userdata.gender,birthdate,true,userdata.usercategory,
-                            subdata.career!!,subdata.lesson!!,subdata.trainer_id!!,userdata.location ).apply {
+                            subdata.career!!,subdata.lesson!!,subdata.trainer_id!!,userdata.location, certificate = subdata.certificate ).apply {
                             this.uid=userdata.uid
                             this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
 
@@ -272,6 +277,33 @@ object ApiManager {
             Log.d("TAG","error 발생 :--------${e}")
         }
         false
+    }
+
+    /**
+     * 트레이너 서치  category,gender( null 가능-> 남녀 상관x), location( string 단순 포함)  을 매개로 받아
+     * TrainerProfile 리스트 리턴
+     */
+    suspend fun searchTrainer (category:String,gender:String?,location: String): List<TrainerProfile>? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.serachTrainer(
+                TrainerSearchRequest(category,gender, location)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext response.body()!!.trainerlist
+                }
+                else{
+                    Log.d("TAG","searchTrainer ${response.body()?.message}")
+                }
+            }else{
+                Log.d("TAG","searchTrainer ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
     }
 
 }
