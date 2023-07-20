@@ -108,6 +108,11 @@ proguard/
 *~
 *.swp
 
+# server ignore
+node_modules/
+/server/db_info.js
+
+
 /*/build.gradle
 
 # Keystore files
