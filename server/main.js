@@ -324,3 +324,87 @@ app.post("/user/unregister", function (req, res) {
     });
   });
 });
+
+app.post("/user/findpassword/check", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [비밀번호찾기 체크...]`);
+  console.log(req.body);
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  var id = dereq.body.login_id;
+  var name = dereq.body.name;
+  var birth = dereq.body.birth;
+
+  // 비밀번호 찾기 쿼리
+  var sql = "select * FROM user WHERE login_id = ? and name = ? and birth = ?;";
+  var params = [id, name, birth];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var isfinded = false;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else if (result.length > 0) {
+      // 영향을 받은 행의 개수가 1 이상일 경우 삭제 성공으로 간주
+      resultCode = 200;
+      message = "해당하는 계정이 존재합니다.";
+      isfinded = true;
+    } else {
+      // 영향을 받은 행이 없을 경우 삭제 실패로 간주
+      resultCode = 401;
+      message = "해당하는 계정이 존재하지 않습니다.";
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      result: isfinded,
+    });
+  });
+});
+app.post("/user/findpassword/change", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [비밀번호찾기 변경...]`);
+  console.log(req.body);
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  var id = dereq.body.login_id;
+  var name = dereq.body.name;
+  var birth = dereq.body.birth;
+  var newpassword = dereq.body.newpassword;
+
+  // 비밀번호 찾기 쿼리
+  var sql =
+    "update user set password=? WHERE login_id = ? and name = ? and birth = ?;";
+  var params = [newpassword, id, name, birth];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var ischanged = false;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else if (result.affectedRows > 0) {
+      resultCode = 200;
+      message = "비밀번호 변경 완료";
+      ischanged = true;
+    } else {
+      // 영향을 받은 행이 없을 경우 삭제 실패로 간주
+      resultCode = 401;
+      message = "해당하는 계정이 존재하지 않습니다.";
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      result: ischanged,
+    });
+  });
+});

@@ -1,8 +1,6 @@
 package com.kuteam6.homept.restservice.data
 
-import android.util.Log
 import com.google.gson.annotations.SerializedName
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -129,5 +127,25 @@ data class UnRegisterResponse(
     val message: String,
     @SerializedName("isDeleted")
     val isDeleted: Boolean,
+
+    )
+
+/**
+ * 비밀번호 찾기 req , res
+ */
+data class PasswordFindRequest(
+    @SerializedName("login_id") val login_id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("birth") val birth: String,
+    @SerializedName("newpassword") val newpassword: String? =null
+)
+
+data class PasswordFindResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("result")
+    val result: Boolean,
 
     )

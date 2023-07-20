@@ -1,29 +1,15 @@
 package com.kuteam6.homept.restservice
 
-import android.annotation.SuppressLint
 import android.util.Log
-import android.widget.TextView
-import com.google.gson.annotations.SerializedName
 import com.kuteam6.homept.restservice.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import retrofit2.*
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import java.io.File
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -49,6 +35,15 @@ interface ApiService {
         @Body unRegisterRequest: UnRegisterRequest
     ): Response<UnRegisterResponse?>
 
+    @POST("/user/findpassword/check")
+    suspend fun checkFindPassword(
+        @Body passwordFindRequest: PasswordFindRequest
+    ): Response<PasswordFindResponse?>
+
+    @POST("/user/findpassword/change")
+    suspend fun changeFindPassword(
+        @Body passwordFindRequest: PasswordFindRequest
+    ): Response<PasswordFindResponse?>
 
 
 
@@ -214,6 +209,64 @@ object ApiManager {
 
             }else{
                 Log.d("TAG","회원 탈퇴 오류 ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+
+    /**
+     * 비밀번호 찾기 이름, 아이디, 생년월일을 매개로 받아
+     * 3개가 일치하는 계정 존재시  true , 아닐시 false
+     */
+    suspend fun checkFindPassword (id:String,name:String,birth: LocalDate): Boolean= withContext(Dispatchers.IO){
+
+        try {
+            val response= apiService.checkFindPassword(
+                PasswordFindRequest(login_id = id, name =name, birth = birth.toString())
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext response.body()?.result!!;
+                }
+                else{
+                    Log.d("TAG","checkfindpassword ${response.body()?.message}")
+                }
+
+            }else{
+                Log.d("TAG","checkfindpassword ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+    /**
+     * 비밀번호 변경 이름, 아이디, 생년월일, 바꿀 비밀번호 을 매개로 받아
+     * 3개가 일치하는 계정 존재시  true , 아닐시 false
+     */
+    suspend fun changeFindPassword (id:String,name:String,birth: LocalDate,newpassword: String): Boolean= withContext(Dispatchers.IO){
+
+        try {
+            val response= apiService.changeFindPassword(
+                PasswordFindRequest(login_id = id, name =name, birth = birth.toString(), newpassword = newpassword)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext response.body()?.result!!;
+                }
+                else{
+                    Log.d("TAG","changeFindPassword ${response.body()?.message}")
+                }
+
+            }else{
+                Log.d("TAG","changeFindPassword ${response.body()?.message}")
             }
         }catch (e :Exception){
             Log.d("TAG","error 발생 :--------${e}")
