@@ -109,9 +109,10 @@ app.post("/user/register", function (req, res) {
   var birth = dereq.body.birth;
   var isTrainee = dereq.body.isTrainee;
   var usercategory = dereq.body.usercategory;
+  var location = dereq.body.location;
 
   var sql =
-    "INSERT INTO user (login_id,name,password,gender,birth,role,usercategory,register_date,login_date) VALUES (?,?,?,?,?,?,?,now(),now());";
+    "INSERT INTO user (login_id,name,password,gender,birth,role,usercategory,register_date,login_date,location) VALUES (?,?,?,?,?,?,?,now(),now(),?);";
   var params = [
     id,
     name,
@@ -120,6 +121,7 @@ app.post("/user/register", function (req, res) {
     birth,
     isTrainee ? "1" : "0",
     usercategory,
+    location,
   ];
 
   connection.query(sql, params, function (err, result) {
@@ -223,6 +225,7 @@ app.post("/user/login", function (req, res) {
           birth: changeDatetoKoreaStr(user.birth),
           role: user.role,
           usercategory: user.usercategory,
+          location: user.location,
           register_date: changeDatetoKoreaStr(user.register_date),
           login_date: changeDatetoKoreaStr(user.login_date),
         };
