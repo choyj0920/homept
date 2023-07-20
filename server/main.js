@@ -433,13 +433,10 @@ app.post("/search/trainer", function (req, res) {
   var gender = dereq.body.gender;
   var location = dereq.body.location;
 
-  console.log(gender);
-
   // 트레이너 찾기 쿼리
   var sql =
     'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location from trainer as t inner join user as u on t.uid=u.uid where (usercategory & b?)=b? and location LIKE ?' +
     (gender != null ? "and gender=?;" : ";");
-  console.log(sql);
   var params = [category, category, "%" + location + "%"];
   if (gender != null) {
     params.push(gender);
