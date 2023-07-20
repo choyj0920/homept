@@ -401,6 +401,56 @@
             android:text="result"
             />
 
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="searchTrainer"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_searchTrainer_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLength="6"
+                android:hint="category" />
+
+            <EditText
+                android:id="@+id/et_searchTrainer_locaton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="위치 " />
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="70dp"
+
+                />
+
+            <Button
+                android:id="@+id/btn_searchTrainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="찾기" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_searchTrainer_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="result"
+            />
+
 
 
     </LinearLayout>

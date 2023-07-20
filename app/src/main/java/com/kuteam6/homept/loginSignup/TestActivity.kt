@@ -1,5 +1,6 @@
 package com.kuteam6.homept.loginSignup
 
+import android.R
 import android.app.DatePickerDialog
 import android.icu.text.SimpleDateFormat
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivityTestBinding
@@ -34,6 +36,7 @@ class TestActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+        initSearchTrainer()
         initFindpassword()
         initUnregister()
         initlogin()
@@ -46,6 +49,39 @@ class TestActivity : AppCompatActivity() {
 
 
 
+
+    }
+
+
+    // 트레이너 서치 예시
+    private fun initSearchTrainer() {
+        val items= listOf("남","여","상관없음");
+        val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinner.adapter=adapter
+
+        binding.spinner.selectedItem.toString()
+
+        binding.btnSearchTrainer.setOnClickListener {
+            var category =binding.etSearchTrainerCategory.text.toString()
+            var location = binding.etSearchTrainerLocaton.text.toString()
+
+            if(category.length!=6){
+                return@setOnClickListener
+            }
+            var gender=when(binding.spinner.selectedItemPosition){
+                0->"m"
+                1->"f"
+                else->null
+            }
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var resultList =ApiManager.searchTrainer(category = category, gender = gender, location = location);
+                if(resultList!=null)
+                    binding.tvSearchTrainerResult.setText(resultList.toString())
+
+            }
+
+        }
 
     }
 
