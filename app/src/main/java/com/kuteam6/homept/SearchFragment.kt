@@ -1,6 +1,8 @@
 package com.kuteam6.homept
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -110,46 +112,127 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.trainerSearchBtn.setOnClickListener{
-            Log.d("type", category)
-            Log.d("gender", gender.toString())
-            Log.d("location", location)
-            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
-                var resultList =ApiManager.searchTrainer(category = category, gender = gender, location = location);
-                if(resultList!=null) {
-                    searchList = resultList.toTypedArray().toCollection(ArrayList<TrainerProfile>())
+        binding.treainerSearchEt.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                    for(list in searchList){
-                        if(list.gender == "f")
-                            list.gender = "여자"
-                        else if(list.gender == "m")
-                            list.gender = "남자"
+            }
 
-                        var category : String = ""
-
-                        if(list.usercategory.get(0) == '1')
-                            category += "체형교정, "
-                        if(list.usercategory.get(1) == '1')
-                            category += "근력,체력강화, "
-                        if(list.usercategory.get(2) == '1')
-                            category += "유아체육, "
-                        if(list.usercategory.get(3) == '1')
-                            category += "재활, "
-                        if(list.usercategory.get(4) == '1')
-                            category += "시니어건강, "
-                        if(list.usercategory.get(5) == '1')
-                            category += "다이어트, "
-
-                        category = category.trim().substring(0, category.length-2)
-                        list.usercategory = category
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var tempList = ArrayList<TrainerProfile>()
+                if(searchList!=null) {
+                    for(list in searchList) {
+                        if(!(p0.toString()=="")) {
+                            Log.d("p0", p0.toString())
+                            Log.d("name", list.name)
+                            if(list.name.contains(p0.toString())){
+                                Log.d("bool", list.name.contains(p0.toString()).toString())
+                                tempList.add(list)
+                                Log.d("temp", tempList.get(0).name)
+                            }
+                        }
                     }
+                    searchAdapter = SearchAdapter(tempList)
+                    binding.searchRv.adapter = searchAdapter
+                    binding.searchRv.layoutManager = LinearLayoutManager(context)
+                }
+            }
 
-                    searchAdapter = SearchAdapter(searchList)
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        binding.trainerSearchBtn.setOnClickListener{
+            if(binding.treainerSearchEt.text.toString()=="") {
+                Log.d("type", category)
+                Log.d("gender", gender.toString())
+                Log.d("location", location)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    var resultList =ApiManager.searchTrainer(category = category, gender = gender, location = location);
+                    if(resultList!=null) {
+                        searchList = resultList.toTypedArray().toCollection(ArrayList<TrainerProfile>())
+
+                        for(list in searchList) {
+                            if(list.gender == "f")
+                                list.gender = "여자"
+                            else if(list.gender == "m")
+                                list.gender = "남자"
+
+                            var category : String = ""
+
+                            if(list.usercategory.get(0) == '1')
+                                category += "체형교정, "
+                            if(list.usercategory.get(1) == '1')
+                                category += "근력,체력강화, "
+                            if(list.usercategory.get(2) == '1')
+                                category += "유아체육, "
+                            if(list.usercategory.get(3) == '1')
+                                category += "재활, "
+                            if(list.usercategory.get(4) == '1')
+                                category += "시니어건강, "
+                            if(list.usercategory.get(5) == '1')
+                                category += "다이어트, "
+
+                            category = category.trim().substring(0, category.length-2)
+                            list.usercategory = category
+                        }
+                        searchAdapter = SearchAdapter(searchList)
+                        binding.searchRv.adapter = searchAdapter
+                        binding.searchRv.layoutManager = LinearLayoutManager(context)
+                    }
+                }
+            }else {
+                searchTrainer()
+            }
+
+        }
+    }
+
+    private fun searchTrainer() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            var resultList =ApiManager.searchTrainer(category = category, gender = gender, location = location);
+            if(resultList!=null) {
+                searchList = resultList.toTypedArray().toCollection(ArrayList<TrainerProfile>())
+
+                for(list in searchList) {
+                    if(list.gender == "f")
+                        list.gender = "여자"
+                    else if(list.gender == "m")
+                        list.gender = "남자"
+
+                    var category : String = ""
+
+                    if(list.usercategory.get(0) == '1')
+                        category += "체형교정, "
+                    if(list.usercategory.get(1) == '1')
+                        category += "근력,체력강화, "
+                    if(list.usercategory.get(2) == '1')
+                        category += "유아체육, "
+                    if(list.usercategory.get(3) == '1')
+                        category += "재활, "
+                    if(list.usercategory.get(4) == '1')
+                        category += "시니어건강, "
+                    if(list.usercategory.get(5) == '1')
+                        category += "다이어트, "
+
+                    category = category.trim().substring(0, category.length-2)
+                    list.usercategory = category
+                }
+                var tempList = ArrayList<TrainerProfile>()
+                if(searchList!=null) {
+                    for(list in searchList) {
+                        if(!(binding.treainerSearchEt.text.toString()=="")) {
+                            if(list.name.contains(binding.treainerSearchEt.text.toString())){
+                                tempList.add(list)
+                            }
+                        }
+                    }
+                    searchAdapter = SearchAdapter(tempList)
                     binding.searchRv.adapter = searchAdapter
                     binding.searchRv.layoutManager = LinearLayoutManager(context)
                 }
             }
         }
     }
-
 }
