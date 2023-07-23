@@ -11,7 +11,7 @@ data class TrainerProfile(
     @SerializedName("name")
     val name: String,
     @SerializedName("gender")
-    val gender: String,
+    var gender: String,
 
     @SerializedName("career")
     val career: String,
@@ -20,7 +20,7 @@ data class TrainerProfile(
     @SerializedName("lesson")
     val lesson: String,
     @SerializedName("usercategory")
-    val usercategory: String,
+    var usercategory: String,
     @SerializedName("location")
     val location: String,
 ){
