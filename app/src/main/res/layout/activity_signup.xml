@@ -47,4 +47,34 @@
         app:layout_constraintTop_toBottomOf="@+id/trainee_signup_btn"
         app:layout_constraintVertical_bias="0.693"
         tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/tvTitle1"
+        android:layout_width="178dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="176dp"
+        android:text="안녕하세요!"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle2"
+        android:layout_width="289dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="65dp"
+        android:text="Home PT입니다."
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

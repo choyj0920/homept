@@ -99,11 +99,11 @@
     <RadioButton
         android:id="@+id/gender_female"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="72dp"
         android:layout_marginEnd="103dp"
         android:layout_marginBottom="23dp"
-        android:text="여"
+        android:text="Female"
         app:layout_constraintBottom_toTopOf="@+id/trainee_birthDate_edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/gender_male" />
@@ -111,10 +111,10 @@
     <RadioButton
         android:id="@+id/gender_male"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="59dp"
         android:layout_marginBottom="23dp"
-        android:text="남"
+        android:text="Male"
         app:layout_constraintBottom_toTopOf="@+id/trainee_birthDate_edit"
         app:layout_constraintStart_toEndOf="@+id/trainee_gender_text" />
 

@@ -10,12 +10,11 @@
         android:id="@+id/logo_iamge"
         android:layout_width="wrap_content"
         android:layout_height="350dp"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:src="@drawable/workout_login"/>
+        android:src="@drawable/workout_login" />
 
     <EditText
-        android:id="@+id/id_edit"
+        android:id="@+id/etLoginid"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/logo_iamge"
@@ -27,10 +26,10 @@
         android:paddingStart="15dp"/>
 
     <EditText
-        android:id="@+id/pw_edit"
+        android:id="@+id/etLoginpassword"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/id_edit"
+        android:layout_below="@id/etLoginid"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
@@ -42,8 +41,8 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/findId_btn"
         android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/pw_edit"
+        android:layout_height="48dp"
+        android:layout_below="@id/etLoginpassword"
         android:layout_marginTop="35dp"
         android:layout_marginLeft="40dp"
         android:background="@color/white"
@@ -53,8 +52,8 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/findPw_btn"
         android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/pw_edit"
+        android:layout_height="48dp"
+        android:layout_below="@id/etLoginpassword"
         android:layout_marginTop="35dp"
         android:layout_marginLeft="155dp"
         android:background="@color/white"
@@ -64,8 +63,8 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signUp_btn"
         android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/pw_edit"
+        android:layout_height="48dp"
+        android:layout_below="@id/etLoginpassword"
         android:layout_marginTop="35dp"
         android:layout_marginLeft="270dp"
         android:background="@color/white"
@@ -73,7 +72,7 @@
         android:textStyle="bold"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login_btn"
+        android:id="@+id/btnLogin"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

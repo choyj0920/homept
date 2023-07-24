@@ -22,11 +22,11 @@
         android:layout_marginTop="150dp"
         android:background="@color/white"
         android:text="비밀번호 찾기"
-        android:textColor="#2EC4B6"
+        android:textColor="@color/black"
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/find_id_edit"
+        android:id="@+id/find_id_name_edit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/find_id_image"
@@ -34,31 +34,40 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edit_background"
-        android:hint="아이디"
+        android:hint="이름"
         android:paddingStart="15dp"/>
 
     <EditText
-        android:id="@+id/find_pw_edit"
+        android:id="@+id/find_id_birth_edit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/find_id_edit"
+        android:layout_below="@id/find_id_name_edit"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edit_background"
-        android:hint="비밀번호"
+        android:hint="생년월일 19**.**.**"
         android:paddingStart="15dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login_btn"
+        android:id="@+id/btnFindId"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/find_pw_edit"
+        android:layout_below="@id/find_id_birth_edit"
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_background"
         android:text="아이디 찾기"
         android:textColor="@android:color/white"
         android:textSize="20sp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvLoginFindIdResult"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/btnFindId"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="77dp"
+        android:background="@drawable/edit_background" />
 
 </RelativeLayout>

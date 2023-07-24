@@ -117,8 +117,6 @@ class TestActivity : AppCompatActivity() {
                 if(result==true){
                     binding.btnFindPasswordChange.isEnabled=true
                     binding.tvFindpasswordResult.setText("계정 확인")
-
-
                 }
 
             }
@@ -145,9 +143,6 @@ class TestActivity : AppCompatActivity() {
 
             }
         }
-
-
-
 
     }
 
