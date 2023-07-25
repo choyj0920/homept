@@ -39,4 +39,16 @@
 
     </Button>
 
+    <Button
+        android:id="@+id/btn_trainersProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="트레이너 프로필 보기"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_loginact">
+
+    </Button>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
