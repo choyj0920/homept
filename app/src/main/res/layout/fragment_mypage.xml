@@ -1,14 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MypageFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="mypage fragment" />
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/myPageName"
+        tools:layout_editor_absoluteX="0dp" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintBaseline_toBottomOf="@+id/btnMyPageTrainer_Trainee"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="468dp" />
+
+    <ImageView
+        android:id="@+id/ivMyPageImage"
+        android:layout_width="251dp"
+        android:layout_height="148dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="80dp"
+        android:src="@drawable/mypage_hong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMyPageTitle" />
+
+    <Button
+        android:id="@+id/btnMyPageTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="마이페이지"
+        android:textSize="17dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/myPageName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="178dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="178dp"
+        android:text="홍길동"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivMyPageImage" />
+
+    <Button
+        android:id="@+id/btnMyPageInfo"
+        android:layout_width="95dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="32dp"
+        android:drawableTop="@drawable/baseline_text_snippet_24"
+        android:text="내 정보 관리"
+        android:paddingBottom="5dp"
+        android:background="@drawable/btn_background"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMyPageTrainer_Trainee"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnMyPageTrainer_Trainee"
+        android:layout_width="95dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/btn_background"
+        android:drawableTop="@drawable/baseline_people_24"
+        android:text="담당 트레이너/ 트레이니"
+        app:layout_constraintStart_toEndOf="@+id/btnMyPageInfo"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <Button
+        android:id="@+id/btnMyPageChat"
+        android:layout_width="95dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="39dp"
+        android:background="@drawable/btn_background"
+        android:drawableTop="@drawable/baseline_chat_24"
+        android:paddingBottom="5dp"
+        android:text="채팅"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMyPageTrainer_Trainee"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/myPageReservationList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="299dp"
+        android:text="예약 현황"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

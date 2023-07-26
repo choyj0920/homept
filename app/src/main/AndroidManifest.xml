@@ -35,6 +35,24 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MypageInfoAlarmActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".MypageChangePwActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".MypageUnregisterActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".MypageInfoActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".loginSignup.FindIdActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".loginSignup.FindPwActivity"
+            android:exported="false"/>
+        <activity
             android:name=".loginSignup.TrainerProfileActivity"
             android:exported="true" />
         <activity
