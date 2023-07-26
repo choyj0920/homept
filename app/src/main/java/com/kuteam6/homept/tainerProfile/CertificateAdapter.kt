@@ -1,14 +1,9 @@
 package com.kuteam6.homept.tainerProfile
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kuteam6.homept.SearchAdapter
-import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
 import com.kuteam6.homept.databinding.ItemCareerListBinding
-import com.kuteam6.homept.databinding.ItemSearchBinding
-import com.kuteam6.homept.restservice.data.TrainerProfile
 
 class CertificateAdapter(private val itemList: ArrayList<CertificateData>) :
     RecyclerView.Adapter<CertificateAdapter.ViewHolder>() {

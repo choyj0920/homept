@@ -1,12 +1,22 @@
-package com.kuteam6.homept
+package com.kuteam6.homept.trainerSearch
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import androidx.recyclerview.widget.RecyclerView
 import com.kuteam6.homept.databinding.ItemSearchBinding
 import com.kuteam6.homept.restservice.data.TrainerProfile
 
 class SearchAdapter(private val itemList : ArrayList<TrainerProfile>) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+    private lateinit var itemClickListener : OnItemClickListener
+
+    interface OnItemClickListener{
+        fun onItemClick(trainerProfile : TrainerProfile)
+    }
+
+    fun setOnItemClickListener(onItemClickListener : OnItemClickListener) {
+        itemClickListener = onItemClickListener
+    }
 
     inner class ViewHolder(val binding : ItemSearchBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(trainerProfile: TrainerProfile) {
@@ -14,6 +24,9 @@ class SearchAdapter(private val itemList : ArrayList<TrainerProfile>) : Recycler
             binding.searchGenderTv.text = trainerProfile.gender
             binding.searchLocationTv.text = trainerProfile.location
             binding.searchTypeTv.text = trainerProfile.usercategory
+            binding.itemSearchCl.setOnClickListener {
+                itemClickListener.onItemClick(trainerProfile)
+            }
         }
     }
 
