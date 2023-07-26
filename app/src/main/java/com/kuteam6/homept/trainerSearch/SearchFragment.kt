@@ -1,5 +1,6 @@
-package com.kuteam6.homept
+package com.kuteam6.homept.trainerSearch
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,9 +14,11 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.FragmentSearchBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.TrainerProfile
+import com.kuteam6.homept.tainerProfile.TrainersProfileActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -134,6 +137,20 @@ class SearchFragment : Fragment() {
                     searchAdapter = SearchAdapter(tempList)
                     binding.searchRv.adapter = searchAdapter
                     binding.searchRv.layoutManager = LinearLayoutManager(context)
+                    searchAdapter!!.setOnItemClickListener(object : SearchAdapter.OnItemClickListener{
+                        override fun onItemClick(trainerProfile: TrainerProfile) {
+                            val trainersProfileIntent = Intent(context, TrainersProfileActivity::class.java)
+                            trainersProfileIntent.putExtra("name", trainerProfile.name)
+                            trainersProfileIntent.putExtra("gender", trainerProfile.gender)
+                            trainersProfileIntent.putExtra("career", trainerProfile.career)
+                            trainersProfileIntent.putExtra("certificate", trainerProfile.certificate)
+                            trainersProfileIntent.putExtra("lesson", trainerProfile.lesson)
+                            trainersProfileIntent.putExtra("usercategory", trainerProfile.usercategory)
+//                            Log.d("certificate", trainerProfile.certificate!!)
+//                            Log.d("certificate", trainerProfile.career!!)
+                            startActivity(trainersProfileIntent)
+                        }
+                    })
                 }
             }
 
@@ -180,6 +197,20 @@ class SearchFragment : Fragment() {
                         searchAdapter = SearchAdapter(searchList)
                         binding.searchRv.adapter = searchAdapter
                         binding.searchRv.layoutManager = LinearLayoutManager(context)
+                        searchAdapter!!.setOnItemClickListener(object : SearchAdapter.OnItemClickListener{
+                            override fun onItemClick(trainerProfile: TrainerProfile) {
+                                val trainersProfileIntent = Intent(context, TrainersProfileActivity::class.java)
+                                trainersProfileIntent.putExtra("name", trainerProfile.name)
+                                trainersProfileIntent.putExtra("gender", trainerProfile.gender)
+                                trainersProfileIntent.putExtra("career", trainerProfile.career)
+                                trainersProfileIntent.putExtra("certificate", trainerProfile.certificate)
+                                trainersProfileIntent.putExtra("lesson", trainerProfile.lesson)
+                                trainersProfileIntent.putExtra("usercategory", trainerProfile.usercategory)
+//                                Log.d("certificate", trainerProfile.certificate!!)
+//                                Log.d("certificate", trainerProfile.career!!)
+                                startActivity(trainersProfileIntent)
+                            }
+                        })
                     }
                 }
             }else {
@@ -231,8 +262,26 @@ class SearchFragment : Fragment() {
                     searchAdapter = SearchAdapter(tempList)
                     binding.searchRv.adapter = searchAdapter
                     binding.searchRv.layoutManager = LinearLayoutManager(context)
+                    searchAdapter!!.setOnItemClickListener(object : SearchAdapter.OnItemClickListener{
+                        override fun onItemClick(trainerProfile: TrainerProfile) {
+                            val trainersProfileIntent = Intent(context, TrainersProfileActivity::class.java)
+                            trainersProfileIntent.putExtra("name", trainerProfile.name)
+                            trainersProfileIntent.putExtra("gender", trainerProfile.gender)
+                            trainersProfileIntent.putExtra("career", trainerProfile.career)
+                            trainersProfileIntent.putExtra("certificate", trainerProfile.certificate)
+                            trainersProfileIntent.putExtra("lesson", trainerProfile.lesson)
+                            trainersProfileIntent.putExtra("usercategory", trainerProfile.usercategory)
+//                            Log.d("certificate", trainerProfile.certificate!!)
+//                            Log.d("certificate", trainerProfile.career!!)
+                            startActivity(trainersProfileIntent)
+                        }
+                    })
                 }
             }
         }
+    }
+
+    private fun clickListener() {
+
     }
 }

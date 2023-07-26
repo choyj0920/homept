@@ -1,9 +1,14 @@
 package com.kuteam6.homept.tainerProfile
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kuteam6.homept.HomeActivity
+import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
+import com.kuteam6.homept.trainerSearch.SearchFragment
 
 //TODO:리뷰 사진 리사이클러뷰
 //TODO: 이력 리사이클러뷰 사이즈 조정해서 스크롤 안되고 다나오게
@@ -22,10 +27,31 @@ class TrainersProfileActivity : AppCompatActivity() {
         binding = ActivityTrainersProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolbarBackIv.toolbarBackMainTv.text = "트레이너 프로필"
+        binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
+            val searchTrainerIntent = Intent(this, HomeActivity::class.java)
+            searchTrainerIntent.putExtra("fragment", "search")
+            startActivity(searchTrainerIntent)
+        }
+
+        binding.tvName.text = intent.getStringExtra("name")
+        binding.tvCategory.text = intent.getStringExtra("usercategory")
+        binding.tvLesson.text = intent.getStringExtra("lesson")
+
+//        val career = intent.getStringExtra("career")!!.split("\r?\n|\r".toRegex()).toTypedArray()
+//
+//        for (careerString in career) {
+//            careerDatas.add(CareerData(careerString))
+//        }
+//
+//        val certificate = intent.getStringExtra("certificate")!!.split("\r?\n|\r".toRegex()).toTypedArray()
+//
+//        for (certificateString in certificate) {
+//            certificateDatas.add(CertificateData(certificateString))
+//        }
+
         initDataList()
         initRecyclerView()
-
-
 
         binding.btnPt.setOnClickListener {
 
@@ -43,6 +69,8 @@ class TrainersProfileActivity : AppCompatActivity() {
     }
 
     private fun initDataList(){
+
+
         with(careerDatas){
             add(CareerData("미스터 올림피아 8회 연속 우승"))
             add(CareerData("한국체육대학교 박사"))
@@ -52,5 +80,6 @@ class TrainersProfileActivity : AppCompatActivity() {
         with(certificateDatas){
             add(CertificateData("생활체육지도자 1급"))
         }
+
     }
 }

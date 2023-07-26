@@ -27,7 +27,13 @@
         <activity
             android:name=".HomeActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".loginSignup.TrainerProfileActivity"
             android:exported="true" />
@@ -52,11 +58,7 @@
         <activity
             android:name=".loginSignup.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
