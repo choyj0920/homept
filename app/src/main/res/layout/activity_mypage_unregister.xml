@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnMyPageUnregister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_frame"
+        android:drawableLeft="@drawable/baseline_arrow_back_ios_24"
+        android:text="회원 탈퇴"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imUnregister"
+        android:layout_width="175dp"
+        android:layout_height="178dp"
+        android:layout_marginStart="118dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="118dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMyPageUnregister"
+        app:srcCompat="?android:attr/alertDialogIcon" />
+
+    <TextView
+        android:id="@+id/tvUnregister"
+        android:layout_width="248dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
+        android:text="정말 탈퇴하시겠어요?"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvUnregisterResult"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imUnregister" />
+
+    <TextView
+        android:id="@+id/tvUnregisterResult"
+        android:layout_width="89dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="13dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/tvUnregister"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/etUnregisterid"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="95dp"
+        android:ems="10"
+        android:hint="아이디"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUnregister" />
+
+    <EditText
+        android:id="@+id/etUnregisterpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginTop="24dp"
+        android:ems="13"
+        android:hint="비밀번호"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUnregisterid" />
+
+    <Button
+        android:id="@+id/btnUnregister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="185dp"
+        android:background="@drawable/btn_background"
+        android:text="탈퇴"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
