@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.kuteam6.homept.databinding.ActivityMainBinding
+import com.kuteam6.homept.tainerProfile.TrainersProfileActivity
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -18,6 +19,10 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnLoginact.setOnClickListener {
             val nextIntent = Intent(this, LoginActivity::class.java)
+            startActivity(nextIntent)
+        }
+        binding.btnTrainersProfile.setOnClickListener {
+            val nextIntent = Intent(this, TrainersProfileActivity::class.java)
             startActivity(nextIntent)
         }
     }

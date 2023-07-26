@@ -2,12 +2,8 @@ package com.kuteam6.homept
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.kuteam6.homept.MypageFragment
-import com.kuteam6.homept.R
-import com.kuteam6.homept.RecordFragment
-import com.kuteam6.homept.ScheduleFragment
-import com.kuteam6.homept.SearchFragment
-import com.kuteam6.homept.SnsFragment
+import androidx.fragment.app.FragmentTransaction
+import com.kuteam6.homept.trainerSearch.SearchFragment
 import com.kuteam6.homept.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
@@ -27,7 +23,15 @@ class HomeActivity : AppCompatActivity() {
             .replace(R.id.home_frm, SnsFragment())
             .commitAllowingStateLoss()
 
+        if(intent.getStringExtra("fragment") == "search") {
+            binding.homeBnv.selectedItemId = R.id.searchFragment
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.home_frm, SearchFragment())
+                .commitAllowingStateLoss()
+        }
+
         binding.homeBnv.setOnItemSelectedListener {
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             when(it.itemId) {
                 R.id.snsFragment -> {
                     supportFragmentManager.beginTransaction()
@@ -60,6 +64,9 @@ class HomeActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
             }
+            transaction.addToBackStack(null)
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            transaction.commit()
             false
         }
     }
