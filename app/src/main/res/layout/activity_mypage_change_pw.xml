@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_myPage_change_pw_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_frame"
+        android:drawableLeft="@drawable/baseline_arrow_back_ios_24"
+        android:paddingRight="15dp"
+        android:text="비밀번호 변경"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etFindPasswordName"
+        android:layout_width="208dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="39dp"
+        android:ems="8"
+        android:hint="이름"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_myPage_change_pw_back" />
+
+    <EditText
+        android:id="@+id/etFindPasswordBirth"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="39dp"
+        android:ems="10"
+        android:hint="19**.**.**"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etFindPasswordId" />
+
+    <EditText
+        android:id="@+id/etFindPasswordNewpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="49dp"
+        android:ems="15"
+        android:hint="변경할 비밀번호"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnFindPasswordCheck"
+        app:layout_editor_absoluteX="62dp"
+        app:layout_editor_absoluteY="300dp" />
+
+    <TextView
+        android:id="@+id/tvFindPwName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="69dp"
+        android:text="이름 :"
+        app:layout_constraintEnd_toStartOf="@+id/etFindPasswordName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_myPage_change_pw_back" />
+
+    <TextView
+        android:id="@+id/tvFindPwBirth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="38dp"
+        android:text="생년월일 : "
+        app:layout_constraintEnd_toStartOf="@+id/etFindPasswordBirth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFindPwId" />
+
+    <TextView
+        android:id="@+id/tvFindPwId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="36dp"
+        android:text="아이디 :"
+        app:layout_constraintEnd_toStartOf="@+id/etFindPasswordId"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFindPwName" />
+
+    <EditText
+        android:id="@+id/etFindPasswordId"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
+        android:ems="12"
+        android:hint="아이디"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etFindPasswordName" />
+
+    <Button
+        android:id="@+id/btnFindPasswordChange"
+        android:layout_width="116dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="151dp"
+        android:background="@drawable/btn_background"
+        android:text="비밀번호 변경"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etFindPasswordNewpassword" />
+
+    <TextView
+        android:id="@+id/tvFindpasswordResult"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginEnd="131dp"
+        android:layout_marginBottom="212dp"
+        android:text="결과"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnFindPasswordCheck"
+        android:layout_width="116dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="151dp"
+        android:background="@drawable/btn_background"
+        android:text="비밀번호 확인"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etFindPasswordBirth" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
