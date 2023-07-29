@@ -5,18 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnMyPageInfoBack"
+    <include
+        android:id="@+id/toolbar_back_iv"
+        layout="@layout/toolbar_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_frame"
-        android:drawableLeft="@drawable/baseline_arrow_back_ios_24"
-        android:text="내 정보 확인"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="?android:attr/actionBarSize"/>
 
     <TextView
         android:id="@+id/myPageInfoText"
@@ -30,7 +23,7 @@
         android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMyPageInfoBack" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_back_iv" />
 
     <TextView
         android:id="@+id/myPage_info_name"
@@ -105,19 +98,21 @@
 
     <TextView
         android:id="@+id/tv_myPage_info_name"
-        android:layout_width="135dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="116dp"
-        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="207dp"
+        android:layout_marginStart="100dp"
+        android:text="홍길동"
         app:layout_constraintBottom_toBottomOf="@+id/myPage_info_name"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tv_myPage_info_tel"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="100dp"
-        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="150dp"
+        android:layout_marginStart="170dp"
+        android:text="010-0000-0000"
         app:layout_constraintBottom_toBottomOf="@+id/myPage_info_tel"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -1,5 +1,6 @@
 package com.kuteam6.homept
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kuteam6.homept.databinding.ActivityMypageInfoAlarmBinding
@@ -13,5 +14,11 @@ class MypageInfoAlarmActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMypageInfoAlarmBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toolbarBackIv.toolbarBackMainTv.text = "푸시 알림 설정"
+        binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
+            val searchTrainerIntent = Intent(this, MypageInfoActivity::class.java)
+            startActivity(searchTrainerIntent)
+        }
     }
 }

@@ -13,10 +13,11 @@ class MypageInfoActivity : AppCompatActivity() {
         binding = ActivityMypageInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Back 버튼 이벤트
-        binding.btnMyPageInfoBack.setOnClickListener {
-            val backIntent = Intent(this, MypageFragment::class.java)
-            startActivity(backIntent)
+        binding.toolbarBackIv.toolbarBackMainTv.text = "회원 정보"
+        binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
+            val searchTrainerIntent = Intent(this, HomeActivity::class.java)
+            searchTrainerIntent.putExtra("fragment", "mypage")
+            startActivity(searchTrainerIntent)
         }
 
         //비밀 번호 변경 버튼 이벤트

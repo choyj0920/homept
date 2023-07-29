@@ -19,10 +19,12 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="52dp"
         android:background="@color/black"
-        app:layout_constraintBaseline_toBottomOf="@+id/btnMyPageTrainer_Trainee"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="468dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMyPageTrainer_Trainee"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
         android:id="@+id/ivMyPageImage"
@@ -35,17 +37,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMyPageTitle" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <Button
-        android:id="@+id/btnMyPageTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="마이페이지"
-        android:textSize="17dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/btnMyPageTitle"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="마이페이지"-->
+<!--        android:textSize="17dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
         android:id="@+id/myPageName"
@@ -67,19 +69,22 @@
         android:layout_width="95dp"
         android:layout_height="92dp"
         android:layout_marginStart="32dp"
-        android:drawableTop="@drawable/baseline_text_snippet_24"
-        android:text="내 정보 관리"
-        android:paddingBottom="5dp"
+        android:layout_marginBottom="52dp"
         android:background="@drawable/btn_background"
-        app:layout_constraintBottom_toBottomOf="@+id/btnMyPageTrainer_Trainee"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:drawableTop="@drawable/baseline_text_snippet_24"
+        android:paddingBottom="5dp"
+        android:text="내 정보 관리"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnMyPageTrainer_Trainee"
         android:layout_width="95dp"
         android:layout_height="92dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/btn_background"
         android:drawableTop="@drawable/baseline_people_24"
         android:text="담당 트레이너/ 트레이니"
@@ -90,15 +95,19 @@
         android:id="@+id/btnMyPageChat"
         android:layout_width="95dp"
         android:layout_height="92dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="39dp"
         android:background="@drawable/btn_background"
         android:drawableTop="@drawable/baseline_chat_24"
         android:paddingBottom="5dp"
         android:text="채팅"
-        app:layout_constraintBottom_toBottomOf="@+id/btnMyPageTrainer_Trainee"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/btnMyPageTrainer_Trainee"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.022" />
 
     <TextView
         android:id="@+id/myPageReservationList"
