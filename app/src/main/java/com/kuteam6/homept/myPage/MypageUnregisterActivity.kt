@@ -1,12 +1,10 @@
-package com.kuteam6.homept
+package com.kuteam6.homept.myPage
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.kuteam6.homept.databinding.ActivityMypageInfoBinding
 import com.kuteam6.homept.databinding.ActivityMypageUnregisterBinding
-import com.kuteam6.homept.loginSignup.LoginActivity
 import com.kuteam6.homept.restservice.ApiManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

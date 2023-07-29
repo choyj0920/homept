@@ -1,8 +1,9 @@
-package com.kuteam6.homept
+package com.kuteam6.homept.myPage
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.databinding.ActivityMypageInfoBinding
 
 class MypageInfoActivity : AppCompatActivity() {

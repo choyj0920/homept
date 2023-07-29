@@ -1,4 +1,4 @@
-package com.kuteam6.homept
+package com.kuteam6.homept.myPage
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -9,7 +9,6 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivityMypageChangePwBinding
-import com.kuteam6.homept.databinding.ActivityMypageInfoBinding
 import com.kuteam6.homept.restservice.ApiManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

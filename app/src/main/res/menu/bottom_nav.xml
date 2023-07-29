@@ -17,17 +17,11 @@
         app:showAsAction="always"
         android:title="search"/>
     <item
-        android:id="@+id/scheduleFragment"
-        android:icon="@drawable/nav_icon_calendar"
-        android:enabled="true"
-        app:showAsAction="always"
-        android:title="schedule"/>
-    <item
-        android:id="@+id/recordFragment"
+        android:id="@+id/recommendFragment"
         android:icon="@drawable/nav_icon_record"
         android:enabled="true"
         app:showAsAction="always"
-        android:title="record"/>
+        android:title="recommend"/>
 
     <item
         android:id="@+id/mypageFragment"

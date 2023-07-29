@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.kuteam6.homept.trainerSearch.SearchFragment
 import com.kuteam6.homept.databinding.ActivityHomeBinding
+import com.kuteam6.homept.myPage.MypageFragment
+import com.kuteam6.homept.trainerRecommend.RecommendFragment
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
@@ -52,15 +54,9 @@ class HomeActivity : AppCompatActivity() {
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
-                R.id.scheduleFragment -> {
+                R.id.recommendFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.home_frm, ScheduleFragment())
-                        .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
-                }
-                R.id.recordFragment -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.home_frm, RecordFragment())
+                        .replace(R.id.home_frm, RecommendFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
