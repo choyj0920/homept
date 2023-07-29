@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.kuteam6.homept.trainerSearch.SearchFragment
 import com.kuteam6.homept.databinding.ActivityHomeBinding
+import com.kuteam6.homept.myPage.MypageFragment
 import com.kuteam6.homept.trainerRecommend.RecommendFragment
 
 class HomeActivity : AppCompatActivity() {

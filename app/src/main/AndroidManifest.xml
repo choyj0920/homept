@@ -35,16 +35,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MypageInfoAlarmActivity"
+            android:name=".myPage.MypageInfoAlarmActivity"
             android:exported="false"/>
         <activity
-            android:name=".MypageChangePwActivity"
+            android:name=".myPage.MypageChangePwActivity"
             android:exported="false"/>
         <activity
-            android:name=".MypageUnregisterActivity"
+            android:name=".myPage.MypageUnregisterActivity"
             android:exported="false"/>
         <activity
-            android:name=".MypageInfoActivity"
+            android:name=".myPage.MypageInfoActivity"
             android:exported="false"/>
         <activity
             android:name=".loginSignup.FindIdActivity"
