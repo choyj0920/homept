@@ -52,15 +52,9 @@ class HomeActivity : AppCompatActivity() {
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
-                R.id.scheduleFragment -> {
+                R.id.recommendFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.home_frm, ScheduleFragment())
-                        .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
-                }
-                R.id.recordFragment -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.home_frm, RecordFragment())
+                        .replace(R.id.home_frm, RecommendFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
