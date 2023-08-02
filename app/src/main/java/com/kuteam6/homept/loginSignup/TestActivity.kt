@@ -35,6 +35,8 @@ class TestActivity : AppCompatActivity() {
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initGetSession()
+        initapplySession()
         initRecommendTrainer()
         initSearchTrainer()
         initFindpassword()
@@ -45,14 +47,77 @@ class TestActivity : AppCompatActivity() {
 
 
 
+    }
 
 
 
+    // 내 트레이니/트레이너 리스트 예시
+    private fun initGetSession() {
 
+        binding.cbGetSession.setOnCheckedChangeListener { _, isChecked ->
+            binding.etGetSessionMyuid.setText("");
+            binding.etGetSessionMyuid.setHint(if(isChecked) "traineruid" else "traineeuid" );
+
+        }
+
+        binding.btnGetSession.setOnClickListener {
+
+            var uid =binding.etGetSessionMyuid.text.toString().toInt()
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var resultList =ApiManager.getMySession(binding.cbGetSession.isChecked,uid);
+                if(resultList!=null)
+                    binding.tvGetSessionResult.setText(resultList.toString())
+
+            }
+
+        }
 
     }
 
-    // 트레이너 서치 예시
+    // 매칭 신청/ 승인 거절 예시
+    private fun initapplySession() {
+
+        binding.btnApplysession.setOnClickListener {
+
+           var traineruid=binding.etApplysessionTrainerUid.text.toString().toInt();
+           var traineeuid=binding.etApplysessionTraineeUid.text.toString().toInt();
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var result = ApiManager.applySession(traineeuid,traineruid);
+                binding.tvApplysessionResult.setText(if(result) "신청완료" else "신청 실패" )
+
+            }
+        }
+        //매칭 승인
+        binding.btnApprovesession.setOnClickListener {
+            var sid=binding.etApprovesessionSid.text.toString().toInt()
+            var traineruid=binding.etApprovesessionTrainerUid.text.toString().toInt()
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var result = ApiManager.approveSession(traineruid,sid);
+                binding.tvApprovesessionResult.setText(if(result) "승인 완료" else "승인 실패" )
+
+            }
+        }
+
+        // 매칭 거절( 매칭 삭제)
+        binding.btnDisapprovesession.setOnClickListener {
+            var sid=binding.etApprovesessionSid.text.toString().toInt()
+            var traineruid=binding.etApprovesessionTrainerUid.text.toString().toInt()
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var result = ApiManager.approveSession(traineruid,sid,true);
+                binding.tvApprovesessionResult.setText(if(result) "거절 완료" else "거절 실패" )
+
+            }
+        }
+
+    }
+
+
+
+    // 트레이너 추천 예시
     private fun initRecommendTrainer() {
 
         binding.btnRecommendTrainer.setOnClickListener {
