@@ -260,38 +260,104 @@ data class ApproveSessionResponse(
     val isSucess: Boolean,
 )
 
-data class GetMyTraineeListRequest(
+/**
+ * 내 트레이니 리스트 req , res
+ */
+data class GetMyTraineesRequest(
     @SerializedName("trainerUid") val trainerUid: Int,
 
     )
-data class GetMyTraineeListResponse(
+data class GetMyTraineesResponse(
     @SerializedName("code")
     val code: Int,
     @SerializedName("message")
     val message: String,
     @SerializedName("traineelist")
     val traineelist: List<_myTrainee>,
-    )
+    ){
+    fun toList():List<MySession>{
+        return traineelist.map {
+            MySession(sid= it.sid, myTraineeProfile =  MyTraineeProfile(
+                it.uid,it.name,it.gender,it.usercategory,it.location,it.hbti,it.trainee_id,it.description ),
+                sessionNow= it.sessionnow);
 
-
+        }
+    }
+}
 data class _myTrainee(
     @SerializedName("sid")
     val sid: Int,
     @SerializedName("uid")
     val uid: Int,
+    @SerializedName("sessionnow")
+    val sessionnow: Int,
     @SerializedName("trainee_id")
-    val trainer_id: Int,
+    val trainee_id: Int,
     @SerializedName("name")
     val name: String,
     @SerializedName("gender")
-    var gender: String,
+    val gender: String,
 
     @SerializedName("description")
     val description: String,
     @SerializedName("usercategory")
     var usercategory: String,
     @SerializedName("location")
-    val location: String,
+    val location: String?,
+
+    @SerializedName("hbti")
+    val hbti: List<Int>?,
+)
+
+/**
+ * 내 트레이너 리스트 req , res
+ */
+data class GetMyTrainersRequest(
+    @SerializedName("traineeUid") val traineeUid: Int,
+
+    )
+data class GetMyTrainersResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("trainerlist")
+    val trainerlist: List<_myTrainer>,
+){
+    fun toList():List<MySession>{
+        return trainerlist.map {
+            MySession(sid= it.sid, myTrainerProfile =  MyTrainerProfile(
+                it.uid,it.name,it.gender,it.usercategory,it.location,it.hbti,it.trainer_id,it.career,it.certificate,it.lesson ),
+                sessionNow= it.sessionnow
+            );
+
+        }
+    }
+}
+data class _myTrainer(
+    @SerializedName("sid")
+    val sid: Int,
+    @SerializedName("uid")
+    val uid: Int,
+    @SerializedName("sessionnow")
+    val sessionnow: Int,
+    @SerializedName("trainer_id")
+    val trainer_id: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("gender")
+    val gender: String,
+
+    @SerializedName("career")
+    val career: String?,
+    @SerializedName("certificate")
+    val certificate: String?,
+    @SerializedName("lesson")
+    val lesson: String?,
+    @SerializedName("usercategory")
+    var usercategory: String,
+    @SerializedName("location")
+    val location: String?,
 
     @SerializedName("hbti")
     val hbti: List<Int>?,

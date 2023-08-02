@@ -74,6 +74,21 @@ interface ApiService {
     suspend fun approveSession(
         @Body approveSessionRequest: ApproveSessionRequest
     ): Response<ApproveSessionResponse?>
+    
+    @POST("/session/disapprovesession")
+    suspend fun disapproveSession(
+        @Body approveSessionRequest: ApproveSessionRequest
+    ): Response<ApproveSessionResponse?>
+
+    @POST("/session/getTrainee")
+    suspend fun getMyTraineeList(
+        @Body myTraineesRequest: GetMyTraineesRequest
+    ): Response<GetMyTraineesResponse?>
+
+    @POST("/session/getTrainer")
+    suspend fun getMyTrainerList(
+        @Body myTrainersRequest: GetMyTrainersRequest
+    ): Response<GetMyTrainersResponse?>
 
 }
 
@@ -332,6 +347,8 @@ object ApiManager {
         null
     }
 
+
+
     /**
      * gethbti 유저의 uid를 매개로 받아 해당 유저의 hbti리턴  리스트형태 int
      * hbti는 Int 5개의 리스트 -> 각 값 0~100
@@ -447,13 +464,16 @@ object ApiManager {
 
     /**
      * 매칭 승인 approveSession 트레이너가 getmytrainee list에서 가져온 신청자를  승인
-     * trainerUid(Userdata의 uid를 넣어야함) , sid (-> 트레이니 리스트에서 가져올 수있음 )를 매개로 받아  승인 ,오류 여부 리턴
+     * trainerUid(Userdata의 uid를 넣어야함) , sid (-> getMySession에서 가져올 수있음)를 매개로 받아  승인 ,오류 여부 리턴
+     * 매칭 승인이 아닌 거절을 하고싶으면 disapprove를 true로
      */
-    suspend fun approveSession (trainerUid :Int,sid :Int): Boolean = withContext(Dispatchers.IO){
+    suspend fun approveSession (trainerUid :Int,sid :Int,disapprove:Boolean=false): Boolean = withContext(Dispatchers.IO){
         try {
-            val response= apiService.approveSession(
+            val response= if(!disapprove) apiService.approveSession(
                 ApproveSessionRequest(trainerUid,sid)
-            );
+            ) else apiService.disapproveSession(
+                ApproveSessionRequest(trainerUid,sid)
+            )
             if(response.isSuccessful){
 
                 var resultcode =response.body()?.code
@@ -461,17 +481,67 @@ object ApiManager {
                     return@withContext true
                 }
                 else{
-                    Log.d("TAG","applySession ${response.body()?.message}")
+                    Log.d("TAG","approveSession ${response.body()?.message}")
                     return@withContext false;
                 }
             }else{
-                Log.d("TAG","applySession ${response.body()?.message}")
+                Log.d("TAG","approveSession ${response.body()?.message}")
             }
         }catch (e :Exception){
             Log.d("TAG","error 발생 :--------${e}")
         }
         false
     }
+
+
+    /**
+     * 내 세션 가져오기 getMySession 트레이너 혹은 트레이니가 자신의 현재 세션(매칭  트레이니가 신청상태인(sessionNow=0), 트레이너가 승인한(sessionNow=1) )
+     * 본인이 트레이너인지 여부와 자신의 uid  를 매개로 받아 현재 자신과 연관된 세션 리스트 리턴 ,null리턴 오류
+     */
+    suspend fun getMySession(amITrainer: Boolean ,myUid:Int): List<MySession>? = withContext(Dispatchers.IO){
+        try {
+            if(amITrainer){
+                val response= apiService.getMyTraineeList(
+                    GetMyTraineesRequest(myUid)
+                );
+                if(response.isSuccessful){
+                    var resultcode =response.body()?.code
+                    if(resultcode==200) {
+                        return@withContext response.body()?.toList()
+                    }
+                    else{
+                        Log.d("TAG","getMySession ${response.body()?.message}")
+                        return@withContext null;
+                    }
+                }else{
+                    Log.d("TAG","getMySession ${response.body()?.message}")
+                }
+            }else{
+                val response= apiService.getMyTrainerList(
+                    GetMyTrainersRequest(myUid)
+                );
+                if(response.isSuccessful){
+                    var resultcode =response.body()?.code
+                    if(resultcode==200) {
+                        return@withContext response.body()?.toList()
+                    }
+                    else{
+                        Log.d("TAG","getMySession ${response.body()?.message}")
+                        return@withContext null;
+                    }
+                }else{
+                    Log.d("TAG","getMySession ${response.body()?.message}")
+                }
+            }
+
+
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
+
+
 
 
 

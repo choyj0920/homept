@@ -814,7 +814,7 @@ app.post("/session/getTrainee", function (req, res) {
   var trainerId = dereq.body.trainerUid;
 
   var sql =
-    `select ts.sid, t.uid, t.trainee_id,name,gender,description,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 ` +
+    `select ts.sid, t.uid,ts.sessionnow, t.trainee_id,name,gender,description,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 ` +
     `from TrainSession as ts inner join trainee as t on ts.trainee_id = t.uid  inner join user as u on t.uid=u.uid where trainer_id=?;`;
   var params = [trainerId];
 
