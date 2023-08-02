@@ -280,8 +280,4 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
-    private fun clickListener() {
-
-    }
 }
