@@ -50,6 +50,16 @@ interface ApiService {
         @Body trainerSearchRequest: TrainerSearchRequest
     ): Response<TrainerSearchResponse?>
 
+    @POST("/user/gethbti")
+    suspend fun getHbti(
+        @Body getHbtiRequest: GetHbtiRequest
+    ): Response<GetHbtiResponse?>
+    @POST("/user/sethbti")
+    suspend fun setHbti(
+        @Body setHbtiRequest: SetHbtiRequest
+    ): Response<SetHbtiResponse?>
+
+
 
 
 }
@@ -308,6 +318,64 @@ object ApiManager {
         }
         null
     }
+
+    /**
+     * gethbti 유저의 uid를 매개로 받아 해당 유저의 hbti리턴  리스트형태 int
+     */
+    suspend fun getHbti (uid :Int): List<Int>? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.getHbti(
+                GetHbtiRequest(uid)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext response.body()!!.hbti
+                }
+                else{
+                    Log.d("TAG","getHbti ${response.body()?.message}")
+                    return@withContext null;
+                }
+            }else{
+                Log.d("TAG","getHbti ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
+
+
+    /**
+     * sethbti 유저의 uid,int리스트형태  hbti 를 매개로 받아 성공실패 여부 리턴
+     */
+    suspend fun setHbti (uid :Int,hbti:List<Int>): Boolean = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.setHbti(
+                SetHbtiRequest(uid,hbti)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext true
+                }
+                else{
+                    Log.d("TAG","setHbti ${response.body()?.message}")
+                    return@withContext false;
+                }
+            }else{
+                Log.d("TAG","setHbti ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+
+
 
 }
 

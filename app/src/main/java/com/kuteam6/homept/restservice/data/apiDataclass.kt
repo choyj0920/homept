@@ -95,7 +95,6 @@ data class LoginUserData(
     @SerializedName("login_date") val loginDate: String,
     @SerializedName("hbti") val hbti: List<Int>?,
 
-
     )
 
 /**
@@ -150,6 +149,8 @@ data class PasswordFindResponse(
     val result: Boolean,
 )
 
+
+
 /**
  * 트레이너 찾기 req , res
  */
@@ -168,4 +169,35 @@ data class TrainerSearchResponse(
     @SerializedName("trainerlist")
     val trainerlist: List<TrainerProfile>,
 )
+/**
+ * get Hbti req, res
+ */
+data class GetHbtiRequest(
+    @SerializedName("uid") val uid: Int,
+)
+
+data class GetHbtiResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("hbti")
+    val hbti: List<Int>?,
+)
+/**
+ * set Hbti req, res
+ */
+data class SetHbtiRequest(
+    @SerializedName("uid") val uid: Int,
+    @SerializedName("hbti") val hbti: List<Int>?,
+)
+
+data class SetHbtiResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+)
+
+
 
