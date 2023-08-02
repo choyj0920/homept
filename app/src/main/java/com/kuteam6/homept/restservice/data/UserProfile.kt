@@ -11,7 +11,7 @@ open class UserProfile(
 
 ){
     override fun toString(): String {
-        return "uid : ${uid} [${name}] ${if(gender=="f" )"여성" else "남성"}, usercategory : ${usercategory}, location: ${location}, ${hbti}"
+        return "uid : ${uid} [${name}] ${if(gender=="f" )"여성" else "남성"}, usercategory : ${usercategory}, location: ${location}, hbti : ${hbti} "
     }
 }
 
@@ -38,7 +38,7 @@ class MyTrainerProfile(
 
     ):UserProfile(uid,name,gender,usercategory,location,hbti){
     override fun toString(): String {
-        return "[Trainer]" +super.toString() +"${career} , ${lesson} \n"
+        return "[Trainer]" +super.toString() +" 경력 : ${career} , 레슨 : ${lesson} \n"
     }
 }
 

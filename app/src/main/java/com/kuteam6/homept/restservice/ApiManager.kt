@@ -465,7 +465,7 @@ object ApiManager {
     /**
      * 매칭 승인 approveSession 트레이너가 getmytrainee list에서 가져온 신청자를  승인
      * trainerUid(Userdata의 uid를 넣어야함) , sid (-> getMySession에서 가져올 수있음)를 매개로 받아  승인 ,오류 여부 리턴
-     * 매칭 승인이 아닌 거절을 하고싶으면 disapprove를 true로
+     * 매칭 승인이 아닌 거절을 하고싶으면 disapprove를 true로 -> 신청중인 거 뿐 아니라 존재하는 승인된 매칭 삭제도 됨
      */
     suspend fun approveSession (trainerUid :Int,sid :Int,disapprove:Boolean=false): Boolean = withContext(Dispatchers.IO){
         try {
