@@ -95,7 +95,6 @@ data class LoginUserData(
     @SerializedName("login_date") val loginDate: String,
     @SerializedName("hbti") val hbti: List<Int>?,
 
-
     )
 
 /**
@@ -150,6 +149,8 @@ data class PasswordFindResponse(
     val result: Boolean,
 )
 
+
+
 /**
  * 트레이너 찾기 req , res
  */
@@ -168,4 +169,196 @@ data class TrainerSearchResponse(
     @SerializedName("trainerlist")
     val trainerlist: List<TrainerProfile>,
 )
+/**
+ * get Hbti req, res
+ */
+data class GetHbtiRequest(
+    @SerializedName("uid") val uid: Int,
+)
 
+data class GetHbtiResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("hbti")
+    val hbti: List<Int>?,
+)
+/**
+ * set Hbti req, res
+ */
+data class SetHbtiRequest(
+    @SerializedName("uid") val uid: Int,
+    @SerializedName("hbti") val hbti: List<Int>?,
+)
+
+data class SetHbtiResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+)
+
+
+
+/**
+ * 트레이너 추천 req , res
+ */
+data class RecommendTrainerRequest(
+    @SerializedName("category") val category: String,
+    // m or f
+    @SerializedName("gender") val gender: String?,
+    @SerializedName("location") val location: String,
+    @SerializedName("hbti") val hbti: List<Int>?,
+
+)
+
+data class RecommendTrainerResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("trainerlist")
+    val trainerlist: List<TrainerProfile>,
+)
+
+/**
+ * 매칭 신청 req , res
+ */
+data class ApplySessionRequest(
+    @SerializedName("traineeUid") val traineeUid: Int,
+    @SerializedName("trainerUid") val trainerUid: Int,
+    @SerializedName("trainee_memo") val trainee_memo: String="",
+
+    )
+
+data class ApplySessionResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("isSucess")
+    val isSucess: Boolean,
+)
+
+/**
+ * 매칭 승인 req , res
+ */
+data class ApproveSessionRequest(
+    @SerializedName("trainerUid") val trainerUid: Int,
+    @SerializedName("sid") val sid: Int,
+    @SerializedName("trainee_memo") val trainee_memo: String="",
+
+    )
+
+data class ApproveSessionResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("isSucess")
+    val isSucess: Boolean,
+)
+
+/**
+ * 내 트레이니 리스트 req , res
+ */
+data class GetMyTraineesRequest(
+    @SerializedName("trainerUid") val trainerUid: Int,
+
+    )
+data class GetMyTraineesResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("traineelist")
+    val traineelist: List<_myTrainee>,
+    ){
+    fun toList():List<MySession>{
+        return traineelist.map {
+            MySession(sid= it.sid, myTraineeProfile =  MyTraineeProfile(
+                it.uid,it.name,it.gender,it.usercategory,it.location,it.hbti,it.trainee_id,it.description ),
+                sessionNow= it.sessionnow);
+
+        }
+    }
+}
+data class _myTrainee(
+    @SerializedName("sid")
+    val sid: Int,
+    @SerializedName("uid")
+    val uid: Int,
+    @SerializedName("sessionnow")
+    val sessionnow: Int,
+    @SerializedName("trainee_id")
+    val trainee_id: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("gender")
+    val gender: String,
+
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("usercategory")
+    var usercategory: String,
+    @SerializedName("location")
+    val location: String?,
+
+    @SerializedName("hbti")
+    val hbti: List<Int>?,
+)
+
+/**
+ * 내 트레이너 리스트 req , res
+ */
+data class GetMyTrainersRequest(
+    @SerializedName("traineeUid") val traineeUid: Int,
+
+    )
+data class GetMyTrainersResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("trainerlist")
+    val trainerlist: List<_myTrainer>,
+){
+    fun toList():List<MySession>{
+        return trainerlist.map {
+            MySession(sid= it.sid, myTrainerProfile =  MyTrainerProfile(
+                it.uid,it.name,it.gender,it.usercategory,it.location,it.hbti,it.trainer_id,it.career,it.certificate,it.lesson ),
+                sessionNow= it.sessionnow
+            );
+
+        }
+    }
+}
+data class _myTrainer(
+    @SerializedName("sid")
+    val sid: Int,
+    @SerializedName("uid")
+    val uid: Int,
+    @SerializedName("sessionnow")
+    val sessionnow: Int,
+    @SerializedName("trainer_id")
+    val trainer_id: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("gender")
+    val gender: String,
+
+    @SerializedName("career")
+    val career: String?,
+    @SerializedName("certificate")
+    val certificate: String?,
+    @SerializedName("lesson")
+    val lesson: String?,
+    @SerializedName("usercategory")
+    var usercategory: String,
+    @SerializedName("location")
+    val location: String?,
+
+    @SerializedName("hbti")
+    val hbti: List<Int>?,
+)

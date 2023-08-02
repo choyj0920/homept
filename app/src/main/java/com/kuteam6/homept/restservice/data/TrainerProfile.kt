@@ -24,9 +24,16 @@ data class TrainerProfile(
     @SerializedName("location")
     val location: String,
 
+    @SerializedName("hbti")
+    val hbti: List<Int>?,
+
+    @SerializedName("matchingscore")
+    var matchingscore: Int?=null,
+
+
 ){
     override fun toString(): String {
-        return "${name} , 이력 : ${career}, 자격사항 ${certificate}, lesson : ${lesson}, category ${usercategory}, location : ${location}\n"
+        return "${name} , 이력 : ${career}, 자격사항 ${certificate}, lesson : ${lesson}, category ${usercategory}, location : ${location}" +
+                " ${if(matchingscore!=null) ", 매칭 점수 ${matchingscore}" else ""} \n"
     }
 }
-
