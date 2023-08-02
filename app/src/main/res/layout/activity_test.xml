@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:paddingBottom="200dp"
         tools:context=".loginSignup.MainActivity">
 
         <LinearLayout
@@ -453,7 +454,189 @@
 
 
 
+        <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="RecommendTrainer"
+        android:textStyle="bold"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_recommendTrainer_hbti"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="10,20,40,50,100"
+                android:hint="10,20,40,50,20" />
+
+
+
+            <Button
+                android:id="@+id/btn_recommendTrainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="추천" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_recommendTrainer_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="result"
+            />
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="매칭 신청"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_applysession_trainerUid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:hint="trainerUid" />
+            <EditText
+                android:id="@+id/et_applysession_traineeUid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="traineeUid" />
+
+
+            <Button
+                android:id="@+id/btn_applysession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신청" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_applysession_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="result"
+            />
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="매칭 승인"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_approvesession_trainerUid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:hint="trainerUid" />
+            <EditText
+                android:id="@+id/et_approvesession_sid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="session ID" />
+
+
+            <Button
+                android:id="@+id/btn_approvesession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="승인" />
+            <Button
+                android:id="@+id/btn_disapprovesession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="거절" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_approvesession_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="result"
+            />
+
+
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="내 session 리스트"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <CheckBox
+                android:id="@+id/cb_getSession"
+                android:layout_width="wrap_content"
+                android:checked="true"
+                android:text="Am I trainer?"
+                android:paddingRight="10dp"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/et_getSession_myuid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="traineruid"
+                 />
+
+
+            <Button
+                android:id="@+id/btn_getSession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="확인" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_getSession_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="result"
+            />
+
+
+
     </LinearLayout>
+
+
+
 
 </ScrollView>
 
