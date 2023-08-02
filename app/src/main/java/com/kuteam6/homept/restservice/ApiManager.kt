@@ -59,8 +59,21 @@ interface ApiService {
         @Body setHbtiRequest: SetHbtiRequest
     ): Response<SetHbtiResponse?>
 
+    @POST("/recommend/trainer")
+    suspend fun recommendTrainer(
+        @Body recommendTrainerRequest: RecommendTrainerRequest
+    ): Response<RecommendTrainerResponse?>
+
+    @POST("/session/applysession")
+    suspend fun applySession(
+        @Body applySessionRequest: ApplySessionRequest
+    ): Response<ApplySessionResponse?>
 
 
+    @POST("/session/approvesession")
+    suspend fun approveSession(
+        @Body approveSessionRequest: ApproveSessionRequest
+    ): Response<ApproveSessionResponse?>
 
 }
 
@@ -321,6 +334,7 @@ object ApiManager {
 
     /**
      * gethbti 유저의 uid를 매개로 받아 해당 유저의 hbti리턴  리스트형태 int
+     * hbti는 Int 5개의 리스트 -> 각 값 0~100
      */
     suspend fun getHbti (uid :Int): List<Int>? = withContext(Dispatchers.IO){
         try {
@@ -349,6 +363,7 @@ object ApiManager {
 
     /**
      * sethbti 유저의 uid,int리스트형태  hbti 를 매개로 받아 성공실패 여부 리턴
+     * hbti는 Int 5개의 리스트 -> 각 값 0~100
      */
     suspend fun setHbti (uid :Int,hbti:List<Int>): Boolean = withContext(Dispatchers.IO){
         try {
@@ -373,6 +388,93 @@ object ApiManager {
         }
         false
     }
+
+    /**
+     * 트레이너 추천 category,gender( null 가능-> 남녀 상관x), location(""-> 상관없음), int리스트형태  hbti  을 매개로 받아
+     * TrainerProfile 리스트 리턴 ,
+     * hbti는 Int 5개의 리스트 -> 각 값 0~100
+     */
+    suspend fun recommendTrainer (category:String="000000",gender:String?=null,location: String="",hbti:List<Int>): List<TrainerProfile>? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.recommendTrainer(
+                RecommendTrainerRequest(category,gender, location,hbti)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext response.body()!!.trainerlist
+                }
+                else{
+                    Log.d("TAG","recommendTrainer ${response.body()?.message}")
+                }
+            }else{
+                Log.d("TAG","recommendTrainer ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
+
+    /**
+     * 매칭 신청 applysession 트레이니가 트레이너 한테 매칭 신청 -> 신청일 뿐 바로 매칭 x  , 트레이너가 승인해야함 ->매칭
+     * traineeUid, trainerUid ( 둘다 Userdata의 uid UUUUid를 넣어야함)  를 매개로 받아 신청 ,오류 여부 리턴
+     */
+    suspend fun applySession (traineeUid :Int,trainerUid :Int): Boolean = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.applySession(
+                ApplySessionRequest(traineeUid,trainerUid)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext true
+                }
+                else{
+                    Log.d("TAG","applySession ${response.body()?.message}")
+                    return@withContext false;
+                }
+            }else{
+                Log.d("TAG","applySession ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+    /**
+     * 매칭 승인 approveSession 트레이너가 getmytrainee list에서 가져온 신청자를  승인
+     * trainerUid(Userdata의 uid를 넣어야함) , sid (-> 트레이니 리스트에서 가져올 수있음 )를 매개로 받아  승인 ,오류 여부 리턴
+     */
+    suspend fun approveSession (trainerUid :Int,sid :Int): Boolean = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.approveSession(
+                ApproveSessionRequest(trainerUid,sid)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext true
+                }
+                else{
+                    Log.d("TAG","applySession ${response.body()?.message}")
+                    return@withContext false;
+                }
+            }else{
+                Log.d("TAG","applySession ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+
+
 
 
 

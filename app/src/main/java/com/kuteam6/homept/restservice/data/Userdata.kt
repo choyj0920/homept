@@ -22,7 +22,11 @@ open class UserData(
     var location: String?=null,
     var uid:Int=-1,
     var registerDate:LocalDate?=null,
+    /**
+     * hbti는 Int 5개의 리스트 -> 각 값 0~100
+     */
     var hbti :List<Int> ?=null
+
 
     ){
 

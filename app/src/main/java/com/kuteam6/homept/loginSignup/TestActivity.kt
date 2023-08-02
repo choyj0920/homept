@@ -35,7 +35,7 @@ class TestActivity : AppCompatActivity() {
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        initRecommendTrainer()
         initSearchTrainer()
         initFindpassword()
         initUnregister()
@@ -52,6 +52,24 @@ class TestActivity : AppCompatActivity() {
 
     }
 
+    // 트레이너 서치 예시
+    private fun initRecommendTrainer() {
+
+        binding.btnRecommendTrainer.setOnClickListener {
+
+            var strlist =binding.etRecommendTrainerHbti.text.toString().split(",")
+            var hbti=strlist.map{it.toInt()}
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var resultList =ApiManager.recommendTrainer(category="000000", gender = null, location = "", hbti);
+                if(resultList!=null)
+                    binding.tvRecommendTrainerResult.setText(resultList.toString())
+
+            }
+
+        }
+
+    }
 
     // 트레이너 서치 예시
     private fun initSearchTrainer() {

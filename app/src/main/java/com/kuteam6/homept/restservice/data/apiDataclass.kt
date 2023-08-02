@@ -201,3 +201,98 @@ data class SetHbtiResponse(
 
 
 
+/**
+ * 트레이너 추천 req , res
+ */
+data class RecommendTrainerRequest(
+    @SerializedName("category") val category: String,
+    // m or f
+    @SerializedName("gender") val gender: String?,
+    @SerializedName("location") val location: String,
+    @SerializedName("hbti") val hbti: List<Int>?,
+
+)
+
+data class RecommendTrainerResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("trainerlist")
+    val trainerlist: List<TrainerProfile>,
+)
+
+/**
+ * 매칭 신청 req , res
+ */
+data class ApplySessionRequest(
+    @SerializedName("traineeUid") val traineeUid: Int,
+    @SerializedName("trainerUid") val trainerUid: Int,
+    @SerializedName("trainee_memo") val trainee_memo: String="",
+
+    )
+
+data class ApplySessionResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("isSucess")
+    val isSucess: Boolean,
+)
+
+/**
+ * 매칭 승인 req , res
+ */
+data class ApproveSessionRequest(
+    @SerializedName("trainerUid") val trainerUid: Int,
+    @SerializedName("sid") val sid: Int,
+    @SerializedName("trainee_memo") val trainee_memo: String="",
+
+    )
+
+data class ApproveSessionResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("isSucess")
+    val isSucess: Boolean,
+)
+
+data class GetMyTraineeListRequest(
+    @SerializedName("trainerUid") val trainerUid: Int,
+
+    )
+data class GetMyTraineeListResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("traineelist")
+    val traineelist: List<_myTrainee>,
+    )
+
+
+data class _myTrainee(
+    @SerializedName("sid")
+    val sid: Int,
+    @SerializedName("uid")
+    val uid: Int,
+    @SerializedName("trainee_id")
+    val trainer_id: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("gender")
+    var gender: String,
+
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("usercategory")
+    var usercategory: String,
+    @SerializedName("location")
+    val location: String,
+
+    @SerializedName("hbti")
+    val hbti: List<Int>?,
+)
