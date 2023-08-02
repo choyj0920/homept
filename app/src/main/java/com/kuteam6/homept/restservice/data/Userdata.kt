@@ -22,12 +22,13 @@ open class UserData(
     var location: String?=null,
     var uid:Int=-1,
     var registerDate:LocalDate?=null,
+    var hbti :List<Int> ?=null
 
     ){
 
     override fun toString(): String {
 
-        return "uid : ${uid} 이름 :${name}, id: ${id}, password : ${password}, gender : ${gender}, birth : ${birth}, usercategroy :${userCategory},가입일자 : ${registerDate} location : ${location}"
+        return "uid : ${uid} 이름 :${name}, id: ${id}, password : ${password}, gender : ${gender}, birth : ${birth}, usercategroy :${userCategory},가입일자 : ${registerDate} location : ${location} , hbti ${hbti}"
     }
 }
 /**

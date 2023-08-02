@@ -166,6 +166,7 @@ object ApiManager {
                             subdata.description!!,subdata.trainee_id!!  ).apply {
                             this.uid=userdata.uid;
                             this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
+                            this.hbti=userdata.hbti;
                         }
 
                     }else{ //트레이너
@@ -173,6 +174,8 @@ object ApiManager {
                             subdata.career!!,subdata.lesson!!,subdata.trainer_id!!,userdata.location, certificate = subdata.certificate ).apply {
                             this.uid=userdata.uid
                             this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
+                            this.hbti=userdata.hbti;
+
 
                         }
                     }

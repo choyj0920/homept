@@ -93,6 +93,7 @@ data class LoginUserData(
     @SerializedName("location") val location: String?,
     @SerializedName("register_date") val registerDate: String,
     @SerializedName("login_date") val loginDate: String,
+    @SerializedName("hbti") val hbti: List<Int>?,
 
 
     )
