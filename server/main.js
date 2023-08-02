@@ -194,6 +194,88 @@ function bitToString(bit, slicecnt) {
   return binaryString.slice(slicecnt);
 }
 
+// 유저 hbti get
+app.post("/user/gethbti", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [get Hbti]`);
+  console.log(req.body);
+
+  var uid = req.body.uid;
+
+  // 유저 hbti get 쿼리
+  var sql = "select hbti1,hbti2,hbti3,hbti4,hbti5 from user where uid= ? ;";
+  var params = [uid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var hbti = null;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else {
+      if (result.length > 0) {
+        resultCode = 200;
+        message = "hbti get 성공";
+        var user = result[0];
+        hbti =
+          user.hbti1 != null
+            ? [user.hbti1, user.hbti2, user.hbti3, user.hbti4, user.hbti5]
+            : null;
+      } else {
+        resultCode = 204;
+        message = "해당되는 uid 유저를 찾지 못했습니다";
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      hbti: hbti,
+    });
+  });
+});
+
+// 유저 hbti set
+app.post("/user/sethbti", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [set Hbti]`);
+  console.log(req.body);
+
+  var uid = req.body.uid;
+  var hbti = req.body.hbti;
+
+  // 유저 hbti set 쿼리
+  var sql =
+    "update user set hbti1=?, hbti2=?, hbti3=?, hbti4=?, hbti5=? where uid =?;";
+  var params = hbti.concat([uid]);
+  console.log(params);
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else {
+      if (result.affectedRows > 0) {
+        resultCode = 200;
+        message = "hbti set 성공";
+      } else {
+        resultCode = 204;
+        message = "해당되는 uid 유저를 찾지 못했습니다";
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+    });
+  });
+});
+
 app.post("/user/login", function (req, res) {
   console.log(`${new Date().toLocaleString("ko-kr")} [login]`);
 
@@ -226,8 +308,8 @@ app.post("/user/login", function (req, res) {
         message = "로그인 성공";
         var user = result[0];
 
-        console.log(user.usercategory);
-        console.log(typeof user.usercategory);
+        // console.log(user.usercategory);
+        // console.log(typeof user.usercategory);
 
         userdata = {
           uid: user.uid,
@@ -242,6 +324,10 @@ app.post("/user/login", function (req, res) {
           location: user.location,
           register_date: changeDatetoKoreaStr(user.register_date),
           login_date: changeDatetoKoreaStr(user.login_date),
+          hbti:
+            user.hbti1 != null
+              ? [user.hbti1, user.hbti2, user.hbti3, user.hbti4, user.hbti5]
+              : null,
         };
         var uid = userdata.uid;
 
@@ -435,7 +521,7 @@ app.post("/search/trainer", function (req, res) {
 
   // 트레이너 찾기 쿼리
   var sql =
-    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location from trainer as t inner join user as u on t.uid=u.uid where (usercategory & b?)=b? and location LIKE ?' +
+    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 from trainer as t inner join user as u on t.uid=u.uid where (usercategory & b?)=b? and location LIKE ?' +
     (gender != null ? "and gender=?;" : ";");
   var params = [category, category, "%" + location + "%"];
   if (gender != null) {
@@ -454,13 +540,307 @@ app.post("/search/trainer", function (req, res) {
     } else {
       resultCode = 200;
       message = "해당하는 트레이너 리스트 리턴";
-      trainerlist = result;
+      trainerlist = changeHbtiList(result);
     }
 
     res.json({
       code: resultCode,
       message: message,
       trainerlist: trainerlist,
+    });
+  });
+});
+
+// 트레이너 추천
+app.post("/recommend/trainer", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [트레이너 추천...]`);
+  console.log(req.body);
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  var category = dereq.body.category;
+  var gender = dereq.body.gender;
+  var location = dereq.body.location;
+
+  if (req.body.hbti == null) {
+    res.json({
+      code: 404,
+      message: "hbti is null",
+    });
+    return;
+  }
+  var hbti = req.body.hbti;
+
+  // 트레이너 추천 쿼리
+  var sql =
+    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 ,' +
+    " 100-(ABS(hbti1 - ?) + ABS(hbti2 - ?) + ABS(hbti3 - ?) + ABS(hbti4 - ?) + ABS(hbti5 - ?)) div 5 as matchingscore " +
+    "from trainer as t inner join user as u on t.uid=u.uid where (usercategory & b?)=b? and location LIKE ?" +
+    (gender != null ? "and gender=?" : "") +
+    "and u.hbti1 is not null order by matchingscore desc;";
+  var params = [
+    hbti[0],
+    hbti[1],
+    hbti[2],
+    hbti[3],
+    hbti[4],
+    category,
+    category,
+    "%" + location + "%",
+  ];
+  if (gender != null) {
+    params.push(gender);
+  }
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var trainerlist = null;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else {
+      resultCode = 200;
+      message = "해당하는 트레이너 리스트 리턴";
+
+      trainerlist = changeHbtiList(result);
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      trainerlist: trainerlist,
+    });
+  });
+});
+
+// 매칭 신청
+app.post("/session/applysession", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [register ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var traineeId = dereq.body.traineeUid;
+  var trainerId = dereq.body.trainerUid;
+  var trainee_memo = dereq.body.trainee_memo;
+
+  var sql =
+    "INSERT INTO TrainSession (trainee_id,trainer_id,sessionnow,trainee_memo) VALUES (?,?,0,?);";
+  var params = [traineeId, trainerId, trainee_memo != null ? trainee_memo : ""];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var isSucess = false;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "매칭 신청 오류 발생";
+    } else {
+      if (result.insertId >= 0) {
+        resultCode = 200;
+        message = "매칭 신청 삽입 완료";
+        isSucess = true;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      isSucess: isSucess,
+    });
+  });
+});
+
+// 매칭 승인
+app.post("/session/approvesession", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [approve ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var trainerId = dereq.body.trainerUid;
+  var sid = dereq.body.sid;
+
+  var sql =
+    "Update TrainSession set sessionnow=1 where sid=? and trainer_id = ?;";
+  var params = [sid, trainerId];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var isSucess = false;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "매칭 승인 오류 발생";
+    } else {
+      if (result.affectedRows > 0) {
+        resultCode = 200;
+        message = "매칭 신청 승인 완료";
+        isSucess = true;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      isSucess: isSucess,
+    });
+  });
+});
+// 매칭 거절
+app.post("/session/disapprovesession", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [disapprove ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var trainerId = dereq.body.trainerUid;
+  var sid = dereq.body.sid;
+
+  var sql = "delete from TrainSession where sid=? and trainer_id = ?;";
+  var params = [sid, trainerId];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var isSucess = false;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "매칭 거절 오류 발생";
+    } else {
+      if (result.affectedRows > 0) {
+        resultCode = 200;
+        message = "매칭 거절 승인 완료";
+        isSucess = true;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      isSucess: isSucess,
+    });
+  });
+});
+
+// 리스트 hbti make list
+function changeHbtiList(result) {
+  if (result.length < 1) {
+    return result;
+  }
+  result.forEach((user) => {
+    if (user["hbti1"] == null) {
+      user.hbti = null;
+    } else {
+      user.hbti = [user.hbti1, user.hbti2, user.hbti3, user.hbti4, user.hbti5];
+    }
+    delete user.hbti1;
+    delete user.hbti2;
+    delete user.hbti3;
+    delete user.hbti4;
+    delete user.hbti5;
+  });
+
+  return result;
+}
+
+// 내 트레이너 리스트
+app.post("/session/getTrainer", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [내 트레이너 리스트 ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var traineeId = dereq.body.traineeUid;
+
+  var sql =
+    `select t.uid, ts.sessionnow,t.trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 ` +
+    `from TrainSession as ts inner join trainer as t on ts.trainer_id = t.uid  inner join user as u on t.uid=u.uid ` +
+    `where trainee_id=?;`;
+  var params = [traineeId];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var trainerlist = [];
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "내 트레이너 리스트 오류 발생";
+    } else {
+      if (result.length >= 0) {
+        resultCode = 200;
+
+        message = "내 트레이너 리스트 성공";
+        trainerlist = changeHbtiList(result);
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      trainerlist: trainerlist,
+    });
+  });
+});
+
+// 내 트레이니 리스트
+app.post("/session/getTrainee", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [내 트레이니 리스트 ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var trainerId = dereq.body.trainerUid;
+
+  var sql =
+    `select t.uid, t.trainee_id,name,gender,description,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 ` +
+    `from TrainSession as ts inner join trainee as t on ts.trainee_id = t.uid  inner join user as u on t.uid=u.uid where trainer_id=?;`;
+  var params = [trainerId];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var traineelist = [];
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "내 트레이니 리스트 오류 발생";
+    } else {
+      if (result.length >= 0) {
+        resultCode = 200;
+
+        message = "내 트레이니 리스트 성공";
+
+        traineelist = changeHbtiList(result);
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      traineelist: traineelist,
     });
   });
 });
