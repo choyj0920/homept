@@ -9,7 +9,7 @@
 
     <EditText
         android:id="@+id/treainer_search_et"
-        android:layout_width="260dp"
+        android:layout_width="270dp"
         android:layout_height="35dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="32dp"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@id/treainer_search_et">
 
         <Spinner
-            android:id="@+id/search_type_sp"
+            android:id="@+id/search_gender_sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -56,26 +56,29 @@
             app:layout_constraintTop_toBottomOf="@+id/treainer_search_et" />
 
         <Spinner
-            android:id="@+id/search_gender_sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            app:layout_constraintStart_toEndOf="@id/search_type_sp"
-            app:layout_constraintTop_toBottomOf="@+id/treainer_search_et" />
-
-        <Spinner
             android:id="@+id/search_lacation_sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/search_gender_sp"
             app:layout_constraintTop_toBottomOf="@+id/treainer_search_et" />
+
+        <Button
+            android:id="@+id/select_category_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="17dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:text="카테고리 선택"
+            android:textSize="15dp"
+            app:layout_constraintStart_toEndOf="@id/search_lacation_sp"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </LinearLayout>
 

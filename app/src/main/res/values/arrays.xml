@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="sportType">
-        <item>운동종류</item>
         <item>체형교정</item>
         <item>근력,체력강화</item>
         <item>유아체육</item>
