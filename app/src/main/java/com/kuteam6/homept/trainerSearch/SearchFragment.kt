@@ -100,7 +100,7 @@ class SearchFragment : Fragment() {
         var category : String = "000000"
         Log.d("category", category)
 
-        binding.selectCategoryBtn.setOnClickListener {
+        binding.searchSelectCategoryBtn.setOnClickListener {
             val dialogFragment = CategoryDialog()
             dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
                 override fun onValueSelected(value: String) {
