@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kuteam6.homept.CategoryDialog
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.FragmentRecommendBinding
 import com.kuteam6.homept.restservice.ApiManager
@@ -30,7 +31,7 @@ class RecommendFragment : Fragment() {
 
     private val spinnerList = mutableListOf<Spinner>()
 
-    lateinit var category : String
+    //lateinit var category : String
     var gender : String? = null
     lateinit var location : String
 
@@ -40,12 +41,8 @@ class RecommendFragment : Fragment() {
     ): View? {
         binding = FragmentRecommendBinding.inflate(inflater, container, false)
 
-        var typeData = resources.getStringArray(R.array.sportType)
         var genderData = resources.getStringArray(R.array.gender)
         var locationData = resources.getStringArray(R.array.location)
-
-        var typeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, typeData)
-        binding.recommendTypeSp.adapter = typeAdapter
 
         var genderAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, genderData)
         binding.recommendGenderSp.adapter = genderAdapter
@@ -53,7 +50,6 @@ class RecommendFragment : Fragment() {
         var locationAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, locationData)
         binding.recommendLacationSp.adapter = locationAdapter
 
-        spinnerList.add(binding.recommendTypeSp)
         spinnerList.add(binding.recommendGenderSp)
         spinnerList.add(binding.recommendLacationSp)
 
@@ -73,24 +69,6 @@ class RecommendFragment : Fragment() {
             // 선택된 스피너를 기반으로 원하는 작업을 수행합니다.
             when (selectedSpinner) {
                 spinnerList[0] -> {
-                    // 첫 번째 스피너에서 선택된 항목 처리
-                    category = selectedItem
-                    if(category == "체형교정")
-                        category = "100000"
-                    else if(category == "근력,체력강화")
-                        category = "010000"
-                    else if(category == "유아체육")
-                        category = "001000"
-                    else if(category == "재활")
-                        category = "000100"
-                    else if(category == "시니어건강")
-                        category = "000010"
-                    else if(category == "다이어트")
-                        category = "000001"
-                    else
-                        category = ""
-                }
-                spinnerList[1] -> {
                     // 두 번째 스피너에서 선택된 항목 처리
                     gender = selectedItem
                     if(gender == "남자")
@@ -100,7 +78,7 @@ class RecommendFragment : Fragment() {
                     else
                         gender = null
                 }
-                spinnerList[2] -> {
+                spinnerList[1] -> {
                     // 두 번째 스피너에서 선택된 항목 처리
                     location = selectedItem
                     if(location == "위치")
@@ -115,8 +93,22 @@ class RecommendFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        var category : String = "000000"
+        Log.d("category", category)
+
+        binding.recommendSelectCategoryBtn.setOnClickListener {
+            val dialogFragment = CategoryDialog()
+            dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
+                override fun onValueSelected(value: String) {
+                    category = value
+                    Log.d("category1", category)
+                }
+            })
+            dialogFragment.show(getParentFragmentManager(), "category_dialog")
+            Log.d("category2", category)
+        }
+
         binding.trainerRecommendBtn.setOnClickListener{
-            Log.d("type", category)
             Log.d("gender", gender.toString())
             Log.d("location", location)
             lifecycleScope.launch(Dispatchers.Main) {
@@ -150,8 +142,8 @@ class RecommendFragment : Fragment() {
                         list.usercategory = category
                     }
                     recommendAdapter = RecommendAdapter(recommendList)
-                    binding.recommendRv.adapter = recommendAdapter
-                    binding.recommendRv.layoutManager = LinearLayoutManager(context)
+//                    binding.recommendRv.adapter = recommendAdapter
+//                    binding.recommendRv.layoutManager = LinearLayoutManager(context)
                     recommendAdapter!!.setOnItemClickListener(object : RecommendAdapter.OnItemClickListener{
                         override fun onItemClick(trainerProfile: TrainerProfile) {
                             val trainersProfileIntent = Intent(context, TrainersProfileActivity::class.java)
@@ -161,8 +153,6 @@ class RecommendFragment : Fragment() {
                             trainersProfileIntent.putExtra("certificate", trainerProfile.certificate)
                             trainersProfileIntent.putExtra("lesson", trainerProfile.lesson)
                             trainersProfileIntent.putExtra("usercategory", trainerProfile.usercategory)
-//                                Log.d("certificate", trainerProfile.certificate!!)
-//                                Log.d("certificate", trainerProfile.career!!)
                             startActivity(trainersProfileIntent)
                         }
                     })
