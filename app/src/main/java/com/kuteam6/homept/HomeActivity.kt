@@ -40,6 +40,13 @@ class HomeActivity : AppCompatActivity() {
                 .commitAllowingStateLoss()
         }
 
+        if(intent.getStringExtra("fragment") == "recommend") {
+            binding.homeBnv.selectedItemId = R.id.recommendFragment
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.home_frm, RecommendFragment())
+                .commitAllowingStateLoss()
+        }
+
         binding.homeBnv.setOnItemSelectedListener {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             when(it.itemId) {
