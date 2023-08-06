@@ -11,10 +11,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.kuteam6.homept.CategoryDialog
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.FragmentRecommendBinding
+import com.kuteam6.homept.myPage.MypageInfoActivity
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.tainerProfile.TrainersProfileActivity
@@ -25,13 +25,8 @@ import kotlinx.coroutines.launch
 class RecommendFragment : Fragment() {
     lateinit var binding: FragmentRecommendBinding
 
-
-    var recommendAdapter: RecommendAdapter? = null
-    var recommendList = ArrayList<TrainerProfile>()
-
     private val spinnerList = mutableListOf<Spinner>()
 
-    //lateinit var category : String
     var gender : String? = null
     lateinit var location : String
 
@@ -111,53 +106,12 @@ class RecommendFragment : Fragment() {
         binding.trainerRecommendBtn.setOnClickListener{
             Log.d("gender", gender.toString())
             Log.d("location", location)
-            lifecycleScope.launch(Dispatchers.Main) {
-                var resultList =
-                    ApiManager.searchTrainer(category = category, gender = gender, location = location);
-                if(resultList!=null) {
-                    recommendList = resultList.toTypedArray().toCollection(ArrayList<TrainerProfile>())
 
-                    for(list in recommendList) {
-                        if(list.gender == "f")
-                            list.gender = "여자"
-                        else if(list.gender == "m")
-                            list.gender = "남자"
-
-                        var category : String = ""
-
-                        if(list.usercategory.get(0) == '1')
-                            category += "체형교정, "
-                        if(list.usercategory.get(1) == '1')
-                            category += "근력,체력강화, "
-                        if(list.usercategory.get(2) == '1')
-                            category += "유아체육, "
-                        if(list.usercategory.get(3) == '1')
-                            category += "재활, "
-                        if(list.usercategory.get(4) == '1')
-                            category += "시니어건강, "
-                        if(list.usercategory.get(5) == '1')
-                            category += "다이어트, "
-
-                        category = category.trim().substring(0, category.length-2)
-                        list.usercategory = category
-                    }
-                    recommendAdapter = RecommendAdapter(recommendList)
-//                    binding.recommendRv.adapter = recommendAdapter
-//                    binding.recommendRv.layoutManager = LinearLayoutManager(context)
-                    recommendAdapter!!.setOnItemClickListener(object : RecommendAdapter.OnItemClickListener{
-                        override fun onItemClick(trainerProfile: TrainerProfile) {
-                            val trainersProfileIntent = Intent(context, TrainersProfileActivity::class.java)
-                            trainersProfileIntent.putExtra("name", trainerProfile.name)
-                            trainersProfileIntent.putExtra("gender", trainerProfile.gender)
-                            trainersProfileIntent.putExtra("career", trainerProfile.career)
-                            trainersProfileIntent.putExtra("certificate", trainerProfile.certificate)
-                            trainersProfileIntent.putExtra("lesson", trainerProfile.lesson)
-                            trainersProfileIntent.putExtra("usercategory", trainerProfile.usercategory)
-                            startActivity(trainersProfileIntent)
-                        }
-                    })
-                }
-            }
+            val recommendIntent = Intent(activity, RecommendActivity::class.java)
+            recommendIntent.putExtra("category", category)
+            recommendIntent.putExtra("gender", gender)
+            recommendIntent.putExtra("location", location)
+            startActivity(recommendIntent)
         }
     }
 }
