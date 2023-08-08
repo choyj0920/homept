@@ -28,8 +28,6 @@ class TestActivity : AppCompatActivity() {
 
     var isCheckValidate=false
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTestBinding.inflate(layoutInflater)
@@ -95,7 +93,7 @@ class TestActivity : AppCompatActivity() {
             var traineruid=binding.etApprovesessionTrainerUid.text.toString().toInt()
 
             lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
-                var result = ApiManager.approveSession(traineruid,sid);
+                var result = ApiManager.approveSession(traineruid,sid)
                 binding.tvApprovesessionResult.setText(if(result) "승인 완료" else "승인 실패" )
 
             }

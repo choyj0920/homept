@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivityMypageUnregisterBinding
+import com.kuteam6.homept.loginSignup.LoginActivity
 import com.kuteam6.homept.restservice.ApiManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,6 +43,8 @@ class MypageUnregisterActivity: AppCompatActivity() {
                 if(result){
                     binding.tvUnregisterResult.text = "탈퇴 완료"
                     //로그아웃 처리 및 로그인 화면으로 이동
+                    val intent = Intent(this@MypageUnregisterActivity, LoginActivity::class.java)
+                    startActivity(intent)
                 }
                 else{
                     binding.tvUnregisterResult.text = "탈퇴 안됨"

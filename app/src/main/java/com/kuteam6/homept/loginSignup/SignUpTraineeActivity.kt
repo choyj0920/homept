@@ -46,5 +46,10 @@ class SignUpTraineeActivity : AppCompatActivity() {
 
             startActivity(traineeProfileIntent)
         }
+
+        binding.traineeCloseIv.setOnClickListener {
+            val traineeSignUpIntent = Intent(this, SignUpActivity::class.java)
+            startActivity(traineeSignUpIntent)
+        }
     }
 }
