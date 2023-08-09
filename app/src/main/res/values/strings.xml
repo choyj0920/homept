@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lesson_intro">탄탄한 건강과 목표 달성을 위한 최고의 개인 트레이닝 서비스를 제공합니다! 전문 트레이너들이 개개인의 요구와 목표를 고려하여 맞춤형 운동 계획을 제시하며, 올바른 운동 기술과 영양 조언으로 지속적인 진전을 보장합니다. 근력, 체력, 유연성을 향상시키고 건강한 라이프스타일을 실현하세요. 동기부여와 긍정적인 지도로 함께 목표를 달성하는 즐거운 여정을 시작해보세요! 지금 바로 동참하고 더 행복하고 건강한 삶을 만들어보세요!</string>
     <string name="multiline_hint">(수술 이력/ 질환 유무/ \n기타 요청사항이 있으면 적어주세요)</string>
+    <string name="recommend_viewpager_text">%1$d / %2$d</string>
 </resources>

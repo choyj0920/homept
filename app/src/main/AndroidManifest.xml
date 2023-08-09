@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Homept"
         tools:targetApi="31">
         <activity
+            android:name=".trainerRecommend.RecommendActivity"
+            android:exported="false" />
+        <activity
             android:name=".tainerProfile.TrainersProfileActivity"
             android:exported="false">
             <meta-data
@@ -42,25 +45,25 @@
             android:exported="false"/>
         <activity
             android:name=".myPage.MypageInfoAlarmActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".myPage.MypageChangePwActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".myPage.MypageUnregisterActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".myPage.MypageInfoActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".myPage.MypageMemberListActivity"
             android:exported="false"/>
         <activity
             android:name=".loginSignup.FindIdActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".loginSignup.FindPwActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".loginSignup.TrainerProfileActivity"
             android:exported="true" />
@@ -84,9 +87,7 @@
             android:exported="false" />
         <activity
             android:name=".loginSignup.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

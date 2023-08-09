@@ -1,5 +1,6 @@
 package com.kuteam6.homept.trainerSearch
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -12,8 +13,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kuteam6.homept.CategoryDialog
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.FragmentSearchBinding
 import com.kuteam6.homept.restservice.ApiManager
@@ -21,6 +24,7 @@ import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.tainerProfile.TrainersProfileActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Objects
 
 
 class SearchFragment : Fragment() {
@@ -31,7 +35,7 @@ class SearchFragment : Fragment() {
 
     private val spinnerList = mutableListOf<Spinner>()
 
-    lateinit var category : String
+    //lateinit var category : String
     var gender : String? = null
     lateinit var location : String
 
@@ -39,12 +43,8 @@ class SearchFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        var typeData = resources.getStringArray(R.array.sportType)
         var genderData = resources.getStringArray(R.array.gender)
         var locationData = resources.getStringArray(R.array.location)
-
-        var typeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, typeData)
-        binding.searchTypeSp.adapter = typeAdapter
 
         var genderAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, genderData)
         binding.searchGenderSp.adapter = genderAdapter
@@ -52,7 +52,6 @@ class SearchFragment : Fragment() {
         var locationAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, locationData)
         binding.searchLacationSp.adapter = locationAdapter
 
-        spinnerList.add(binding.searchTypeSp)
         spinnerList.add(binding.searchGenderSp)
         spinnerList.add(binding.searchLacationSp)
 
@@ -72,24 +71,6 @@ class SearchFragment : Fragment() {
             // 선택된 스피너를 기반으로 원하는 작업을 수행합니다.
             when (selectedSpinner) {
                 spinnerList[0] -> {
-                    // 첫 번째 스피너에서 선택된 항목 처리
-                    category = selectedItem
-                    if(category == "체형교정")
-                        category = "100000"
-                    else if(category == "근력,체력강화")
-                        category = "010000"
-                    else if(category == "유아체육")
-                        category = "001000"
-                    else if(category == "재활")
-                        category = "000100"
-                    else if(category == "시니어건강")
-                        category = "000010"
-                    else if(category == "다이어트")
-                        category = "000001"
-                    else
-                        category = ""
-                }
-                spinnerList[1] -> {
                     // 두 번째 스피너에서 선택된 항목 처리
                     gender = selectedItem
                     if(gender == "남자")
@@ -99,7 +80,7 @@ class SearchFragment : Fragment() {
                     else
                         gender = null
                 }
-                spinnerList[2] -> {
+                spinnerList[1] -> {
                     // 두 번째 스피너에서 선택된 항목 처리
                     location = selectedItem
                     if(location == "위치")
@@ -115,6 +96,22 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        var category : String = "000000"
+        Log.d("category", category)
+
+        binding.searchSelectCategoryBtn.setOnClickListener {
+            val dialogFragment = CategoryDialog()
+            dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
+                override fun onValueSelected(value: String) {
+                    category = value
+                    Log.d("category1", category)
+                }
+            })
+            dialogFragment.show(getParentFragmentManager(), "category_dialog")
+            Log.d("category2", category)
+        }
+
         binding.treainerSearchEt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -162,7 +159,6 @@ class SearchFragment : Fragment() {
 
         binding.trainerSearchBtn.setOnClickListener{
             if(binding.treainerSearchEt.text.toString()=="") {
-                Log.d("type", category)
                 Log.d("gender", gender.toString())
                 Log.d("location", location)
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -214,13 +210,13 @@ class SearchFragment : Fragment() {
                     }
                 }
             }else {
-                searchTrainer()
+                searchTrainer(category)
             }
 
         }
     }
 
-    private fun searchTrainer() {
+    private fun searchTrainer(category:String) {
         lifecycleScope.launch(Dispatchers.Main) {
             var resultList =ApiManager.searchTrainer(category = category, gender = gender, location = location);
             if(resultList!=null) {
