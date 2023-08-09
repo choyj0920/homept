@@ -24,12 +24,12 @@ class PtApplyConfirmActivity: AppCompatActivity() {
 
         binding.backIv.toolbarBackMainTv.text = "PT 신청"
         binding.backIv.toolbarBackIv.setOnClickListener {
-            //우선 트레이너 프로필로 연결
-            val ptConfirmIntent = Intent(this, TrainersProfileActivity::class.java)
+
+            val ptConfirmIntent = Intent(this@PtApplyConfirmActivity, PtApplyActivity::class.java)
             startActivity(ptConfirmIntent)
         }
 
-        setupLayout()
+        //setupLayout()
         initapplySession()
     }
 
@@ -46,7 +46,7 @@ class PtApplyConfirmActivity: AppCompatActivity() {
 
     // 매칭 신청/ 승인 거절 예시
     private fun initapplySession() {
-        if(userData.isTrainee){
+
             //트레이니에 대한 처리
             binding.btnApplysession.setOnClickListener {
 
@@ -60,8 +60,7 @@ class PtApplyConfirmActivity: AppCompatActivity() {
                     showToastMessage(message)
                 }
             }
-        }
-        else{
+
             //트레이너에 대한 처리
             //매칭 승인
             binding.btnApprovesession.setOnClickListener {
@@ -90,7 +89,6 @@ class PtApplyConfirmActivity: AppCompatActivity() {
 
                 }
             }
-        }
 
     }
 

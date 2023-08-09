@@ -32,10 +32,10 @@ class MypageFragment : Fragment() {
 
         // 담당 트레이너/트레이니 버튼 클릭 이벤트
         binding.btnMyPageTrainerTrainee.setOnClickListener {
-            val memberIntent = Intent(activity, MypageMemberListActivity::class.java)
+            val sessionIntent = Intent(activity, MypageMemberListActivity::class.java)
             //사용자의 isTrainee 값 전달
-            memberIntent.putExtra("isTrainee", userData.isTrainee)
-            startActivity(memberIntent)
+            //memberIntent.putExtra("isTrainee", userData.isTrainee)
+            startActivity(sessionIntent)
         }
 
         // 채팅 버튼 클릭 이벤트

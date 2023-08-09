@@ -16,8 +16,8 @@ class MypageMemberListActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMypageMemberListBinding
 
     var sessionAdapter: MySessionAdapter? = null
-    var sessionList = ArrayList<MySession>()
-
+    var resultList = ArrayList<MySession>()
+    val layoutManager = LinearLayoutManager(this)
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         binding = ActivityMypageMemberListBinding.inflate(layoutInflater)
@@ -25,8 +25,35 @@ class MypageMemberListActivity: AppCompatActivity() {
 
         binding.toolbarMypageMemberList.toolbarBackMainTv.text = "담당 리스트"
         binding.toolbarMypageMemberList.toolbarBackIv.setOnClickListener {
-            val memberListIntent = Intent(this, MypageFragment::class.java)
+            val memberListIntent = Intent(this@MypageMemberListActivity, MypageFragment::class.java)
             startActivity(memberListIntent)
+        }
+
+        binding.rvSession.layoutManager = layoutManager
+        binding.rvSession.adapter = sessionAdapter
+        initGetSession()
+    }
+
+    // 내 트레이니/트레이너 리스트 예시
+    private fun initGetSession() {
+
+        binding.cbGetSession.setOnCheckedChangeListener { _, isChecked ->
+            binding.etGetSessionMyuid.setText("");
+            binding.etGetSessionMyuid.setHint(if(isChecked) "traineruid" else "traineeuid" );
+
+        }
+
+        binding.btnGetSession.setOnClickListener {
+
+            var uid =binding.etGetSessionMyuid.text.toString().toInt()
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var resultList =ApiManager.getMySession(binding.cbGetSession.isChecked,uid);
+                if(resultList!=null)
+                    binding.tvGetSessionResult.setText(resultList.toString())
+
+            }
+
         }
 
     }

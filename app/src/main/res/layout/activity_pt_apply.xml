@@ -122,12 +122,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="174dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="172dp"
         android:text="특이사항"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pt_parking_spinner" />
 
@@ -136,21 +137,23 @@
         android:layout_width="318dp"
         android:layout_height="106dp"
         android:layout_marginStart="46dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="47dp"
         android:ems="10"
         android:hint="@string/multiline_hint"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pt_apply_remark_tv" />
 
     <Button
-        android:id="@+id/pt_apply_next_page"
+        android:id="@+id/pt_apply_next_page_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/radius_search_button"
         android:text="다음"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

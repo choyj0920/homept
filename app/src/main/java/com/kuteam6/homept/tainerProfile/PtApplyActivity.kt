@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivityPtApplyBinding
+import com.kuteam6.homept.databinding.ActivityPtApplyConfirmBinding
 
 class PtApplyActivity: AppCompatActivity() {
 
@@ -28,7 +29,13 @@ class PtApplyActivity: AppCompatActivity() {
             startActivity(ptApplyIntent)
         }
 
-        setupSpinners()
+
+//        binding.ptApplyNextPageBtn.setOnClickListener {
+//            val nextPtIntent = Intent(this@PtApplyActivity, ActivityPtApplyConfirmBinding::class.java)
+//            startActivity(nextPtIntent)
+//        }
+
+        //setupSpinners()
     }
 
     private fun setupSpinners() {
