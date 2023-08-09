@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.databinding.ActivityLoginBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.UserData
@@ -54,6 +55,8 @@ class LoginActivity : AppCompatActivity() {
                 var userData: UserData? = ApiManager.login(id, password); // 로그인된 Userdata
                 if(userData != null){
                     //로그인에 성공한 경우 동작
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    startActivity(intent)
                 }
                 else{
                     //로그인에 실패한 경우 동작

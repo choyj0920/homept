@@ -45,5 +45,11 @@ class SignUpTrainerActivity : AppCompatActivity() {
 
             startActivity(trainerProfileIntent)
         }
+
+        //트레이너로 잘못 들어간 경우 뒤로가기
+        binding.trainerCloseIv.setOnClickListener {
+            val trainerSignUpBackIntent = Intent(this, SignUpActivity::class.java)
+            startActivity(trainerSignUpBackIntent)
+        }
     }
 }

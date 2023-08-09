@@ -59,6 +59,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".tainerProfile.PtApplyActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".tainerProfile.PtApplyConfirmActivity"
+            android:exported="false"/>
+        <activity
             android:name=".myPage.MypageInfoAlarmActivity"
             android:exported="false" />
         <activity
@@ -70,6 +76,9 @@
         <activity
             android:name=".myPage.MypageInfoActivity"
             android:exported="false" />
+        <activity
+            android:name=".myPage.MypageMemberListActivity"
+            android:exported="false"/>
         <activity
             android:name=".loginSignup.FindIdActivity"
             android:exported="false" />

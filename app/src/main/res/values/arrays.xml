@@ -26,4 +26,19 @@
         <item>경상</item>
         <item>제주</item>
     </string-array>
+
+    <string-array name="ptTime">
+        <item>이른 아침(09시 이전)</item>
+        <item>오전(09시 ~ 12시)</item>
+        <item>오후(12시 ~ 15시)</item>
+        <item>늦은 오후(15시 ~ 18시)</item>
+        <item>저녁(18시 ~ 21시)</item>
+        <item>늦은 저녁(21시 이후)</item>
+    </string-array>
+
+    <string-array name="parking">
+        <item>유료</item>
+        <item>무료</item>
+        <item>주차 불가</item>
+    </string-array>
 </resources>

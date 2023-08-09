@@ -624,12 +624,12 @@
                 android:text="확인" />
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/tv_getSession_result"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="result"
-            />
+            android:layout_height="16dp"
+            android:text="result" />
 
 
 
