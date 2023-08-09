@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".hbtiTest.HbtiResultActivity"
+    android:background="@color/light_green">
+
+    <include
+        android:id="@+id/toolbar_back_iv"
+        layout="@layout/toolbar_back"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"/>
+
+
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_back_iv">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="H"/>
+                <TextView
+                    android:id="@+id/tv_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="B"/>
+                <TextView
+                    android:id="@+id/tv_f"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="F"/>
+                <TextView
+                    android:id="@+id/tv_e"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="E"/>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="입니다"/>
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/iv_img"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/result_img2"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:background="@drawable/hbti_ll_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/tv_hDes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="heavy description"/>
+
+                <TextView
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/tv_bDes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="bulk description"/>
+
+                <TextView
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/tv_fDes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="free description"/>
+
+                <TextView
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/tv_eDes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="enjoy description"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_move"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="50sp"
+        android:padding="20dp"
+        android:background="@drawable/btn_hbti_result"
+        android:textSize="26sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="찰떡 트레이너 추천받기"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

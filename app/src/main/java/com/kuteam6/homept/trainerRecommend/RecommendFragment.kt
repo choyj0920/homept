@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.CategoryDialog
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.FragmentRecommendBinding
+import com.kuteam6.homept.hbtiTest.HbtiStartActivity
 import com.kuteam6.homept.myPage.MypageInfoActivity
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.TrainerProfile
@@ -101,6 +102,11 @@ class RecommendFragment : Fragment() {
             })
             dialogFragment.show(getParentFragmentManager(), "category_dialog")
             Log.d("category2", category)
+        }
+
+        binding.btnHbti.setOnClickListener {
+            val intentHbti = Intent(activity, HbtiStartActivity::class.java)
+            startActivity(intentHbti)
         }
 
         binding.trainerRecommendBtn.setOnClickListener{
