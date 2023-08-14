@@ -208,7 +208,7 @@ object ApiManager {
                         }
 
                     }else{ //트레이너
-                        return@withContext TrainerData(userdata.name,userdata.login_id,userdata.password, userdata.gender,birthdate,true,userdata.usercategory,
+                        return@withContext TrainerData(userdata.name,userdata.login_id,userdata.password, userdata.gender,birthdate,false,userdata.usercategory,
                             subdata.career!!,subdata.lesson!!,subdata.trainer_id!!,userdata.location, certificate = subdata.certificate ).apply {
                             this.uid=userdata.uid
                             this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
