@@ -4,10 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
+import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.restservice.data.MySession
 import com.kuteam6.homept.trainerSearch.SearchFragment
 
@@ -33,6 +35,11 @@ class TrainersProfileActivity : AppCompatActivity() {
             val searchTrainerIntent = Intent(this, HomeActivity::class.java)
             searchTrainerIntent.putExtra("fragment", "search")
             startActivity(searchTrainerIntent)
+        }
+
+        Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
+        if(!UserData.userdata?.isTrainee!!) {
+            binding.btnPt.visibility = View.GONE
         }
 
         binding.tvName.text = intent.getStringExtra("name")

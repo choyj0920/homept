@@ -1,6 +1,7 @@
 package com.kuteam6.homept.restservice.data
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -28,11 +29,15 @@ open class UserData(
     var hbti :List<Int> ?=null
 
 
-    ){
+    ): Serializable {
 
     override fun toString(): String {
 
         return "uid : ${uid} 이름 :${name}, id: ${id}, password : ${password}, gender : ${gender}, birth : ${birth}, usercategroy :${userCategory},가입일자 : ${registerDate} location : ${location} , hbti ${hbti}"
+    }
+
+    companion object {
+        var userdata : UserData ?= null
     }
 }
 /**
