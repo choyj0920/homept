@@ -16,11 +16,6 @@ class RecommendVPFragment(private val itemList : ArrayList<TrainerProfile>) : Fr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
-        if(!UserData.userdata?.isTrainee!!) {
-            binding.btnPt.visibility = View.GONE
-        }
     }
 
     override fun onCreateView(
