@@ -54,6 +54,20 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_hbti"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/radius_search_button"
+        android:text="헬BTI 검사하러 가기"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trainer_recommend_btn"/>
+
+    <Button
         android:id="@+id/trainer_recommend_btn"
         android:layout_width="100dp"
         android:layout_height="35dp"

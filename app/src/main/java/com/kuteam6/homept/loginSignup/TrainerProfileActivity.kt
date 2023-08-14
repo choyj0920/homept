@@ -1,5 +1,6 @@
 package com.kuteam6.homept.loginSignup
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +49,10 @@ class TrainerProfileActivity : AppCompatActivity() {
                 var userData: UserData? = ApiManager.register(user);
             }
 
+            //완료를 누르면 로그인 화면으로
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
+
     }
 }

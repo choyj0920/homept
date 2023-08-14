@@ -218,5 +218,15 @@
         app:layout_constraintTop_toBottomOf="@+id/trainer_birthDate_edit"
         app:layout_constraintVertical_bias="1.0" />
 
+    <ImageView
+        android:id="@+id/trainer_close_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_close_24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

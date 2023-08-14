@@ -1,5 +1,6 @@
 package com.kuteam6.homept.loginSignup
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +50,9 @@ class TraineeProfileActivity : AppCompatActivity() {
 
                 var userData: UserData? = ApiManager.register(user);
             }
+
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 }

@@ -10,6 +10,7 @@ import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
 import com.kuteam6.homept.restservice.data.UserData
+import com.kuteam6.homept.restservice.data.MySession
 import com.kuteam6.homept.trainerSearch.SearchFragment
 
 //TODO:리뷰 사진 리사이클러뷰
@@ -45,6 +46,7 @@ class TrainersProfileActivity : AppCompatActivity() {
         binding.tvCategory.text = intent.getStringExtra("usercategory")
         binding.tvLesson.text = intent.getStringExtra("lesson")
 
+
 //        val career = intent.getStringExtra("career")!!.split("\r?\n|\r".toRegex()).toTypedArray()
 //
 //        for (careerString in career) {
@@ -60,9 +62,12 @@ class TrainersProfileActivity : AppCompatActivity() {
         initDataList()
         initRecyclerView()
 
+        //PT 신청 버튼을 누르면 신청 창으로
         binding.btnPt.setOnClickListener {
-
+            val applyConfirmIntent = Intent(this@TrainersProfileActivity, PtApplyConfirmActivity::class.java)
+            startActivity(applyConfirmIntent)
         }
+
     }
 
     private fun initRecyclerView(){
