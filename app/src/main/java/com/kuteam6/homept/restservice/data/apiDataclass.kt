@@ -169,6 +169,24 @@ data class TrainerSearchResponse(
     @SerializedName("trainerlist")
     val trainerlist: List<TrainerProfile>,
 )
+
+/**
+ * 트레이너 프로필 req , res
+ */
+data class GetTrainerProfileRequest(
+    @SerializedName("trainerUid") val trainerUid: Int,
+)
+
+data class GetTrainerProfileResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("trainerProfile")
+    val trainerProfile: TrainerProfile,
+)
+
+
 /**
  * get Hbti req, res
  */
@@ -362,3 +380,84 @@ data class _myTrainer(
     @SerializedName("hbti")
     val hbti: List<Int>?,
 )
+
+
+/**
+ * createPost req , res
+ */
+data class CreatePostRequest(
+    @SerializedName("uid") val uid: Int,
+    @SerializedName("title") val title: String="",
+    @SerializedName("content") val content: String="",
+    @SerializedName("category") val category: String="000000",
+    )
+
+data class CreatePostResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("postid")
+    val postid: Int,
+)
+/**
+ * editPost req , res
+ */
+data class EditPostRequest(
+    @SerializedName("uid") val uid: Int,
+    @SerializedName("pid") val pid: Int,
+    @SerializedName("title") val title: String="",
+    @SerializedName("content") val content: String="",
+    @SerializedName("category") val category: String="000000",
+)
+
+/**
+ * deletePost req , res
+ */
+data class DeletePostRequest(
+    @SerializedName("uid") val uid: Int,
+    @SerializedName("pid") val pid: Int,
+)
+
+data class CommonResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+)
+
+/**
+ * getPost req , res
+ */
+data class GetPostRequest(
+    @SerializedName("uid") val uid: Int?,
+    @SerializedName("category") val pid: String,
+)
+
+data class GetPostResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("postlist")
+    val postlist: List<Postdata>,
+)
+data class Postdata(
+    @SerializedName("uid")
+    val uid: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("role")
+    val role: String,
+    @SerializedName("postcategory")
+    val postcategory: String,
+    @SerializedName("title")
+    val title: String,
+    @SerializedName("content")
+    val content: String,
+    @SerializedName("create_at")
+    val create_at: String,
+
+)
+
+

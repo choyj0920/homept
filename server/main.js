@@ -36,6 +36,8 @@ var connection = mysql.createConnection({
   password: config.password,
   port: config.port,
   timezone: config.timezone,
+  useUTC: false,
+  dateStrings: "date",
 });
 
 try {
@@ -177,11 +179,12 @@ app.post("/user/register", function (req, res) {
 });
 
 function changeDatetoKoreaStr(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
+  // const year = date.getFullYear();
+  // const month = String(date.getMonth() + 1).padStart(2, "0");
+  // const day = String(date.getDate()).padStart(2, "0");
+  // const formattedDate = `${year}-${month}-${day}`;
+  // return formattedDate;
+  return date;
 }
 
 function bitToString(bit, slicecnt) {
@@ -202,7 +205,7 @@ app.post("/user/gethbti", function (req, res) {
   var uid = req.body.uid;
 
   // 유저 hbti get 쿼리
-  var sql = "select hbti1,hbti2,hbti3,hbti4,hbti5 from user where uid= ? ;";
+  var sql = "select hbti1,hbti2,hbti3,hbti4 from user where uid= ? ;";
   var params = [uid];
 
   connection.query(sql, params, function (err, result) {
@@ -221,7 +224,7 @@ app.post("/user/gethbti", function (req, res) {
         var user = result[0];
         hbti =
           user.hbti1 != null
-            ? [user.hbti1, user.hbti2, user.hbti3, user.hbti4, user.hbti5]
+            ? [user.hbti1, user.hbti2, user.hbti3, user.hbti4]
             : null;
       } else {
         resultCode = 204;
@@ -246,8 +249,7 @@ app.post("/user/sethbti", function (req, res) {
   var hbti = req.body.hbti;
 
   // 유저 hbti set 쿼리
-  var sql =
-    "update user set hbti1=?, hbti2=?, hbti3=?, hbti4=?, hbti5=? where uid =?;";
+  var sql = "update user set hbti1=?, hbti2=?, hbti3=?, hbti4=? where uid =?;";
   var params = hbti.concat([uid]);
   console.log(params);
 
@@ -326,7 +328,7 @@ app.post("/user/login", function (req, res) {
           login_date: changeDatetoKoreaStr(user.login_date),
           hbti:
             user.hbti1 != null
-              ? [user.hbti1, user.hbti2, user.hbti3, user.hbti4, user.hbti5]
+              ? [user.hbti1, user.hbti2, user.hbti3, user.hbti4]
               : null,
         };
         var uid = userdata.uid;
@@ -521,7 +523,7 @@ app.post("/search/trainer", function (req, res) {
 
   // 트레이너 찾기 쿼리
   var sql =
-    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 from trainer as t inner join user as u on t.uid=u.uid where (usercategory & b?)=b? and location LIKE ?' +
+    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4 from trainer as t inner join user as u on t.uid=u.uid where (usercategory & b?)=b? and location LIKE ?' +
     (gender != null ? "and gender=?;" : ";");
   var params = [category, category, "%" + location + "%"];
   if (gender != null) {
@@ -573,8 +575,8 @@ app.post("/recommend/trainer", function (req, res) {
 
   // 트레이너 추천 쿼리
   var sql =
-    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 ,' +
-    " 100-(ABS(hbti1 - ?) + ABS(hbti2 - ?) + ABS(hbti3 - ?) + ABS(hbti4 - ?) + ABS(hbti5 - ?)) div 5 as matchingscore " +
+    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4 ,' +
+    " 100-(ABS(hbti1 - ?) + ABS(hbti2 - ?) + ABS(hbti3 - ?) + ABS(hbti4 - ?) ) div 4 as matchingscore " +
     "from trainer as t inner join user as u on t.uid=u.uid where (usercategory & b?)=b? and location LIKE ?" +
     (gender != null ? "and gender=?" : "") +
     "and u.hbti1 is not null order by matchingscore desc;";
@@ -583,7 +585,6 @@ app.post("/recommend/trainer", function (req, res) {
     hbti[1],
     hbti[2],
     hbti[3],
-    hbti[4],
     category,
     category,
     "%" + location + "%",
@@ -747,13 +748,12 @@ function changeHbtiList(result) {
     if (user["hbti1"] == null) {
       user.hbti = null;
     } else {
-      user.hbti = [user.hbti1, user.hbti2, user.hbti3, user.hbti4, user.hbti5];
+      user.hbti = [user.hbti1, user.hbti2, user.hbti3, user.hbti4];
     }
     delete user.hbti1;
     delete user.hbti2;
     delete user.hbti3;
     delete user.hbti4;
-    delete user.hbti5;
   });
 
   return result;
@@ -771,7 +771,7 @@ app.post("/session/getTrainer", function (req, res) {
   var traineeId = dereq.body.traineeUid;
 
   var sql =
-    `select ts.sid, t.uid, ts.sessionnow,t.trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 ` +
+    `select ts.sid, t.uid, ts.sessionnow,t.trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4 ` +
     `from TrainSession as ts inner join trainer as t on ts.trainer_id = t.uid  inner join user as u on t.uid=u.uid ` +
     `where trainee_id=?;`;
   var params = [traineeId];
@@ -814,7 +814,7 @@ app.post("/session/getTrainee", function (req, res) {
   var trainerId = dereq.body.trainerUid;
 
   var sql =
-    `select ts.sid, t.uid,ts.sessionnow, t.trainee_id,name,gender,description,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4,hbti5 ` +
+    `select ts.sid, t.uid,ts.sessionnow, t.trainee_id,name,gender,description,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4 ` +
     `from TrainSession as ts inner join trainee as t on ts.trainee_id = t.uid  inner join user as u on t.uid=u.uid where trainer_id=?;`;
   var params = [trainerId];
 
@@ -841,6 +841,237 @@ app.post("/session/getTrainee", function (req, res) {
       code: resultCode,
       message: message,
       traineelist: traineelist,
+    });
+  });
+});
+
+// 글작성
+app.post("/sns/createpost", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [글 작성 ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var uid = dereq.body.uid;
+  var title = dereq.body.title;
+  var content = dereq.body.content;
+  var category = dereq.body.category;
+
+  var sql =
+    "INSERT INTO post (uid,title,content,category,create_at) VALUES (?,?,?,b?,now());";
+  var params = [uid, title, content, category];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var postid = null;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "글 작성-오류";
+    } else {
+      if (result.insertId >= 0) {
+        resultCode = 200;
+        message = "글 작성 완료";
+        postid = result.insertId;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      postid: postid,
+    });
+  });
+});
+
+// 글 삭제
+app.post("/sns/deletepost", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [글 삭제...]`);
+  console.log(req.body);
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  var uid = dereq.body.uid;
+  var pid = dereq.body.pid;
+
+  // 글 삭제 코드
+  var sql = "delete FROM post where uid = ? AND pid= ?;";
+  var params = [uid, pid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var isDeleted = false;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else if (result.affectedRows > 0) {
+      // 영향을 받은 행의 개수가 1 이상일 경우 삭제 성공으로 간주
+      resultCode = 200;
+      message = "글 삭제 완료";
+      isDeleted = true;
+    } else {
+      // 영향을 받은 행이 없을 경우 삭제 실패로 간주
+      resultCode = 404;
+      message = "글 삭제 오류";
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      isDeleted: isDeleted,
+    });
+  });
+});
+
+// 글 수정
+app.post("/sns/editpost", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [글 수정 ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var pid = dereq.body.pid;
+  var uid = dereq.body.uid;
+  var title = dereq.body.title;
+  var content = dereq.body.content;
+  var category = dereq.body.category;
+
+  var sql =
+    "update post set title=?,content=?,category=b? where uid = ? and pid=?";
+  var params = [title, content, category, uid, pid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "글 수정-오류";
+    } else {
+      if (result.affectedRows >= 0) {
+        resultCode = 200;
+        message = "글 수정 완료";
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+    });
+  });
+});
+
+// 내 글 리스트
+app.post("/sns/getPost", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [get post list]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var uid = dereq.body.uid;
+  var category = dereq.body.category;
+
+  var sql =
+    `select u.uid,name,role, LPAD(BIN(po.category),6,"0") as postcategory,title,content,create_at from post as po inner join user as u on po.uid=u.uid where true` +
+    (category == null ? "" : ` and (category & b?)=b?`) +
+    (uid == null ? "" : ` and u.uid=?`) +
+    " order by create_at desc ;";
+  var params = [];
+  if (category != null) {
+    params.push(category);
+    params.push(category);
+  }
+  if (uid != null) {
+    params.push(uid);
+  }
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var postlist = [];
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "글 리스트 오류 발생";
+    } else {
+      if (result.length >= 0) {
+        resultCode = 200;
+        message = "글 리스트 성공";
+        postlist = result;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      postlist: postlist,
+    });
+  });
+});
+
+// 트레이너 프로필
+app.post("/trainer/getProfile", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [트레이너 프로필 get...]`);
+  console.log(req.body);
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  var trainerUid = dereq.body.trainerUid;
+
+  // 트레이너 프로필 쿼리
+  var sql =
+    'select t.uid,trainer_id,name,gender,career,certificate,lesson,LPAD(BIN(usercategory),6,"0") as usercategory ,location, hbti1,hbti2,hbti3,hbti4 from trainer as t inner join user as u on t.uid=u.uid where u.uid=? ;';
+
+  params = [trainerUid];
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var trainerProfile = null;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else {
+      if (result.length > 0) {
+        resultCode = 200;
+        message = "해당하는 트레이너 리턴";
+        trainerProfile = result[0];
+
+        if (trainerProfile["hbti1"] == null) {
+          trainerProfile.hbti = null;
+        } else {
+          trainerProfile.hbti = [
+            trainerProfile.hbti1,
+            trainerProfile.hbti2,
+            trainerProfile.hbti3,
+            trainerProfile.hbti4,
+          ];
+        }
+        delete trainerProfile.hbti1;
+        delete trainerProfile.hbti2;
+        delete trainerProfile.hbti3;
+        delete trainerProfile.hbti4;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      trainerProfile: trainerProfile,
     });
   });
 });

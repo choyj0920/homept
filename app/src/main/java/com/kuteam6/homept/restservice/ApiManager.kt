@@ -50,6 +50,11 @@ interface ApiService {
         @Body trainerSearchRequest: TrainerSearchRequest
     ): Response<TrainerSearchResponse?>
 
+    @POST("/trainer/getProfile")
+    suspend fun getTrainerProfile(
+        @Body getTrainerProfileRequest: GetTrainerProfileRequest
+    ): Response<GetTrainerProfileResponse?>
+
     @POST("/user/gethbti")
     suspend fun getHbti(
         @Body getHbtiRequest: GetHbtiRequest
@@ -89,6 +94,26 @@ interface ApiService {
     suspend fun getMyTrainerList(
         @Body myTrainersRequest: GetMyTrainersRequest
     ): Response<GetMyTrainersResponse?>
+
+    @POST("/sns/createpost")
+    suspend fun createPost(
+        @Body createPostRequest: CreatePostRequest
+    ): Response<CreatePostResponse?>
+
+    @POST("/sns/editpost")
+    suspend fun editPost(
+        @Body editPostRequest: EditPostRequest
+    ): Response<CommonResponse?>
+
+    @POST("/sns/deletepost")
+    suspend fun deletePost(
+        @Body deletePostRequest: DeletePostRequest
+    ): Response<CommonResponse?>
+
+    @POST("/sns/getPost")
+    suspend fun getPost(
+        @Body getPostRequest: GetPostRequest
+    ): Response<GetPostResponse?>
 
 }
 
@@ -540,6 +565,155 @@ object ApiManager {
         }
         null
     }
+
+
+    /**
+     * 글 작성 createPost  유저가 글 작성
+     * 유저의 uid, 제목, 내용, 글의 카테고리(입력안하면=000000 카테고리 없음) 를 매게
+     * 글이 작성되면 작성 된 글의 pid 리턴, 작성 오류시 null 리턴
+     */
+    suspend fun createPost (uid:Int,title:String,content:String,category: String="000000"): Int? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.createPost(
+                CreatePostRequest(uid, title,content,category)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  response.body()!!.postid
+                }
+                else{
+                    Log.d("TAG","createPost ${response.body()?.message}")
+                    return@withContext null
+                }
+            }else{
+                Log.d("TAG","createPost ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
+
+    /**
+     * 글 삭제 deletePost  유저가 글 삭제
+     * 유저의 uid, 글의 pid 를 매게
+     * 글이 삭제되면 true, 삭제된게 없을시 false
+     */
+    suspend fun deletePost (uid:Int,pid:Int): Boolean = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.deletePost(
+                DeletePostRequest(uid, pid)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext true
+                }
+                else{
+                    Log.d("TAG","createPost ${response.body()?.message}")
+                    return@withContext false
+                }
+            }else{
+                Log.d("TAG","createPost ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+    /**
+     * 글 수정 editPost  유저가 글 수정
+     * 유저의 uid, 원게시글의 pid ,제목, 내용, 글의 카테고리(입력안하면=000000 카테고리 없음) 를 매게
+     *   글이 수정되면 true리턴 , 수정 오류시 false
+     */
+    suspend fun editPost (uid:Int, pid: Int,title:String,content:String,category: String="000000"): Boolean = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.editPost(
+                EditPostRequest(uid, pid,title,content,category)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext true
+                }
+                else{
+                    Log.d("TAG","editPost ${response.body()?.message}")
+                    return@withContext false
+                }
+            }else{
+                Log.d("TAG","editPost ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+    /**
+     * 글 리스트 get - 카테고리로도, 작성자 uid로도 선택
+     * 유저 uid(null 로 하면 모든 사용자의 글 출력 ), 카테고리(입력안하면=000000 카테고리 없음) 매개
+     * 글 리스트 리턴 오류시 null 리턴
+     */
+    suspend fun getPost (uid:Int?,category: String="000000"): List<Postdata>? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.getPost(
+                GetPostRequest(uid,category)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  response.body()!!.postlist;
+                }
+                else{
+                    Log.d("TAG","getPost ${response.body()?.message}")
+                    return@withContext null
+                }
+            }else{
+                Log.d("TAG","getPost ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
+
+    /**
+     * 트레이너 프로필 가져오기 -트레이너 서치의 리스트의 객체와 같은 클래스 리턴
+     * 트레이너의 uid를 매개로 하여
+     * 트레이너 프로필을 리턴, 오류 null리턴
+     */
+    suspend fun getTrainerProfile (trainerUid:Int): TrainerProfile? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.getTrainerProfile(
+                GetTrainerProfileRequest(trainerUid)
+            );
+            if(response.isSuccessful){
+
+                var resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  response.body()!!.trainerProfile;
+                }
+                else{
+                    Log.d("TAG","getTrainerProfile ${response.body()?.message}")
+                    return@withContext null
+                }
+            }else{
+                Log.d("TAG","getTrainerProfile ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
+
+
+
 
 
 
