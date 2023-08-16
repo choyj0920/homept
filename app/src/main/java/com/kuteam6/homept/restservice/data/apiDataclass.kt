@@ -443,6 +443,8 @@ data class GetPostResponse(
     val postlist: List<Postdata>,
 )
 data class Postdata(
+    @SerializedName("pid")
+    val pid: Int,
     @SerializedName("uid")
     val uid: Int,
     @SerializedName("name")
@@ -458,6 +460,10 @@ data class Postdata(
     @SerializedName("create_at")
     val create_at: String,
 
-)
+){
+    override fun toString(): String {
+        return "[${title}]pid(${pid}) 작성자 ${if(isTrainee)"트레이니" else "트레이너"} ${name}(${uid}) 내용: ${content}, 작성일 ${create_at} \n\n"
+    }
+}
 
 

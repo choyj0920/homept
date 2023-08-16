@@ -122,6 +122,7 @@ object ApiManager {
 
     // 카페 데이터 baseURl
     private const val apiBaseUrl = "http://ec2-3-145-70-159.us-east-2.compute.amazonaws.com:3000"
+//    private const val apiBaseUrl = "http://10.0.2.2:3000"
 
 
     private val apiclient = OkHttpClient.Builder().build()
@@ -563,8 +564,9 @@ object ApiManager {
 
 
     /**
-     * 글 작성 createPost  유저가 글 작성
-     * 유저의 uid, 제목, 내용, 글의 카테고리(입력안하면=000000 카테고리 없음) 를 매게
+     * createPost 유저가 글 작성 -
+     *유저의 uid, 제목, 내용, 글의 카테고리(입력안하면=000000 카테고리 없음) 를 매개
+     *
      * 글이 작성되면 작성 된 글의 pid 리턴, 작성 오류시 null 리턴
      */
     suspend fun createPost (uid:Int,title:String,content:String,category: String="000000"): Int? = withContext(Dispatchers.IO){
@@ -593,7 +595,9 @@ object ApiManager {
 
     /**
      * 글 삭제 deletePost  유저가 글 삭제
-     * 유저의 uid, 글의 pid 를 매게
+     *
+     * 유저의 uid, 글의 pid 를 매개
+     *
      * 글이 삭제되면 true, 삭제된게 없을시 false
      */
     suspend fun deletePost (uid:Int,pid:Int): Boolean = withContext(Dispatchers.IO){
@@ -622,7 +626,9 @@ object ApiManager {
 
     /**
      * 글 수정 editPost  유저가 글 수정
-     * 유저의 uid, 원게시글의 pid ,제목, 내용, 글의 카테고리(입력안하면=000000 카테고리 없음) 를 매게
+     *
+     * 유저의 uid, 원게시글의 pid ,제목, 내용, 글의 카테고리(입력안하면=000000 카테고리 없음) 를 매개변수로
+     *
      *   글이 수정되면 true리턴 , 수정 오류시 false
      */
     suspend fun editPost (uid:Int, pid: Int,title:String,content:String,category: String="000000"): Boolean = withContext(Dispatchers.IO){
@@ -651,7 +657,9 @@ object ApiManager {
 
     /**
      * 글 리스트 get - 카테고리로도, 작성자 uid로도 선택
-     * 유저 uid(null 로 하면 모든 사용자의 글 출력 ), 카테고리(입력안하면=000000 카테고리 없음) 매개
+     *
+     * 유저 uid(null 로 하면 모든 사용자의 글 출력 ), 카테고리(입력안하면=000000 카테고리 없음) 매개변수
+     *
      * 글 리스트 리턴 오류시 null 리턴
      */
     suspend fun getPost (uid:Int?,category: String="000000"): List<Postdata>? = withContext(Dispatchers.IO){
@@ -680,7 +688,9 @@ object ApiManager {
 
     /**
      * 트레이너 프로필 가져오기 -트레이너 서치의 리스트의 객체와 같은 클래스 리턴
+     *
      * 트레이너의 uid를 매개로 하여
+     *
      * 트레이너 프로필을 리턴, 오류 null리턴
      */
     suspend fun getTrainerProfile (trainerUid:Int): TrainerProfile? = withContext(Dispatchers.IO){

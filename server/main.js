@@ -946,7 +946,7 @@ app.post("/sns/editpost", function (req, res) {
   var category = dereq.body.category;
 
   var sql =
-    "update post set title=?,content=?,category=b? where uid = ? and pid=?";
+    "update post set title=?,content=?,category=b?, create_at=now() where uid = ? and pid=?";
   var params = [title, content, category, uid, pid];
 
   connection.query(sql, params, function (err, result) {
@@ -984,7 +984,7 @@ app.post("/sns/getPost", function (req, res) {
   var category = dereq.body.category;
 
   var sql =
-    `select u.uid,name,(role = "1") as isTrainee, LPAD(BIN(po.category),6,"0") as postcategory,title,content,create_at from post as po inner join user as u on po.uid=u.uid where true` +
+    `select pid,u.uid,name,if(role = "1",'true','false') as isTrainee, LPAD(BIN(po.category),6,"0") as postcategory,title,content,create_at from post as po inner join user as u on po.uid=u.uid where true` +
     (category == null ? "" : ` and (category & b?)=b?`) +
     (uid == null ? "" : ` and u.uid=?`) +
     " order by create_at desc ;";
