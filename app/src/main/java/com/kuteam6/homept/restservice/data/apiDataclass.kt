@@ -447,8 +447,8 @@ data class Postdata(
     val uid: Int,
     @SerializedName("name")
     val name: String,
-    @SerializedName("role")
-    val role: String,
+    @SerializedName("isTrainee")
+    val isTrainee: Boolean,
     @SerializedName("postcategory")
     val postcategory: String,
     @SerializedName("title")

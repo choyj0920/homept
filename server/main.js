@@ -984,7 +984,7 @@ app.post("/sns/getPost", function (req, res) {
   var category = dereq.body.category;
 
   var sql =
-    `select u.uid,name,role, LPAD(BIN(po.category),6,"0") as postcategory,title,content,create_at from post as po inner join user as u on po.uid=u.uid where true` +
+    `select u.uid,name,(role = "1") as isTrainee, LPAD(BIN(po.category),6,"0") as postcategory,title,content,create_at from post as po inner join user as u on po.uid=u.uid where true` +
     (category == null ? "" : ` and (category & b?)=b?`) +
     (uid == null ? "" : ` and u.uid=?`) +
     " order by create_at desc ;";
