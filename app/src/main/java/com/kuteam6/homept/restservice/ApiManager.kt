@@ -121,21 +121,16 @@ interface ApiService {
 object ApiManager {
 
     // 카페 데이터 baseURl
-    private val apiBaseUrl = "http://ec2-3-145-70-159.us-east-2.compute.amazonaws.com:3000"
+    private const val apiBaseUrl = "http://ec2-3-145-70-159.us-east-2.compute.amazonaws.com:3000"
 
 
     private val apiclient = OkHttpClient.Builder().build()
-    var apiService: ApiService
-
-    init {
-
-        apiService = Retrofit.Builder()
-            .baseUrl(apiBaseUrl)
-            .client(apiclient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
+    private var apiService: ApiService = Retrofit.Builder()
+        .baseUrl(apiBaseUrl)
+        .client(apiclient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(ApiService::class.java)
 
     /**
      * ID중복확인 함수 단순 중복시 true리턴 중복아닐시 false리턴
@@ -145,13 +140,13 @@ object ApiManager {
         try {
             val response= apiService.checkIdDupicate(
                 CheckIdRequest(id)
-            );
+            )
 
             if(response.isSuccessful){
-                Log.d("TAG","[check ID] 정상 작동 : checkid= ${id},result => ${response.body()?.isDuplicated}");
+                Log.d("TAG","[check ID] 정상 작동 : checkid= ${id},result => ${response.body()?.isDuplicated}")
 
-                var  result =response.body()?.isDuplicated
-                return@withContext result!!;
+                val  result =response.body()?.isDuplicated
+                return@withContext result!!
 
             }else{
                 true
@@ -169,17 +164,17 @@ object ApiManager {
      */
     suspend fun register(userdata: UserData): UserData?= withContext(Dispatchers.IO){
         if(userdata.id ==""|| userdata.password=="") {
-            return@withContext null;
+            return@withContext null
         }
         try {
             val response= apiService.registerUser(
                 createRegisterReq(userdata)
-            );
+            )
 
             if(response.isSuccessful){
-                Log.d("TAG","[register] 정상 작동 : ${userdata}");
+                Log.d("TAG","[register] 정상 작동 : $userdata")
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200){
                     userdata.uid= response.body()?.uid!!
                     if(userdata is TrainerData)
@@ -215,21 +210,21 @@ object ApiManager {
         try {
             val response= apiService.loginUser(
                 LoginRequest(id,password)
-            );
+            )
             if(response.isSuccessful){
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200 &&response.body()?.userdata !=null){
-                    var userdata = response.body()?.userdata!!
-                    var subdata=response.body()?.subuserdata!!
-                    var birthdate=LocalDate.parse(userdata.birth, formatter)
+                    val userdata = response.body()?.userdata!!
+                    val subdata=response.body()?.subuserdata!!
+                    val birthdate=LocalDate.parse(userdata.birth, formatter)
                     if(userdata.role=="1"){ // 트레이니
                         return@withContext TraineeData(userdata.name,userdata.login_id,userdata.password, userdata.gender,birthdate,true,userdata.usercategory,
                             subdata.description!!,subdata.trainee_id!!  ).apply {
-                            this.uid=userdata.uid;
+                            this.uid=userdata.uid
                             this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
-                            this.hbti=userdata.hbti;
+                            this.hbti=userdata.hbti
                         }
 
                     }else{ //트레이너
@@ -237,7 +232,7 @@ object ApiManager {
                             subdata.career!!,subdata.lesson!!,subdata.trainer_id!!,userdata.location, certificate = subdata.certificate ).apply {
                             this.uid=userdata.uid
                             this.registerDate=LocalDate.parse(userdata.registerDate,formatter)
-                            this.hbti=userdata.hbti;
+                            this.hbti=userdata.hbti
 
 
                         }
@@ -267,10 +262,10 @@ object ApiManager {
         try {
             val response= apiService.unRegisterUser(
                 UnRegisterRequest(id,password)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext response.body()?.isDeleted!!
                 }
@@ -297,12 +292,12 @@ object ApiManager {
         try {
             val response= apiService.checkFindPassword(
                 PasswordFindRequest(login_id = id, name =name, birth = birth.toString())
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
-                    return@withContext response.body()?.result!!;
+                    return@withContext response.body()?.result!!
                 }
                 else{
                     Log.d("TAG","checkfindpassword ${response.body()?.message}")
@@ -325,12 +320,12 @@ object ApiManager {
         try {
             val response= apiService.changeFindPassword(
                 PasswordFindRequest(login_id = id, name =name, birth = birth.toString(), newpassword = newpassword)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
-                    return@withContext response.body()?.result!!;
+                    return@withContext response.body()?.result!!
                 }
                 else{
                     Log.d("TAG","changeFindPassword ${response.body()?.message}")
@@ -353,10 +348,10 @@ object ApiManager {
         try {
             val response= apiService.serachTrainer(
                 TrainerSearchRequest(category,gender, location)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext response.body()!!.trainerlist
                 }
@@ -382,16 +377,16 @@ object ApiManager {
         try {
             val response= apiService.getHbti(
                 GetHbtiRequest(uid)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext response.body()!!.hbti
                 }
                 else{
                     Log.d("TAG","getHbti ${response.body()?.message}")
-                    return@withContext null;
+                    return@withContext null
                 }
             }else{
                 Log.d("TAG","getHbti ${response.body()?.message}")
@@ -411,16 +406,16 @@ object ApiManager {
         try {
             val response= apiService.setHbti(
                 SetHbtiRequest(uid,hbti)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext true
                 }
                 else{
                     Log.d("TAG","setHbti ${response.body()?.message}")
-                    return@withContext false;
+                    return@withContext false
                 }
             }else{
                 Log.d("TAG","setHbti ${response.body()?.message}")
@@ -440,10 +435,10 @@ object ApiManager {
         try {
             val response= apiService.recommendTrainer(
                 RecommendTrainerRequest(category,gender, location,hbti)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext response.body()!!.trainerlist
                 }
@@ -467,16 +462,16 @@ object ApiManager {
         try {
             val response= apiService.applySession(
                 ApplySessionRequest(traineeUid,trainerUid)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext true
                 }
                 else{
                     Log.d("TAG","applySession ${response.body()?.message}")
-                    return@withContext false;
+                    return@withContext false
                 }
             }else{
                 Log.d("TAG","applySession ${response.body()?.message}")
@@ -501,13 +496,13 @@ object ApiManager {
             )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext true
                 }
                 else{
                     Log.d("TAG","approveSession ${response.body()?.message}")
-                    return@withContext false;
+                    return@withContext false
                 }
             }else{
                 Log.d("TAG","approveSession ${response.body()?.message}")
@@ -528,15 +523,15 @@ object ApiManager {
             if(amITrainer){
                 val response= apiService.getMyTraineeList(
                     GetMyTraineesRequest(myUid)
-                );
+                )
                 if(response.isSuccessful){
-                    var resultcode =response.body()?.code
+                    val resultcode =response.body()?.code
                     if(resultcode==200) {
                         return@withContext response.body()?.toList()
                     }
                     else{
                         Log.d("TAG","getMySession ${response.body()?.message}")
-                        return@withContext null;
+                        return@withContext null
                     }
                 }else{
                     Log.d("TAG","getMySession ${response.body()?.message}")
@@ -544,15 +539,15 @@ object ApiManager {
             }else{
                 val response= apiService.getMyTrainerList(
                     GetMyTrainersRequest(myUid)
-                );
+                )
                 if(response.isSuccessful){
-                    var resultcode =response.body()?.code
+                    val resultcode =response.body()?.code
                     if(resultcode==200) {
                         return@withContext response.body()?.toList()
                     }
                     else{
                         Log.d("TAG","getMySession ${response.body()?.message}")
-                        return@withContext null;
+                        return@withContext null
                     }
                 }else{
                     Log.d("TAG","getMySession ${response.body()?.message}")
@@ -576,10 +571,10 @@ object ApiManager {
         try {
             val response= apiService.createPost(
                 CreatePostRequest(uid, title,content,category)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext  response.body()!!.postid
                 }
@@ -605,10 +600,10 @@ object ApiManager {
         try {
             val response= apiService.deletePost(
                 DeletePostRequest(uid, pid)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext true
                 }
@@ -634,10 +629,10 @@ object ApiManager {
         try {
             val response= apiService.editPost(
                 EditPostRequest(uid, pid,title,content,category)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
                     return@withContext true
                 }
@@ -663,12 +658,12 @@ object ApiManager {
         try {
             val response= apiService.getPost(
                 GetPostRequest(uid,category)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
-                    return@withContext  response.body()!!.postlist;
+                    return@withContext  response.body()!!.postlist
                 }
                 else{
                     Log.d("TAG","getPost ${response.body()?.message}")
@@ -692,12 +687,12 @@ object ApiManager {
         try {
             val response= apiService.getTrainerProfile(
                 GetTrainerProfileRequest(trainerUid)
-            );
+            )
             if(response.isSuccessful){
 
-                var resultcode =response.body()?.code
+                val resultcode =response.body()?.code
                 if(resultcode==200) {
-                    return@withContext  response.body()!!.trainerProfile;
+                    return@withContext  response.body()!!.trainerProfile
                 }
                 else{
                     Log.d("TAG","getTrainerProfile ${response.body()?.message}")
