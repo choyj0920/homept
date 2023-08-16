@@ -9,7 +9,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivityTestBinding
 import com.kuteam6.homept.restservice.ApiManager
@@ -26,12 +25,14 @@ class TestActivity : AppCompatActivity() {
     lateinit var binding: ActivityTestBinding
     // 로그인 구현 예시
 
-    var isCheckValidate=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initTrainerProfile()
+        initSNS()
 
         initGetSession()
         initapplySession()
@@ -46,6 +47,83 @@ class TestActivity : AppCompatActivity() {
 
 
     }
+
+    private fun initTrainerProfile(){
+        binding.btnGetprofile.setOnClickListener {
+            val uid =binding.etGetprofile.text.toString().toInt()
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var result =ApiManager.getTrainerProfile(uid);
+                if(result != null)
+                    binding.tvGetprofileResult.text = result.toString()
+
+            }
+        }
+    }
+
+    private  fun initSNS(){
+        
+        // 글작성
+        binding.btnCreatepost.setOnClickListener {
+            var uid=binding.etCreatepostUid.text.toString().toInt()
+            var title=binding.etCreatepostTitle.text.toString()
+            var content="content"
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var result =ApiManager.createPost(uid,title,content,"000000");
+                if(result != null)
+                    binding.tvCreatepostResult.text = result.toString()
+
+            }
+
+        }
+
+        // 글 수정
+        binding.btnEditpost.setOnClickListener {
+            var uid=binding.etEditpostUid.text.toString().toInt()
+            var pid=binding.etEditpostPid.text.toString().toInt()
+            var title=binding.etEditpostTitle.text.toString()
+            var content="content"
+
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var result =ApiManager.editPost(uid,pid,title,content,"000000");
+                if(result != null)
+                    binding.tvEditpostResult.text = result.toString()
+
+            }
+
+        }
+        // 글 삭제
+        binding.btnDeletepost.setOnClickListener {
+            var uid=binding.etEditpostUid.text.toString().toInt()
+            var pid=binding.etEditpostPid.text.toString().toInt()
+
+
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var result =ApiManager.deletePost(uid,pid);
+                if(result != null)
+                    binding.tvEditpostResult.text = "$pid 글 삭제 ${if(result) "완료" else "오류 "}"
+
+            }
+        }
+
+        // 글 리스트
+        binding.btnGetpost.setOnClickListener {
+            var temp=binding.etGetpostUid.text.toString()
+
+            var uid=if(temp=="") null else temp.toInt()
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                val result=ApiManager.getPost(uid,"000000");
+
+                if(result != null)
+                    binding.tvGetpostResult.text = result.toString()
+            }
+        }
+    }
+    
 
 
 
