@@ -19,6 +19,11 @@ class FindPwActivity : AppCompatActivity() {
         binding = ActivityFindPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.ivFindPw.setOnClickListener {
+            val pwBackIntent = Intent(this, LoginActivity::class.java)
+            startActivity(pwBackIntent)
+        }
+
         initFindPassword()
     }
     fun maskPassword(password: String, maskChar: Char = '*', visibleChars: Int = 2): String {

@@ -34,6 +34,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edit_background"
+        android:inputType="textPassword"
         android:hint="비밀번호"
         android:paddingStart="15dp"/>
 

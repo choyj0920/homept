@@ -18,5 +18,10 @@ class FindIdActivity : AppCompatActivity() {
             val intent = Intent(this, FindPwActivity::class.java)
             startActivity(intent)
         }
+
+        binding.ivFindId.setOnClickListener {
+            val idBackIntent = Intent(this, LoginActivity::class.java)
+            startActivity(idBackIntent)
+        }
     }
 }

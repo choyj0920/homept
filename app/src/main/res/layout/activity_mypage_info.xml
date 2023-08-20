@@ -98,11 +98,12 @@
 
     <TextView
         android:id="@+id/tv_myPage_info_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="207dp"
-        android:layout_marginStart="100dp"
-        android:text="홍길동"
+        android:layout_width="85dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="204dp"
+        android:text=""
+        android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/myPage_info_name"
         app:layout_constraintEnd_toEndOf="parent" />
 
