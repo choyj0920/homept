@@ -5,24 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.kuteam6.homept.CategoryDialog
 import com.kuteam6.homept.HomeActivity
-import com.kuteam6.homept.R
-import com.kuteam6.homept.databinding.ActivitySnsPostBinding
-import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
+import com.kuteam6.homept.databinding.ActivitySnsCreatePostBinding
 import com.kuteam6.homept.restservice.ApiManager
-import com.kuteam6.homept.restservice.data.Postdata
 import com.kuteam6.homept.restservice.data.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SnsPostActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySnsPostBinding
+class SnsCreatePostActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySnsCreatePostBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySnsPostBinding.inflate(layoutInflater)
+        binding = ActivitySnsCreatePostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.toolbarBackIv.toolbarBackMainTv.text = "새 게시물"

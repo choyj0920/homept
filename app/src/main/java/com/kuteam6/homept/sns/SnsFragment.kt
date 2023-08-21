@@ -10,14 +10,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kuteam6.homept.CategoryDialog
-import com.kuteam6.homept.R
-import com.kuteam6.homept.databinding.FragmentRecommendBinding
 import com.kuteam6.homept.databinding.FragmentSnsBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.Postdata
-import com.kuteam6.homept.restservice.data.TrainerProfile
-import com.kuteam6.homept.tainerProfile.TrainersProfileActivity
-import com.kuteam6.homept.trainerSearch.SearchAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -90,7 +85,7 @@ class SnsFragment : Fragment() {
         }
 
         binding.snsPostBtn.setOnClickListener {
-            val postIntent = Intent(context, SnsPostActivity::class.java)
+            val postIntent = Intent(context, SnsCreatePostActivity::class.java)
             startActivity(postIntent)
         }
     }
