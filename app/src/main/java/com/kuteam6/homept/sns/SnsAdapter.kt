@@ -25,6 +25,9 @@ class SnsAdapter(private val itemList : ArrayList<Postdata>) : RecyclerView.Adap
             binding.snsContentTv.text = postdata.content
             binding.snsTypeTv.text = postdata.postcategory
             binding.snsUploadDateTv.text = postdata.create_at
+            binding.itemSnsCl.setOnClickListener {
+                itemClickListener.onItemClick(postdata)
+            }
         }
     }
 

@@ -60,6 +60,19 @@ class SnsFragment : Fragment() {
                 snsAdapter = SnsAdapter(postDataList)
                 binding.snsRv.adapter = snsAdapter
                 binding.snsRv.layoutManager = LinearLayoutManager(context)
+                snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
+                    override fun onItemClick(postdata: Postdata) {
+                        Log.d("post", postdata.name)
+                        val postIntent = Intent(context, SnsPostActivity::class.java)
+                        postIntent.putExtra("name", postdata.name)
+                        postIntent.putExtra("title", postdata.title)
+                        postIntent.putExtra("content", postdata.content)
+                        postIntent.putExtra("category", postdata.postcategory)
+                        postIntent.putExtra("time", postdata.create_at)
+                        startActivity(postIntent)
+                        Log.d("post2", postdata.name)
+                    }
+                })
             }
         }
 

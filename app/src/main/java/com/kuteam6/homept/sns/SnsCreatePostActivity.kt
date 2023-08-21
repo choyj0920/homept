@@ -31,7 +31,7 @@ class SnsCreatePostActivity : AppCompatActivity() {
 
         var category : String = "000000"
 
-        binding.snsPostCategoryBtn.setOnClickListener {
+        binding.snsCreatePostCategoryBtn.setOnClickListener {
             val dialogFragment = CategoryDialog()
             dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
                 override fun onValueSelected(value: String) {
@@ -44,7 +44,7 @@ class SnsCreatePostActivity : AppCompatActivity() {
         binding.toolbarBackIv.toolbarBackSubTv.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
                 Log.d("category2", category)
-                var resultList = ApiManager.createPost(uid = UserData.userdata?.uid!!, title = binding.snsPostTitleEt.text.toString(), content = binding.snsPostContentEt.text.toString(), category = category)
+                var resultList = ApiManager.createPost(uid = UserData.userdata?.uid!!, title = binding.snsCreatePostTitleEt.text.toString(), content = binding.snsCreatePostContentEt.text.toString(), category = category)
             }
             val searchTrainerIntent = Intent(this, HomeActivity::class.java)
             searchTrainerIntent.putExtra("fragment", "sns")
