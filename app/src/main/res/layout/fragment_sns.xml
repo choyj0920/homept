@@ -55,7 +55,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_rv"
+        android:id="@+id/sns_rv"
         android:layout_width="match_parent"
         android:layout_height="630dp"
         android:orientation="horizontal"
