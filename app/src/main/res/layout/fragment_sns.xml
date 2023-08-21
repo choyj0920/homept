@@ -66,4 +66,19 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <Button
+        android:id="@+id/sns_post_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="300dp"
+        android:layout_marginBottom="25dp"
+        android:text="+"
+        android:textColor="@color/green"
+        android:textSize="30sp"
+        android:background="@drawable/sns_post_btn_background"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

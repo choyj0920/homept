@@ -38,6 +38,30 @@ class SnsFragment : Fragment() {
             Log.d("post", resultList?.get(0)!!.name)
             if(resultList!=null) {
                 postDataList = resultList.toTypedArray().toCollection(ArrayList<Postdata>())
+
+                for(list in postDataList) {
+                    var resultCategory : String = ""
+                    Log.d("resultCategory", resultCategory)
+
+                    if(list.postcategory.get(0) == '1')
+                        resultCategory += "체형교정 / "
+                    if(list.postcategory.get(1) == '1')
+                        resultCategory += "근력,체력강화 / "
+                    if(list.postcategory.get(2) == '1')
+                        resultCategory += "유아체육 / "
+                    if(list.postcategory.get(3) == '1')
+                        resultCategory += "재활 / "
+                    if(list.postcategory.get(4) == '1')
+                        resultCategory += "시니어건강 / "
+                    if(list.postcategory.get(5) == '1')
+                        resultCategory += "다이어트 / "
+
+                    if (resultCategory.isNotEmpty()) {
+                        resultCategory = resultCategory.trim().substring(0, resultCategory.length-2)
+                    }
+                    list.postcategory = resultCategory
+                }
+
                 snsAdapter = SnsAdapter(postDataList)
                 binding.snsRv.adapter = snsAdapter
                 binding.snsRv.layoutManager = LinearLayoutManager(context)
@@ -63,6 +87,11 @@ class SnsFragment : Fragment() {
             })
             dialogFragment.show(getParentFragmentManager(), "category_dialog")
             Log.d("category2", category)
+        }
+
+        binding.snsPostBtn.setOnClickListener {
+            val postIntent = Intent(context, SnsPostActivity::class.java)
+            startActivity(postIntent)
         }
     }
 }
