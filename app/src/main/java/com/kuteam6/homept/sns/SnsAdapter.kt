@@ -11,6 +11,7 @@ class SnsAdapter(private val itemList : ArrayList<Postdata>) : RecyclerView.Adap
 
     interface OnItemClickListener{
         fun onItemClick(postdata: Postdata)
+        fun onUserItemClick(postdata: Postdata)
     }
 
     fun setOnItemClickListener(onItemClickListener : OnItemClickListener) {
@@ -27,6 +28,9 @@ class SnsAdapter(private val itemList : ArrayList<Postdata>) : RecyclerView.Adap
             binding.snsUploadDateTv.text = postdata.create_at
             binding.itemSnsCl.setOnClickListener {
                 itemClickListener.onItemClick(postdata)
+            }
+            binding.snsProfileIv.setOnClickListener {
+                itemClickListener.onUserItemClick(postdata)
             }
         }
     }

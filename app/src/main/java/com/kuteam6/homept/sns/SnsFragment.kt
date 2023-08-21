@@ -62,7 +62,6 @@ class SnsFragment : Fragment() {
                 binding.snsRv.layoutManager = LinearLayoutManager(context)
                 snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
                     override fun onItemClick(postdata: Postdata) {
-                        Log.d("post", postdata.name)
                         val postIntent = Intent(context, SnsPostActivity::class.java)
                         postIntent.putExtra("name", postdata.name)
                         postIntent.putExtra("title", postdata.title)
@@ -70,7 +69,13 @@ class SnsFragment : Fragment() {
                         postIntent.putExtra("category", postdata.postcategory)
                         postIntent.putExtra("time", postdata.create_at)
                         startActivity(postIntent)
-                        Log.d("post2", postdata.name)
+                    }
+
+                    override fun onUserItemClick(postdata: Postdata) {
+                        val userPostIntent = Intent(context, SnsUserPostsActivity::class.java)
+                        userPostIntent.putExtra("uid", postdata.uid)
+                        userPostIntent.putExtra("name", postdata.name)
+                        startActivity(userPostIntent)
                     }
                 })
             }

@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Homept"
         tools:targetApi="31">
         <activity
+            android:name=".sns.SnsUserPostsActivity"
+            android:exported="false" />
+        <activity
             android:name=".sns.SnsPostActivity"
             android:exported="false" />
         <activity
