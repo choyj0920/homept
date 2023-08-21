@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kuteam6.homept.databinding.FragmentMypageBinding
+import com.kuteam6.homept.hbtiTest.HbtiStartActivity
 import com.kuteam6.homept.restservice.data.UserData
 
 
@@ -22,7 +23,8 @@ class MypageFragment : Fragment() {
         binding = FragmentMypageBinding.inflate(inflater,container, false)
 
         // 회원명
-        //binding.myPageName.text = userData.name
+        val name = UserData.userdata?.name.toString()
+        binding.myPageName.text = name
 
         //내 정보 관리 버튼 이벤트
         binding.btnMyPageInfo.setOnClickListener {
@@ -39,6 +41,12 @@ class MypageFragment : Fragment() {
         }
 
         // 채팅 버튼 클릭 이벤트
+
+        // HBTI 바로가기
+        binding.btnMypageHealthMBTI.setOnClickListener {
+            val hbtiIntent = Intent(activity, HbtiStartActivity::class.java)
+            startActivity(hbtiIntent)
+        }
 
         return binding.root
     }

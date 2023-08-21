@@ -2,6 +2,7 @@ package com.kuteam6.homept.loginSignup
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivitySignupTraineeBinding
@@ -45,6 +46,28 @@ class SignUpTraineeActivity : AppCompatActivity() {
 
 
             startActivity(traineeProfileIntent)
+        }
+
+        val passwordEditText = binding.traineePwEdit
+
+        passwordEditText.setOnFocusChangeListener { view, hasFocus ->
+            if(hasFocus){
+                passwordEditText.transformationMethod = null
+            }
+            else{
+                passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
+        }
+
+        val passwordEditText2 = binding.traineePwCheckEdit
+
+        passwordEditText.setOnFocusChangeListener { view, hasFocus ->
+            if(hasFocus){
+                passwordEditText2.transformationMethod = null
+            }
+            else{
+                passwordEditText2.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
         }
 
         binding.traineeCloseIv.setOnClickListener {

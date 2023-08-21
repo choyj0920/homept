@@ -54,7 +54,7 @@
             android:windowSoftInputMode="adjustNothing">
         </activity>
         <activity
-            android:name=".tainerProfile.PtApplyActivity"
+            android:name=".myPage.PtApproveActivity"
             android:exported="false"/>
         <activity
             android:name=".tainerProfile.PtApplyConfirmActivity"

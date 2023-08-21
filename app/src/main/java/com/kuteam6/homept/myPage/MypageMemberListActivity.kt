@@ -32,6 +32,11 @@ class MypageMemberListActivity: AppCompatActivity() {
         binding.rvSession.layoutManager = layoutManager
         binding.rvSession.adapter = sessionAdapter
         initGetSession()
+
+        binding.tvGetSessionResult.setOnClickListener {
+            val approveIntent = Intent(this, PtApproveActivity::class.java)
+            startActivity(approveIntent)
+        }
     }
 
     // 내 트레이니/트레이너 리스트 예시
