@@ -1,11 +1,14 @@
 package com.kuteam6.homept
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.kuteam6.homept.trainerSearch.SearchFragment
 import com.kuteam6.homept.databinding.ActivityHomeBinding
+import com.kuteam6.homept.hbtiTest.HbtiStartActivity
 import com.kuteam6.homept.myPage.MypageFragment
+import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.sns.SnsFragment
 import com.kuteam6.homept.trainerRecommend.RecommendFragment
 
@@ -16,6 +19,13 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (!UserData.userdata?.isTrainee!!) {
+            if (UserData.userdata?.hbti == null) {
+                val hbtiIntent = Intent(this, HbtiStartActivity::class.java)
+                startActivity(hbtiIntent)
+            }
+        }
 
         initBottomNavigation()
         binding.homeBnv.itemIconTintList = null

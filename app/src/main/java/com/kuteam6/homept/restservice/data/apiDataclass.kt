@@ -452,7 +452,7 @@ data class Postdata(
     @SerializedName("isTrainee")
     val isTrainee: Boolean,
     @SerializedName("postcategory")
-    val postcategory: String,
+    var postcategory: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("content")

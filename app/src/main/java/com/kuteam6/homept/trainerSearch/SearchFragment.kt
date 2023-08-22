@@ -175,19 +175,21 @@ class SearchFragment : Fragment() {
                             var category : String = ""
 
                             if(list.usercategory.get(0) == '1')
-                                category += "체형교정, "
+                                category += "체형교정 / "
                             if(list.usercategory.get(1) == '1')
-                                category += "근력,체력강화, "
+                                category += "근력,체력강화 / "
                             if(list.usercategory.get(2) == '1')
-                                category += "유아체육, "
+                                category += "유아체육 / "
                             if(list.usercategory.get(3) == '1')
-                                category += "재활, "
+                                category += "재활 / "
                             if(list.usercategory.get(4) == '1')
-                                category += "시니어건강, "
+                                category += "시니어건강 / "
                             if(list.usercategory.get(5) == '1')
-                                category += "다이어트, "
+                                category += "다이어트 / "
 
-                            category = category.trim().substring(0, category.length-2)
+                            if (category.isNotEmpty()) {
+                                category = category.trim().substring(0, category.length-2)
+                            }
                             list.usercategory = category
                         }
                         searchAdapter = SearchAdapter(searchList)
