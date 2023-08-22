@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <EditText
-            android:id="@+id/treainer_search_et"
+            android:id="@+id/sns_search_et"
             android:layout_width="220dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"
@@ -42,7 +42,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/trainer_search_btn"
+            android:id="@+id/sns_search_btn"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_marginTop="2dp"
