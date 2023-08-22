@@ -1,15 +1,20 @@
 package com.kuteam6.homept.myPage
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.databinding.ActivityMypageInfoBinding
 import com.kuteam6.homept.loginSignup.LoginActivity
+import com.kuteam6.homept.restservice.data.TraineeData
 import com.kuteam6.homept.restservice.data.UserData
 
 class MypageInfoActivity : AppCompatActivity() {
+    private val NAME_EDIT_REQUEST_CODE = 1001
     lateinit var binding: ActivityMypageInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -25,8 +30,15 @@ class MypageInfoActivity : AppCompatActivity() {
         }
 
         // 회원 이름
-        val user_name = UserData.userdata?.name.toString()
-        binding.tvMyPageInfoName.text = user_name
+        val userName = UserData.userdata?.name.toString()
+        binding.tvMyPageInfoName.text = userName
+
+        //회원 이름 수정 이벤트
+        binding.ivNameEdit.setOnClickListener {
+            val nameEditIntent = Intent(this, MypageEditnameActivity::class.java)
+            nameEditIntent.putExtra("bName", binding.myPageInfoName.text.toString())
+            startActivityForResult(nameEditIntent, NAME_EDIT_REQUEST_CODE)
+        }
 
         // 전화번호
 
@@ -54,6 +66,18 @@ class MypageInfoActivity : AppCompatActivity() {
             startActivity(unregisterIntent)
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == NAME_EDIT_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            val afterName = data?.getStringExtra("afterName")
+            if(afterName != null){
+                binding.tvMyPageInfoName.text = afterName
+                UserData.userdata?.name == afterName
+            }
+        }
     }
 
     private fun showLogoutConfirmationDialog() {

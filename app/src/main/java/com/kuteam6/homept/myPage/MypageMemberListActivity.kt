@@ -25,8 +25,10 @@ class MypageMemberListActivity: AppCompatActivity() {
 
         binding.toolbarMypageMemberList.toolbarBackMainTv.text = "담당 리스트"
         binding.toolbarMypageMemberList.toolbarBackIv.setOnClickListener {
-            val memberListIntent = Intent(this@MypageMemberListActivity, MypageFragment::class.java)
+            val memberListIntent = Intent(this, MypageFragment::class.java)
+            memberListIntent.putExtra("fragment", "mypage")
             startActivity(memberListIntent)
+            finish()
         }
 
         binding.rvSession.layoutManager = layoutManager
@@ -36,6 +38,7 @@ class MypageMemberListActivity: AppCompatActivity() {
         binding.tvGetSessionResult.setOnClickListener {
             val approveIntent = Intent(this, PtApproveActivity::class.java)
             startActivity(approveIntent)
+            finish()
         }
     }
 
@@ -45,7 +48,6 @@ class MypageMemberListActivity: AppCompatActivity() {
         binding.cbGetSession.setOnCheckedChangeListener { _, isChecked ->
             binding.etGetSessionMyuid.setText("");
             binding.etGetSessionMyuid.setHint(if(isChecked) "traineruid" else "traineeuid" );
-
         }
 
         binding.btnGetSession.setOnClickListener {

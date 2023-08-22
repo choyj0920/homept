@@ -24,9 +24,9 @@ class PtApplyConfirmActivity: AppCompatActivity() {
 
         binding.backIv.toolbarBackMainTv.text = "PT 신청"
         binding.backIv.toolbarBackIv.setOnClickListener {
-
             val ptConfirmIntent = Intent(this@PtApplyConfirmActivity, TrainersProfileActivity::class.java)
             startActivity(ptConfirmIntent)
+            finish()
         }
 
        // Log.d("uid", UserData.userdata?.uid.toString())
@@ -39,7 +39,7 @@ class PtApplyConfirmActivity: AppCompatActivity() {
 
     }
 
-    // 매칭 신청/ 승인 거절 예시
+    // 매칭 신청
     private fun initapplySession() {
 
             //트레이니에 대한 처리

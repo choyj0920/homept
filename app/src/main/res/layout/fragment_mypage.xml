@@ -19,9 +19,9 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginBottom="240dp"
+        android:layout_marginTop="27dp"
         android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMypageHealthMBTI"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
@@ -35,7 +35,6 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -48,24 +47,22 @@
         android:layout_marginEnd="80dp"
         android:src="@drawable/mypage_hong"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/myPageName"
         android:layout_width="78dp"
         android:layout_height="32dp"
-        android:layout_marginStart="178dp"
+        android:layout_marginStart="166dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="178dp"
+        android:layout_marginEnd="167dp"
+        android:gravity="center"
         android:text=""
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivMyPageImage" />
 
@@ -74,7 +71,7 @@
         android:layout_width="95dp"
         android:layout_height="92dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="21dp"
         android:drawableTop="@drawable/baseline_text_snippet_24"
         android:paddingBottom="5dp"
         android:text="내 정보 관리"
@@ -96,26 +93,33 @@
         android:id="@+id/btnMyPageTrainer_Trainee"
         android:layout_width="95dp"
         android:layout_height="92dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="31dp"
         android:drawableTop="@drawable/baseline_people_24"
         android:text="담당 트레이너/ 트레이니"
         app:layout_constraintBottom_toBottomOf="@+id/btnMyPageInfo"
-        app:layout_constraintStart_toEndOf="@+id/btnMyPageInfo"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintStart_toEndOf="@+id/btnMyPageInfo" />
 
     <Button
         android:id="@+id/btnMyPageChat"
         android:layout_width="95dp"
         android:layout_height="92dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="39dp"
+        android:layout_marginEnd="36dp"
         android:drawableTop="@drawable/baseline_chat_24"
         android:paddingBottom="5dp"
         android:text="채팅"
         app:layout_constraintBottom_toBottomOf="@+id/btnMyPageTrainer_Trainee"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btnMyPageTrainer_Trainee" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnMyPageCareer"
+        android:layout_width="95dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="16dp"
+        android:drawableTop="@drawable/baseline_mode_24"
+        android:text="이력 수정"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMypageHealthMBTI"
+        app:layout_constraintStart_toEndOf="@+id/btnMypageHealthMBTI"
+        app:layout_constraintTop_toBottomOf="@+id/btnMyPageTrainer_Trainee" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
