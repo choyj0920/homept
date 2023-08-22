@@ -63,6 +63,8 @@ class SnsFragment : Fragment() {
                 snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
                     override fun onItemClick(postdata: Postdata) {
                         val postIntent = Intent(context, SnsPostActivity::class.java)
+                        postIntent.putExtra("uid", postdata.uid)
+                        postIntent.putExtra("pid", postdata.pid)
                         postIntent.putExtra("name", postdata.name)
                         postIntent.putExtra("title", postdata.title)
                         postIntent.putExtra("content", postdata.content)
@@ -104,6 +106,7 @@ class SnsFragment : Fragment() {
 
         binding.snsPostBtn.setOnClickListener {
             val postIntent = Intent(context, SnsCreatePostActivity::class.java)
+            postIntent.putExtra("isCreate", true)
             startActivity(postIntent)
         }
     }
