@@ -19,9 +19,7 @@ class MypageInfoActivity : AppCompatActivity() {
 
         binding.toolbarBackIv.toolbarBackMainTv.text = "회원 정보"
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-            searchTrainerIntent.putExtra("fragment", "mypage")
-            startActivity(searchTrainerIntent)
+            finish()
         }
 
         // 회원 이름
