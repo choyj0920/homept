@@ -24,12 +24,11 @@ class HbtiTestActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHbtiTestBinding
 
-    private var mCurrentPosition : Int = 1
-    private var HQuestionList : ArrayList<QuestionData>? = null
-    private var BQuestionList : ArrayList<QuestionData>? = null
-    private var FQuestionList : ArrayList<QuestionData>? = null
-    private var EQuestionList : ArrayList<QuestionData>? = null
-
+    private var mCurrentPosition: Int = 1
+    private var HQuestionList: ArrayList<QuestionData>? = null
+    private var BQuestionList: ArrayList<QuestionData>? = null
+    private var FQuestionList: ArrayList<QuestionData>? = null
+    private var EQuestionList: ArrayList<QuestionData>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,10 +42,10 @@ class HbtiTestActivity : AppCompatActivity() {
             finish()
         }
 
-        var hScore =0.0
-        var bScore =0.0
-        var fScore =0.0
-        var eScore =0.0
+        var hScore = 0.0
+        var bScore = 0.0
+        var fScore = 0.0
+        var eScore = 0.0
 
         val scoreList = arrayListOf<Double>()
         scoreList.add(50.0)
@@ -56,7 +55,7 @@ class HbtiTestActivity : AppCompatActivity() {
 
         //리스너
         binding.rgHeavy.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId){
+            when (checkedId) {
                 R.id.rb_h1 -> hScore = 12.5
                 R.id.rb_h2 -> hScore = 6.25
                 R.id.rb_h3 -> hScore = 0.0
@@ -66,7 +65,7 @@ class HbtiTestActivity : AppCompatActivity() {
             }
         }
         binding.rgBulk.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId){
+            when (checkedId) {
                 R.id.rb_b1 -> bScore = 12.5
                 R.id.rb_b2 -> bScore = 6.25
                 R.id.rb_b3 -> bScore = 0.0
@@ -76,7 +75,7 @@ class HbtiTestActivity : AppCompatActivity() {
             }
         }
         binding.rgFree.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId){
+            when (checkedId) {
                 R.id.rb_f1 -> fScore = 12.5
                 R.id.rb_f2 -> fScore = 6.25
                 R.id.rb_f3 -> fScore = 0.0
@@ -86,7 +85,7 @@ class HbtiTestActivity : AppCompatActivity() {
             }
         }
         binding.rgEnjoy.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId){
+            when (checkedId) {
                 R.id.rb_e1 -> eScore = 12.5
                 R.id.rb_e2 -> eScore = 6.25
                 R.id.rb_e3 -> eScore = 0.0
@@ -101,37 +100,46 @@ class HbtiTestActivity : AppCompatActivity() {
             //다음 버튼 -> 1.score 반영  2.다음 question 셋팅  3.라디오버튼 초기화
             mCurrentPosition++
 
-            scoreList[0]+=hScore
-            scoreList[1]+=bScore
-            scoreList[2]+=fScore
-            scoreList[3]+=eScore
+            scoreList[0] += hScore
+            scoreList[1] += bScore
+            scoreList[2] += fScore
+            scoreList[3] += eScore
 
-            Log.d("scoreList",scoreList[0].toString())
+            Log.d("scoreList", scoreList[0].toString())
 
 
-            if(mCurrentPosition<HQuestionList!!.size)
-            setQuestion()
+            if (mCurrentPosition <= HQuestionList!!.size) {
+                setQuestion()
+                binding.svHbti.fullScroll(ScrollView.FOCUS_UP)
+            }
 
             uncheckRadio()
 
             binding.svHbti.fullScroll(ScrollView.FOCUS_UP)
 
             //제출 버튼 -> 1.서버에 hbti 값 저장  2.result 엑티비티로 score 넘겨주기
-            if(mCurrentPosition-1 == HQuestionList!!.size){
+            if (mCurrentPosition - 1 == HQuestionList!!.size) {
                 //TODO 서버에 hbti 값 저장 (scoreList)
 
                 val uid = UserData.userdata!!.uid
+
+                val scoreListInt = arrayListOf<Int>(0,0,0,0)
+                scoreListInt[0] = scoreList[0].toInt()
+                scoreListInt[1] = scoreList[1].toInt()
+                scoreListInt[2] = scoreList[2].toInt()
+                scoreListInt[3] = scoreList[3].toInt()
+
 
                 //Main은 말 그대로 메인 쓰레드에 대한 Context이며 UI 갱신이나 Toast 등의 View 작업에 사용된다.
                 //IO는 네트워킹이나 내부 DB 접근 등 백그라운드에서 필요한 작업을 수행할 때 사용된다.
                 //Default는 크기가 큰 리스트를 다루거나 필터링을 수행하는 등 무거운 연산이 필요한 작업에 사용된다.
 
                 CoroutineScope(IO).launch {
-                    //TODO ApiManager.setHbti(uid,scoreList)
+                    ApiManager.setHbti(uid,scoreListInt)
                 }
 
                 val intent = Intent(this, HbtiResultActivity::class.java)
-                intent.putExtra("scoreList",scoreList)
+                intent.putExtra("scoreList", scoreList)
                 startActivity(intent)
             }
 
@@ -147,7 +155,7 @@ class HbtiTestActivity : AppCompatActivity() {
 
     }
 
-    private fun uncheckRadio(){
+    private fun uncheckRadio() {
         binding.rgHeavy.clearCheck()
         binding.rgBulk.clearCheck()
         binding.rgFree.clearCheck()
@@ -177,7 +185,7 @@ class HbtiTestActivity : AppCompatActivity() {
 //        binding.rbE5.isChecked = false
     }
 
-    private fun setQuestion(){
+    private fun setQuestion() {
         val hQue = HQuestionList!![mCurrentPosition - 1]
         val bQue = BQuestionList!![mCurrentPosition - 1]
         val fQue = FQuestionList!![mCurrentPosition - 1]
@@ -188,12 +196,10 @@ class HbtiTestActivity : AppCompatActivity() {
         binding.tvFQue.text = fQue.question
         binding.tvEQue.text = eQue.question
 
-        if(mCurrentPosition == HQuestionList!!.size){
+        if (mCurrentPosition == HQuestionList!!.size) {
             binding.btnSubmit?.text = "제출"
         }
     }
-
-
 
 
 }
