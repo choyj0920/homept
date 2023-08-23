@@ -30,9 +30,10 @@ class RecommendActivity : AppCompatActivity() {
         // 툴바 설정
         binding.toolbarBackIv.toolbarBackMainTv.text = "트레이너 추천"
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-            searchTrainerIntent.putExtra("fragment", "recommend")
-            startActivity(searchTrainerIntent)
+//            val searchTrainerIntent = Intent(this, HomeActivity::class.java)
+//            searchTrainerIntent.putExtra("fragment", "recommend")
+//            startActivity(searchTrainerIntent)
+            finish()
         }
 
         val category = intent.getStringExtra("category")
