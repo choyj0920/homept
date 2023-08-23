@@ -30,9 +30,41 @@ class CategoryDialog : DialogFragment() {
             // 제목 설정
             builder.setTitle("카테고리를 선택하세요")
 
+            val mArgs = arguments
+            var isCheckedCategory: BooleanArray? = null
+            if (mArgs?.getBoolean("isSelected")!!) {
+                isCheckedCategory = BooleanArray(6){i -> false}
+                var categorys = mArgs?.getString("category")?.trim()?.split("/")
+                for (item in categorys!!) {
+                    Log.d("item", item.trim())
+                    if (item.trim() == "체형교정") {
+                        isCheckedCategory?.set(0, true)
+                    }
+                    if (item.trim() == "근력,체력강화") {
+                        isCheckedCategory?.set(1, true)
+                    }
+                    if (item.trim() == "유아체육") {
+                        isCheckedCategory?.set(2, true)
+                    }
+                    if (item.trim() == "재활") {
+                        isCheckedCategory?.set(3, true)
+                    }
+                    if (item.trim() == "시니어건강") {
+                        isCheckedCategory?.set(4, true)
+                    }
+                    if (item.trim() == "다이어트") {
+                        isCheckedCategory?.set(5, true)
+                    }
+                }
+            }
+
             // Dialog 멀티 선택 이벤트
-            builder.setMultiChoiceItems(R.array.sportType, null) {
+            builder.setMultiChoiceItems(R.array.sportType, isCheckedCategory) {
                     p0, which, isChecked ->
+
+                if (mArgs?.getBoolean("isSelected")!!) {
+                    isCheckedCategory!![which] = isChecked
+                }
 
                 // 데이터 담기
                 val categorys: Array<String> = resources.getStringArray(R.array.sportType)
@@ -79,10 +111,6 @@ class CategoryDialog : DialogFragment() {
                 Log.d("category4", category)
                 valueSelectedListener?.onValueSelected(category)
                 dialog.dismiss()
-            }
-
-            builder.setNegativeButton("Cancel") {
-                    dialog, p1 -> dialog.cancel()
             }
 
             builder.create()

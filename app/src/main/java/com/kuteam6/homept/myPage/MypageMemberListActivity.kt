@@ -27,12 +27,7 @@ class MypageMemberListActivity: AppCompatActivity() {
 
         binding.toolbarMypageMemberList.toolbarBackMainTv.text = "내 리스트"
         binding.toolbarMypageMemberList.toolbarBackIv.setOnClickListener {
-            val memberListIntent = Intent(this, HomeActivity::class.java)
-
             initGetSession()
-
-            memberListIntent.putExtra("fragment", "mypage")
-            startActivity(memberListIntent)
             finish()
         }
 

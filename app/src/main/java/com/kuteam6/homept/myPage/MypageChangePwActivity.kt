@@ -27,8 +27,7 @@ class MypageChangePwActivity : AppCompatActivity() {
 
         binding.toolbarBackIv.toolbarBackMainTv.text = "비밀번호 변경"
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val searchTrainerIntent = Intent(this, MypageInfoActivity::class.java)
-            startActivity(searchTrainerIntent)
+            finish()
         }
 
         initChangePassword()

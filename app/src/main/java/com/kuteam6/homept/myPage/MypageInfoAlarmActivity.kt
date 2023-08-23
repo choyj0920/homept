@@ -19,8 +19,7 @@ class MypageInfoAlarmActivity: AppCompatActivity() {
 
         binding.toolbarBackIv.toolbarBackMainTv.text = "푸시 알림 설정"
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val searchTrainerIntent = Intent(this, MypageInfoActivity::class.java)
-            startActivity(searchTrainerIntent)
+            finish()
         }
 
         sharedPreferences = getSharedPreferences("alarm_prefereneces", Context.MODE_PRIVATE)

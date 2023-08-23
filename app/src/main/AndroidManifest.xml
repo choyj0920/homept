@@ -18,6 +18,30 @@
         android:theme="@style/Theme.Homept"
         tools:targetApi="31">
         <activity
+            android:name=".ChatRoomActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".chat.ChatListActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
+
+        <activity
+            android:name=".sns.SnsUserPostsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sns.SnsPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sns.SnsCreatePostActivity"
+            android:exported="false" />
+        <activity
             android:name=".hbtiTest.HbtiResultActivity"
             android:exported="false">
             <meta-data
@@ -51,17 +75,16 @@
         <activity
             android:name=".HomeActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing">
-        </activity>
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".myPage.MypageEditnameActivity"
             android:exported="false"/>
         <activity
             android:name=".myPage.PtApproveActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".tainerProfile.PtApplyConfirmActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".myPage.MypageInfoAlarmActivity"
             android:exported="false" />
@@ -76,7 +99,7 @@
             android:exported="false" />
         <activity
             android:name=".myPage.MypageMemberListActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".loginSignup.FindIdActivity"
             android:exported="false" />

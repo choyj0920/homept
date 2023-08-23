@@ -29,6 +29,12 @@ class HbtiTestActivity : AppCompatActivity() {
         binding = ActivityHbtiTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 툴바 설정
+        binding.toolbarBackIv.toolbarBackMainTv.text = "HBTI 검사"
+        binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
+            finish()
+        }
+
         var hScore =0.0
         var bScore =0.0
         var fScore =0.0
@@ -95,7 +101,7 @@ class HbtiTestActivity : AppCompatActivity() {
             uncheckRadio()
 
             //제출 버튼 -> 1.서버에 hbti 값 저장  2.result 엑티비티로 score 넘겨주기
-            if(mCurrentPosition == HQuestionList!!.size){
+            if(mCurrentPosition-1 == HQuestionList!!.size){
                 //TODO 서버에 hbti 값 저장 (scoreList)
 
                 val intent = Intent(this, HbtiResultActivity::class.java)

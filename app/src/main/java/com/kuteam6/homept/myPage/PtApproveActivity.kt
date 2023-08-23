@@ -23,9 +23,7 @@ class PtApproveActivity: AppCompatActivity() {
 
         binding.ptApproveToolbarBackIv.toolbarBackMainTv.text = "PT 승인"
         binding.ptApproveToolbarBackIv.toolbarBackIv.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("fragment", "mypage")
-            startActivity(intent)
+            finish()
         }
 
         var sid = intent.getIntExtra("sid", MySession.mysession?.sid?:-1)
