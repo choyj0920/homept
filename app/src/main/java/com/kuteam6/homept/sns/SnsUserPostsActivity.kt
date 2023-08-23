@@ -110,6 +110,7 @@ class SnsUserPostsActivity : AppCompatActivity() {
                     override fun onItemClick(postdata: Postdata) {
                         Log.d("post", postdata.name)
                         val postIntent = Intent(this@SnsUserPostsActivity, SnsPostActivity::class.java)
+                        postIntent.putExtra("uid", postdata.uid)
                         postIntent.putExtra("name", postdata.name)
                         postIntent.putExtra("title", postdata.title)
                         postIntent.putExtra("content", postdata.content)
