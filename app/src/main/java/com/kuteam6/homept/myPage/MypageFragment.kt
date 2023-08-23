@@ -88,8 +88,8 @@ class MypageFragment : Fragment() {
 
         //PT 승인 거절 화면 이동
         binding.ivPtApplyAlarm.setOnClickListener {
-            val ptApplyAlaemIntent = Intent(activity, ptApproveActivity::class.java)
-            startActivity(ptApplyAlaemIntent)
+            val ptApplyAlarmIntent = Intent(activity, PtApproveActivity::class.java)
+            startActivity(ptApplyAlarmIntent)
         }
 
         return binding.root
