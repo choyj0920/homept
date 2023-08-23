@@ -1,14 +1,20 @@
 package com.kuteam6.homept.loginSignup
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivityFindPasswordBinding
 import com.kuteam6.homept.restservice.ApiManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.Calendar
+import java.util.Locale
 
 class FindPwActivity : AppCompatActivity() {
 
@@ -26,28 +32,12 @@ class FindPwActivity : AppCompatActivity() {
 
         initFindPassword()
     }
-    fun maskPassword(password: String, maskChar: Char = '*', visibleChars: Int = 2): String {
-        if (password.length <= visibleChars) {
-            return password // 비밀번호의 길이가 visibleChars보다 작거나 같으면 그대로 반환
-        }
-
-        val masked = CharArray(password.length) { maskChar }
-
-        password
-            .takeLast(visibleChars)
-            .forEachIndexed { index, char ->
-                masked[password.length - visibleChars + index] = char
-            }
-
-        return String(masked)
-    }
-
 
     private fun initFindPassword() {
         binding.findPwBirthEdit.apply {
             isFocusable = false
             setOnClickListener {
-
+                showDatePickerDialog()
             }
         }
 
@@ -71,11 +61,32 @@ class FindPwActivity : AppCompatActivity() {
             lifecycleScope.launch(Dispatchers.Main){
                 var result: Boolean = ApiManager.checkFindPassword(id, name, birth)
 
-                if(result == true){
-
-
+                if(result){
+                    binding.btnFindPassword.isEnabled = true
+                        //비밀번호 찾기
                 }
             }
         }
     }
+
+    private fun showDatePickerDialog(){
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this,
+        DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
+            //선택된 날짜 처리
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(selectedYear, selectedMonth, selectedDay)
+
+            //선택된 날짜 사용
+            val formatteredDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
+            binding.findPwBirthEdit.setText(formatteredDate)
+        }, year, month, day)
+
+        datePickerDialog.show()
+    }
+
 }
