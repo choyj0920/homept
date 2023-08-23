@@ -51,9 +51,7 @@ class SnsCreatePostActivity : AppCompatActivity() {
                     Log.d("category2", category)
                     var resultList = ApiManager.createPost(uid = UserData.userdata?.uid!!, title = binding.snsCreatePostTitleEt.text.toString(), content = binding.snsCreatePostContentEt.text.toString(), category = category)
                 }
-                val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-                searchTrainerIntent.putExtra("fragment", "sns")
-                startActivity(searchTrainerIntent)
+                finish()
             }
         } else {
             binding.toolbarBackIv.toolbarBackMainTv.text = "게시물 수정"
@@ -91,9 +89,7 @@ class SnsCreatePostActivity : AppCompatActivity() {
                     Log.d("category2", category)
                     var resultList = ApiManager.editPost(uid = UserData.userdata?.uid!!, title = binding.snsCreatePostTitleEt.text.toString(), content = binding.snsCreatePostContentEt.text.toString(), category = category, pid = intent.getIntExtra("pid", 0))
                 }
-                val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-                searchTrainerIntent.putExtra("fragment", "sns")
-                startActivity(searchTrainerIntent)
+                finish()
             }
         }
 
