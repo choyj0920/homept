@@ -11,6 +11,7 @@ import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
 import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.restservice.data.MySession
+import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.trainerSearch.SearchFragment
 
 //TODO:리뷰 사진 리사이클러뷰
@@ -63,6 +64,7 @@ class TrainersProfileActivity : AppCompatActivity() {
         //PT 신청 버튼을 누르면 신청 창으로
         binding.btnPt.setOnClickListener {
             val applyConfirmIntent = Intent(this@TrainersProfileActivity, PtApplyConfirmActivity::class.java)
+            applyConfirmIntent.putExtra("trainerUid", TrainerProfile.trainerprofile?.uid?:-1)
             startActivity(applyConfirmIntent)
         }
 

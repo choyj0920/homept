@@ -2,12 +2,16 @@ package com.kuteam6.homept.myPage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.databinding.ActivityMypageMemberListBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.MySession
+import com.kuteam6.homept.restservice.data.TrainerProfile
+import com.kuteam6.homept.restservice.data.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,35 +19,35 @@ class MypageMemberListActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityMypageMemberListBinding
 
-    var sessionAdapter: MySessionAdapter? = null
-    var resultList = ArrayList<MySession>()
     val layoutManager = LinearLayoutManager(this)
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         binding = ActivityMypageMemberListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbarMypageMemberList.toolbarBackMainTv.text = "담당 리스트"
+        binding.toolbarMypageMemberList.toolbarBackMainTv.text = "내 리스트"
         binding.toolbarMypageMemberList.toolbarBackIv.setOnClickListener {
+            initGetSession()
             finish()
         }
 
-        binding.rvSession.layoutManager = layoutManager
-        binding.rvSession.adapter = sessionAdapter
-        initGetSession()
-
-        binding.tvGetSessionResult.setOnClickListener {
-            val approveIntent = Intent(this, PtApproveActivity::class.java)
-            startActivity(approveIntent)
-        }
     }
-
     // 내 트레이니/트레이너 리스트 예시
     private fun initGetSession() {
 
         binding.cbGetSession.setOnCheckedChangeListener { _, isChecked ->
             binding.etGetSessionMyuid.setText("");
-            binding.etGetSessionMyuid.setHint(if(isChecked) "traineruid" else "traineeuid" );
+            if(isChecked){
+                var trainerUid = intent.getIntExtra("trainerUid", TrainerProfile.trainerprofile?.uid?:-1)
+                binding.etGetSessionMyuid.setText(trainerUid.toString())
+                Log.d("trainerUid", trainerUid.toString())
+
+            } else {
+                var traineeUid = intent.getIntExtra("uid", UserData.userdata?.uid?:-1)
+                binding.etGetSessionMyuid.setText(traineeUid.toString())
+                Log.d("traineeUid", traineeUid.toString())
+
+            }
 
         }
 
@@ -61,4 +65,5 @@ class MypageMemberListActivity: AppCompatActivity() {
         }
 
     }
+
 }

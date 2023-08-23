@@ -36,4 +36,8 @@ data class TrainerProfile(
         return "${name} , 이력 : ${career}, 자격사항 ${certificate}, lesson : ${lesson}, category ${usercategory}, location : ${location}" +
                 " ${if(matchingscore!=null) ", 매칭 점수 ${matchingscore}" else ""} \n"
     }
+
+    companion object{
+        var trainerprofile : TrainerProfile ?= null
+    }
 }

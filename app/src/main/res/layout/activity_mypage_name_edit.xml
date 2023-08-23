@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/name_edit_iv"
+        layout="@layout/toolbar_back"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"/>
+
+    <EditText
+        android:id="@+id/etAfterName"
+        android:layout_width="301dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="100dp"
+        android:ems="10"
+        android:hint="이름 입력(최대 8자)"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/btnNameEdit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnNameEdit"
+        android:layout_width="164dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="123dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="368dp"
+        android:background="@drawable/radius_search_button"
+        android:text="완료"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNowNameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="204dp"
+        android:text="현재 이름 :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_edit_iv" />
+
+    <TextView
+        android:id="@+id/tvNowName"
+        android:layout_width="76dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="224dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/tvNowNameTitle"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

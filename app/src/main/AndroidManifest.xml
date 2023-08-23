@@ -77,6 +77,9 @@
             android:exported="true"
             android:windowSoftInputMode="adjustNothing" />
         <activity
+            android:name=".myPage.MypageEditnameActivity"
+            android:exported="false"/>
+        <activity
             android:name=".myPage.PtApproveActivity"
             android:exported="false" />
         <activity

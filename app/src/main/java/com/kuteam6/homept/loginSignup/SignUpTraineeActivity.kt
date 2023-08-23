@@ -44,13 +44,12 @@ class SignUpTraineeActivity : AppCompatActivity() {
             }
             traineeProfileIntent.putExtra("birth", binding.traineeBirthDateEdit.text.toString())
 
-
             startActivity(traineeProfileIntent)
         }
 
         val passwordEditText = binding.traineePwEdit
 
-        passwordEditText.setOnFocusChangeListener { view, hasFocus ->
+        passwordEditText.setOnFocusChangeListener { _, hasFocus ->
             if(hasFocus){
                 passwordEditText.transformationMethod = null
             }
@@ -61,7 +60,7 @@ class SignUpTraineeActivity : AppCompatActivity() {
 
         val passwordEditText2 = binding.traineePwCheckEdit
 
-        passwordEditText.setOnFocusChangeListener { view, hasFocus ->
+        passwordEditText2.setOnFocusChangeListener { _, hasFocus ->
             if(hasFocus){
                 passwordEditText2.transformationMethod = null
             }

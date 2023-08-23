@@ -57,7 +57,7 @@ class MypageChangePwActivity : AppCompatActivity() {
 
             lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
                 var result :Boolean =  ApiManager.checkFindPassword(id,name,birth)
-                if(result==true){
+                if(result){
                     binding.btnFindPasswordChange.isEnabled=true
                     binding.tvFindpasswordResult.setText("계정 확인")
 

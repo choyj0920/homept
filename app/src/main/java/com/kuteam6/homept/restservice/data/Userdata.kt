@@ -13,7 +13,7 @@ import java.util.*
  * 가입전에는 uid가 -1로 지정되잇지 않으나 가입함수에서 리턴되면 uid가 지정
  */
 open class UserData(
-    val name: String,
+    var name: String,
     val id: String,
     val password: String,
     val gender: String,
