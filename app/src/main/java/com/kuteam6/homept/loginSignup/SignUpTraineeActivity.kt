@@ -60,7 +60,7 @@ class SignUpTraineeActivity : AppCompatActivity() {
 
         val passwordEditText2 = binding.traineePwCheckEdit
 
-        passwordEditText.setOnFocusChangeListener { _, hasFocus ->
+        passwordEditText2.setOnFocusChangeListener { _, hasFocus ->
             if(hasFocus){
                 passwordEditText2.transformationMethod = null
             }
