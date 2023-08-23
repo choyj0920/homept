@@ -22,20 +22,19 @@ class MypageEditnameActivity: AppCompatActivity() {
             startActivity(nameEditIntent)
         }
 
-        val beforeName = UserData.userdata?.name.toString()
-        binding.tvNowName.text = beforeName
+        val NowName = UserData.userdata?.name.toString()
+        binding.tvNowName.text = NowName
 
         binding.btnNameEdit.setOnClickListener {
-            binding.btnNameEdit.setOnClickListener {
-                val modifiedName = binding.etAfterName.text.toString()
-                val returnIntent = Intent()
-                returnIntent.putExtra("afterName", modifiedName)
-                setResult(Activity.RESULT_OK, returnIntent)
 
-                val nameEditCompleteIntent = Intent(this, MypageInfoActivity::class.java)
-                startActivity(nameEditCompleteIntent)
-                finish()
-            }
+            val modifiedName = binding.etAfterName.text.toString()
+            UserData.userdata?.name = modifiedName
+
+            val nameEditCompleteIntent = Intent(this, MypageInfoActivity::class.java)
+            nameEditCompleteIntent.putExtra("modified_name", modifiedName)
+            setResult(Activity.RESULT_OK, nameEditCompleteIntent)
+            finish()
+
         }
     }
 }

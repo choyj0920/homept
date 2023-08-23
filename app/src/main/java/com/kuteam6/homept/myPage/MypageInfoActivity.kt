@@ -72,10 +72,11 @@ class MypageInfoActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == NAME_EDIT_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            val afterName = data?.getStringExtra("afterName")
-            if(afterName != null){
-                binding.tvMyPageInfoName.text = afterName
-                UserData.userdata?.name == afterName
+            val afterChangedUserName = data?.getStringExtra("modified_name")
+            if(afterChangedUserName != null){
+                binding.tvMyPageInfoName.text = afterChangedUserName
+                UserData.userdata?.name == afterChangedUserName
+                Log.d("name",UserData.userdata?.name.toString())
             }
         }
     }

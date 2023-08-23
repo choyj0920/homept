@@ -95,7 +95,7 @@
         android:layout_height="92dp"
         android:layout_marginStart="31dp"
         android:drawableTop="@drawable/baseline_people_24"
-        android:text="담당 트레이너/ 트레이니"
+        android:text="내 리스트"
         app:layout_constraintBottom_toBottomOf="@+id/btnMyPageInfo"
         app:layout_constraintStart_toEndOf="@+id/btnMyPageInfo" />
 
@@ -103,12 +103,16 @@
         android:id="@+id/btnMyPageChat"
         android:layout_width="95dp"
         android:layout_height="92dp"
+        android:layout_marginStart="31dp"
         android:layout_marginEnd="36dp"
+        android:layout_marginBottom="136dp"
         android:drawableTop="@drawable/baseline_chat_24"
         android:paddingBottom="5dp"
         android:text="채팅"
-        app:layout_constraintBottom_toBottomOf="@+id/btnMyPageTrainer_Trainee"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/btnMyPageTrainer_Trainee" />
 
     <Button
         android:id="@+id/btnMyPageCareer"
@@ -121,5 +125,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/btnMypageHealthMBTI"
         app:layout_constraintStart_toEndOf="@+id/btnMypageHealthMBTI"
         app:layout_constraintTop_toBottomOf="@+id/btnMyPageTrainer_Trainee" />
+
+    <ImageView
+        android:id="@+id/ivPtApplyAlarm"
+        android:layout_width="39dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/baseline_notification_important_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
