@@ -1,11 +1,14 @@
 package com.kuteam6.homept.trainerRecommend
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kuteam6.homept.databinding.FragmentRecommendVpBinding
 import com.kuteam6.homept.databinding.ItemSearchBinding
 import com.kuteam6.homept.restservice.data.TrainerProfile
+import com.kuteam6.homept.restservice.data.UserData
 
 class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>) : RecyclerView.Adapter<RecommendVPAdapter.ViewHolder>() {
     lateinit var binding: FragmentRecommendVpBinding
@@ -15,6 +18,11 @@ class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>) : Rec
             binding.recommendTvName.text = trainerProfile.name
             binding.recommendTvCategory.text = trainerProfile.usercategory
             binding.recommendTvLesson.text = trainerProfile.lesson
+
+            Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
+            if(!UserData.userdata?.isTrainee!!) {
+                binding.btnPt.visibility = View.GONE
+            }
         }
     }
 

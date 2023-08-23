@@ -20,9 +20,19 @@ class HbtiResultActivity : AppCompatActivity() {
 
         setView()
 
+        // 툴바 설정
+        binding.toolbarBackIv.toolbarBackMainTv.text = "HBTI 검사 결과"
+        binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
+            finish()
+            val intent = Intent(this, HbtiStartActivity::class.java)
+            startActivity(intent)
+        }
+
         //리스너
         binding.btnMove.setOnClickListener {
+            finish()
             val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("fragment", "recommend")
             startActivity(intent)
         }
     }

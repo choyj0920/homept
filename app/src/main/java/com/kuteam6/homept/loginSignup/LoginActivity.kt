@@ -1,8 +1,10 @@
 package com.kuteam6.homept.loginSignup
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.HomeActivity
@@ -55,8 +57,10 @@ class LoginActivity : AppCompatActivity() {
                 var userData: UserData? = ApiManager.login(id, password); // 로그인된 Userdata
                 if(userData != null){
                     //로그인에 성공한 경우 동작
-                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    startActivity(intent)
+                    Log.d("isTrainee", userData.isTrainee.toString())
+                    UserData.userdata = userData
+                    val homeIntent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    startActivity(homeIntent)
                 }
                 else{
                     //로그인에 실패한 경우 동작

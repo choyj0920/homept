@@ -2,6 +2,7 @@ package com.kuteam6.homept.loginSignup
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivitySignupTrainerBinding
@@ -44,6 +45,28 @@ class SignUpTrainerActivity : AppCompatActivity() {
             trainerProfileIntent.putExtra("birth", binding.trainerBirthDateEdit.text.toString())
 
             startActivity(trainerProfileIntent)
+        }
+
+        val passwordEditText3 = binding.trainerPwEdit
+
+        passwordEditText3.setOnFocusChangeListener { view, hasFocus ->
+            if(hasFocus){
+                passwordEditText3.transformationMethod = null
+            }
+            else{
+                passwordEditText3.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
+        }
+
+        val passwordEditText4 = binding.trainerPwCheckEdit
+
+        passwordEditText4.setOnFocusChangeListener { view, hasFocus ->
+            if(hasFocus){
+                passwordEditText4.transformationMethod = null
+            }
+            else{
+                passwordEditText4.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
         }
 
         //트레이너로 잘못 들어간 경우 뒤로가기

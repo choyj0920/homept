@@ -8,19 +8,9 @@ import com.kuteam6.homept.restservice.data.MySession
 
 class MySessionAdapter(private val itemList : ArrayList<MySession>) : RecyclerView.Adapter<MySessionAdapter.ViewHolder>() {
 
-    private var listener : OnItemClickListener? = null
-    interface OnItemClickListener{
-        fun onItemClick(mySession: MySession)
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        this.listener = listener
-    }
-
     class ViewHolder(val binding: ItemMemberListBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(mySession: MySession){
             binding.mypageMemberTv.text = mySession.sid.toString()
-
         }
     }
 

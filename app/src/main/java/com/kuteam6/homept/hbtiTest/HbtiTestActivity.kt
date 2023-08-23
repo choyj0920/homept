@@ -29,6 +29,12 @@ class HbtiTestActivity : AppCompatActivity() {
         binding = ActivityHbtiTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 툴바 설정
+        binding.toolbarBackIv.toolbarBackMainTv.text = "HBTI 검사"
+        binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
+            finish()
+        }
+
         var hScore =0.0
         var bScore =0.0
         var fScore =0.0

@@ -25,13 +25,17 @@ class MypageMemberListActivity: AppCompatActivity() {
 
         binding.toolbarMypageMemberList.toolbarBackMainTv.text = "담당 리스트"
         binding.toolbarMypageMemberList.toolbarBackIv.setOnClickListener {
-            val memberListIntent = Intent(this@MypageMemberListActivity, MypageFragment::class.java)
-            startActivity(memberListIntent)
+            finish()
         }
 
         binding.rvSession.layoutManager = layoutManager
         binding.rvSession.adapter = sessionAdapter
         initGetSession()
+
+        binding.tvGetSessionResult.setOnClickListener {
+            val approveIntent = Intent(this, PtApproveActivity::class.java)
+            startActivity(approveIntent)
+        }
     }
 
     // 내 트레이니/트레이너 리스트 예시

@@ -18,6 +18,7 @@ import com.kuteam6.homept.hbtiTest.HbtiStartActivity
 import com.kuteam6.homept.myPage.MypageInfoActivity
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.TrainerProfile
+import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.tainerProfile.TrainersProfileActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -110,14 +111,18 @@ class RecommendFragment : Fragment() {
         }
 
         binding.trainerRecommendBtn.setOnClickListener{
-            Log.d("gender", gender.toString())
-            Log.d("location", location)
-
-            val recommendIntent = Intent(activity, RecommendActivity::class.java)
-            recommendIntent.putExtra("category", category)
-            recommendIntent.putExtra("gender", gender)
-            recommendIntent.putExtra("location", location)
-            startActivity(recommendIntent)
+            if (UserData.userdata?.isTrainee!!) {
+                if (UserData.userdata?.hbti == null) {
+                    val hbtiIntent = Intent(activity, HbtiStartActivity::class.java)
+                    startActivity(hbtiIntent)
+                } else {
+                    val recommendIntent = Intent(activity, RecommendActivity::class.java)
+                    recommendIntent.putExtra("category", category)
+                    recommendIntent.putExtra("gender", gender)
+                    recommendIntent.putExtra("location", location)
+                    startActivity(recommendIntent)
+                }
+            }
         }
     }
 }

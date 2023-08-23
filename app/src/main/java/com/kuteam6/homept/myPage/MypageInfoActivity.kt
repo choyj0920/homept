@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.databinding.ActivityMypageInfoBinding
 import com.kuteam6.homept.loginSignup.LoginActivity
+import com.kuteam6.homept.restservice.data.UserData
 
 class MypageInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityMypageInfoBinding
@@ -18,10 +19,14 @@ class MypageInfoActivity : AppCompatActivity() {
 
         binding.toolbarBackIv.toolbarBackMainTv.text = "회원 정보"
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-            searchTrainerIntent.putExtra("fragment", "mypage")
-            startActivity(searchTrainerIntent)
+            finish()
         }
+
+        // 회원 이름
+        val user_name = UserData.userdata?.name.toString()
+        binding.tvMyPageInfoName.text = user_name
+
+        // 전화번호
 
         //비밀 번호 변경 버튼 이벤트
         binding.btnMyPageChangePw.setOnClickListener {
