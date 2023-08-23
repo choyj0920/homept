@@ -14,6 +14,7 @@
         android:layout_height="?android:attr/actionBarSize" />
 
     <ScrollView
+        android:id="@+id/sv_hbti"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_back_iv">

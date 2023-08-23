@@ -5,12 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ScrollView
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivityHbtiTestBinding
 import com.kuteam6.homept.hbtiTest.questionConstants.BulkQuestionConstant
 import com.kuteam6.homept.hbtiTest.questionConstants.EnjoyQuestionConstant
 import com.kuteam6.homept.hbtiTest.questionConstants.FreeWeightQuestionConstant
 import com.kuteam6.homept.hbtiTest.questionConstants.HeavyQuestionConstant
+import com.kuteam6.homept.restservice.ApiManager
+import com.kuteam6.homept.restservice.data.UserData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class HbtiTestActivity : AppCompatActivity() {
 
@@ -54,6 +62,7 @@ class HbtiTestActivity : AppCompatActivity() {
                 R.id.rb_h3 -> hScore = 0.0
                 R.id.rb_h4 -> hScore = -6.25
                 R.id.rb_h5 -> hScore = -12.5
+                null -> hScore = 0.0
             }
         }
         binding.rgBulk.setOnCheckedChangeListener { group, checkedId ->
@@ -63,6 +72,7 @@ class HbtiTestActivity : AppCompatActivity() {
                 R.id.rb_b3 -> bScore = 0.0
                 R.id.rb_b4 -> bScore = -6.25
                 R.id.rb_b5 -> bScore = -12.5
+                null -> bScore = 0.0
             }
         }
         binding.rgFree.setOnCheckedChangeListener { group, checkedId ->
@@ -72,6 +82,7 @@ class HbtiTestActivity : AppCompatActivity() {
                 R.id.rb_f3 -> fScore = 0.0
                 R.id.rb_f4 -> fScore = -6.25
                 R.id.rb_f5 -> fScore = -12.5
+                null -> fScore = 0.0
             }
         }
         binding.rgEnjoy.setOnCheckedChangeListener { group, checkedId ->
@@ -81,6 +92,7 @@ class HbtiTestActivity : AppCompatActivity() {
                 R.id.rb_e3 -> eScore = 0.0
                 R.id.rb_e4 -> eScore = -6.25
                 R.id.rb_e5 -> eScore = -12.5
+                null -> eScore = 0.0
             }
         }
 
@@ -96,13 +108,27 @@ class HbtiTestActivity : AppCompatActivity() {
 
             Log.d("scoreList",scoreList[0].toString())
 
+
+            if(mCurrentPosition<HQuestionList!!.size)
             setQuestion()
 
             uncheckRadio()
 
+            binding.svHbti.fullScroll(ScrollView.FOCUS_UP)
+
             //제출 버튼 -> 1.서버에 hbti 값 저장  2.result 엑티비티로 score 넘겨주기
             if(mCurrentPosition-1 == HQuestionList!!.size){
                 //TODO 서버에 hbti 값 저장 (scoreList)
+
+                val uid = UserData.userdata!!.uid
+
+                //Main은 말 그대로 메인 쓰레드에 대한 Context이며 UI 갱신이나 Toast 등의 View 작업에 사용된다.
+                //IO는 네트워킹이나 내부 DB 접근 등 백그라운드에서 필요한 작업을 수행할 때 사용된다.
+                //Default는 크기가 큰 리스트를 다루거나 필터링을 수행하는 등 무거운 연산이 필요한 작업에 사용된다.
+
+                CoroutineScope(IO).launch {
+                    //TODO ApiManager.setHbti(uid,scoreList)
+                }
 
                 val intent = Intent(this, HbtiResultActivity::class.java)
                 intent.putExtra("scoreList",scoreList)
@@ -122,29 +148,33 @@ class HbtiTestActivity : AppCompatActivity() {
     }
 
     private fun uncheckRadio(){
-        binding.rbH1.isChecked = false
-        binding.rbH2.isChecked = false
-        binding.rbH3.isChecked = false
-        binding.rbH4.isChecked = false
-        binding.rbH5.isChecked = false
-
-        binding.rbB1.isChecked = false
-        binding.rbB2.isChecked = false
-        binding.rbB3.isChecked = false
-        binding.rbB4.isChecked = false
-        binding.rbB5.isChecked = false
-
-        binding.rbF1.isChecked = false
-        binding.rbF2.isChecked = false
-        binding.rbF3.isChecked = false
-        binding.rbF4.isChecked = false
-        binding.rbF5.isChecked = false
-
-        binding.rbE1.isChecked = false
-        binding.rbE2.isChecked = false
-        binding.rbE3.isChecked = false
-        binding.rbE4.isChecked = false
-        binding.rbE5.isChecked = false
+        binding.rgHeavy.clearCheck()
+        binding.rgBulk.clearCheck()
+        binding.rgFree.clearCheck()
+        binding.rgEnjoy.clearCheck()
+//        binding.rbH1.isChecked = false
+//        binding.rbH2.isChecked = false
+//        binding.rbH3.isChecked = false
+//        binding.rbH4.isChecked = false
+//        binding.rbH5.isChecked = false
+//
+//        binding.rbB1.isChecked = false
+//        binding.rbB2.isChecked = false
+//        binding.rbB3.isChecked = false
+//        binding.rbB4.isChecked = false
+//        binding.rbB5.isChecked = false
+//
+//        binding.rbF1.isChecked = false
+//        binding.rbF2.isChecked = false
+//        binding.rbF3.isChecked = false
+//        binding.rbF4.isChecked = false
+//        binding.rbF5.isChecked = false
+//
+//        binding.rbE1.isChecked = false
+//        binding.rbE2.isChecked = false
+//        binding.rbE3.isChecked = false
+//        binding.rbE4.isChecked = false
+//        binding.rbE5.isChecked = false
     }
 
     private fun setQuestion(){
