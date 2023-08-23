@@ -95,7 +95,7 @@ class HbtiTestActivity : AppCompatActivity() {
             uncheckRadio()
 
             //제출 버튼 -> 1.서버에 hbti 값 저장  2.result 엑티비티로 score 넘겨주기
-            if(mCurrentPosition == HQuestionList!!.size){
+            if(mCurrentPosition-1 == HQuestionList!!.size){
                 //TODO 서버에 hbti 값 저장 (scoreList)
 
                 val intent = Intent(this, HbtiResultActivity::class.java)
