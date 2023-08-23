@@ -30,9 +30,7 @@ class SnsUserPostsActivity : AppCompatActivity() {
 
         binding.toolbarBackIv.toolbarBackMainTv.text = intent.getStringExtra("name")
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val snsIntent = Intent(this, HomeActivity::class.java)
-            snsIntent.putExtra("fragment", "sns")
-            startActivity(snsIntent)
+            finish()
         }
         binding.toolbarBackIv.toolbarBackSubBtn.setImageResource(R.drawable.baseline_contact_page_24)
 

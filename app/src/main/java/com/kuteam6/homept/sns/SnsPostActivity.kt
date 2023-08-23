@@ -25,9 +25,7 @@ class SnsPostActivity : AppCompatActivity() {
 
         binding.toolbarBackIv.toolbarBackMainTv.text = intent.getStringExtra("name")
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val snsIntent = Intent(this, HomeActivity::class.java)
-            snsIntent.putExtra("fragment", "sns")
-            startActivity(snsIntent)
+            finish()
         }
 
         binding.snsPostCategoryTv.text = intent.getStringExtra("category")

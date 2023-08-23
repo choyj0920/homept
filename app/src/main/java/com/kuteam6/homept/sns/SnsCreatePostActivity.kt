@@ -24,9 +24,7 @@ class SnsCreatePostActivity : AppCompatActivity() {
         if (intent.getBooleanExtra("isCreate", true)) {
             binding.toolbarBackIv.toolbarBackMainTv.text = "새 게시물"
             binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-                val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-                searchTrainerIntent.putExtra("fragment", "sns")
-                startActivity(searchTrainerIntent)
+                finish()
             }
             binding.toolbarBackIv.toolbarBackSubTv.text = "완료"
 
@@ -60,9 +58,7 @@ class SnsCreatePostActivity : AppCompatActivity() {
         } else {
             binding.toolbarBackIv.toolbarBackMainTv.text = "게시물 수정"
             binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-                val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-                searchTrainerIntent.putExtra("fragment", "sns")
-                startActivity(searchTrainerIntent)
+                finish()
             }
 
             binding.toolbarBackIv.toolbarBackSubTv.text = "완료"
