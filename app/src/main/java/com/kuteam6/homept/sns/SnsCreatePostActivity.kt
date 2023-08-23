@@ -24,9 +24,7 @@ class SnsCreatePostActivity : AppCompatActivity() {
         if (intent.getBooleanExtra("isCreate", true)) {
             binding.toolbarBackIv.toolbarBackMainTv.text = "새 게시물"
             binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-                val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-                searchTrainerIntent.putExtra("fragment", "sns")
-                startActivity(searchTrainerIntent)
+                finish()
             }
             binding.toolbarBackIv.toolbarBackSubTv.text = "완료"
 
@@ -53,16 +51,12 @@ class SnsCreatePostActivity : AppCompatActivity() {
                     Log.d("category2", category)
                     var resultList = ApiManager.createPost(uid = UserData.userdata?.uid!!, title = binding.snsCreatePostTitleEt.text.toString(), content = binding.snsCreatePostContentEt.text.toString(), category = category)
                 }
-                val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-                searchTrainerIntent.putExtra("fragment", "sns")
-                startActivity(searchTrainerIntent)
+                finish()
             }
         } else {
             binding.toolbarBackIv.toolbarBackMainTv.text = "게시물 수정"
             binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-                val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-                searchTrainerIntent.putExtra("fragment", "sns")
-                startActivity(searchTrainerIntent)
+                finish()
             }
 
             binding.toolbarBackIv.toolbarBackSubTv.text = "완료"
@@ -95,9 +89,7 @@ class SnsCreatePostActivity : AppCompatActivity() {
                     Log.d("category2", category)
                     var resultList = ApiManager.editPost(uid = UserData.userdata?.uid!!, title = binding.snsCreatePostTitleEt.text.toString(), content = binding.snsCreatePostContentEt.text.toString(), category = category, pid = intent.getIntExtra("pid", 0))
                 }
-                val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-                searchTrainerIntent.putExtra("fragment", "sns")
-                startActivity(searchTrainerIntent)
+                finish()
             }
         }
 

@@ -23,8 +23,7 @@ class PtApproveActivity: AppCompatActivity() {
 
         binding.ptApproveToolbarBackIv.toolbarBackMainTv.text = "pt 승인"
         binding.ptApproveToolbarBackIv.toolbarBackIv.setOnClickListener {
-            val backIntent = Intent(this, MypageMemberListActivity::class.java)
-            startActivity(backIntent)
+            finish()
         }
 
         // 성별

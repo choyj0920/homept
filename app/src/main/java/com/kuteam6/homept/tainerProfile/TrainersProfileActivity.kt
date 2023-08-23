@@ -32,9 +32,7 @@ class TrainersProfileActivity : AppCompatActivity() {
 
         binding.toolbarBackIv.toolbarBackMainTv.text = "트레이너 프로필"
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-            searchTrainerIntent.putExtra("fragment", "search")
-            startActivity(searchTrainerIntent)
+            finish()
         }
 
         Log.d("isTrainee", UserData.userdata?.isTrainee.toString())

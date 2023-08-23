@@ -24,9 +24,7 @@ class PtApplyConfirmActivity: AppCompatActivity() {
 
         binding.backIv.toolbarBackMainTv.text = "PT 신청"
         binding.backIv.toolbarBackIv.setOnClickListener {
-
-            val ptConfirmIntent = Intent(this@PtApplyConfirmActivity, TrainersProfileActivity::class.java)
-            startActivity(ptConfirmIntent)
+            finish()
         }
 
        // Log.d("uid", UserData.userdata?.uid.toString())

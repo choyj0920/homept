@@ -22,8 +22,7 @@ class MypageUnregisterActivity: AppCompatActivity() {
 
         binding.toolbarBackIv.toolbarBackMainTv.text = "회원 탈퇴"
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            val searchTrainerIntent = Intent(this, MypageInfoActivity::class.java)
-            startActivity(searchTrainerIntent)
+            finish()
         }
 
         initUnregister()
