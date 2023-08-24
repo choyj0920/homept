@@ -47,11 +47,11 @@ class TrainerProfileActivity : AppCompatActivity() {
                 )
 
                 var userData: UserData? = ApiManager.register(user);
+                //완료를 누르면 로그인 화면으로
+                val intent = Intent(this@TrainerProfileActivity, LoginActivity::class.java)
+                startActivity(intent)
             }
 
-            //완료를 누르면 로그인 화면으로
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
         }
 
     }
