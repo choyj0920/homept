@@ -31,7 +31,9 @@
         <meta-data
             android:name="android.app.lib_name"
             android:value="" />
-
+        <activity
+            android:name=".sns.SnsCommentActivity"
+            android:exported="false"/>
         <activity
             android:name=".sns.SnsUserPostsActivity"
             android:exported="false" />
