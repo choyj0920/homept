@@ -84,6 +84,7 @@ class MypageFragment : Fragment() {
         Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
         if(UserData.userdata?.isTrainee!!){
             binding.ivPtApplyAlarm.visibility = View.GONE
+            binding.btnMyPageCareer.visibility = View.GONE
         }
 
         //PT 승인 거절 화면 이동

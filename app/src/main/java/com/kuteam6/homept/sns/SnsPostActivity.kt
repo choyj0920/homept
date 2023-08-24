@@ -48,6 +48,11 @@ class SnsPostActivity : AppCompatActivity() {
             startActivity(editIntent)
         }
 
+        //댓글 창으로 이동하는 부분
+        binding.snsCommentIv.setOnClickListener {
+            val commentIntent = Intent(this, SnsCommentActivity::class.java)
 
+            startActivity(commentIntent)
+        }
     }
 }
