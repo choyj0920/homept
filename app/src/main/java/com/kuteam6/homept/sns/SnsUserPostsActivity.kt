@@ -40,6 +40,7 @@ class SnsUserPostsActivity : AppCompatActivity() {
 
                 if (trainerProfile != null) {
                     val trainersProfileIntent = Intent(this@SnsUserPostsActivity, TrainersProfileActivity::class.java)
+                    trainersProfileIntent.putExtra("uid", trainerProfile?.uid)
                     trainersProfileIntent.putExtra("name", trainerProfile?.name)
                     trainersProfileIntent.putExtra("gender", trainerProfile?.gender)
                     trainersProfileIntent.putExtra("career", trainerProfile?.career)
