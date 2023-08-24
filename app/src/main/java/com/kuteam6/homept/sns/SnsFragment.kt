@@ -76,6 +76,7 @@ class SnsFragment : Fragment() {
                     override fun onUserItemClick(postdata: Postdata) {
                         val userPostIntent = Intent(context, SnsUserPostsActivity::class.java)
                         userPostIntent.putExtra("uid", postdata.uid)
+                        userPostIntent.putExtra("isTrainee", postdata.isTrainee)
                         userPostIntent.putExtra("name", postdata.name)
                         startActivity(userPostIntent)
                     }
@@ -157,6 +158,7 @@ class SnsFragment : Fragment() {
                         override fun onUserItemClick(postdata: Postdata) {
                             val userPostIntent = Intent(context, SnsUserPostsActivity::class.java)
                             userPostIntent.putExtra("uid", postdata.uid)
+                            userPostIntent.putExtra("isTrainee", postdata.isTrainee)
                             userPostIntent.putExtra("name", postdata.name)
                             startActivity(userPostIntent)
                         }

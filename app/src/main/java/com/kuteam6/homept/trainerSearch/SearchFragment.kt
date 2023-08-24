@@ -137,6 +137,7 @@ class SearchFragment : Fragment() {
                     searchAdapter!!.setOnItemClickListener(object : SearchAdapter.OnItemClickListener{
                         override fun onItemClick(trainerProfile: TrainerProfile) {
                             val trainersProfileIntent = Intent(context, TrainersProfileActivity::class.java)
+                            trainersProfileIntent.putExtra("uid", trainerProfile.uid)
                             trainersProfileIntent.putExtra("name", trainerProfile.name)
                             trainersProfileIntent.putExtra("gender", trainerProfile.gender)
                             trainersProfileIntent.putExtra("career", trainerProfile.career)
@@ -198,6 +199,7 @@ class SearchFragment : Fragment() {
                         searchAdapter!!.setOnItemClickListener(object : SearchAdapter.OnItemClickListener{
                             override fun onItemClick(trainerProfile: TrainerProfile) {
                                 val trainersProfileIntent = Intent(context, TrainersProfileActivity::class.java)
+                                trainersProfileIntent.putExtra("uid", trainerProfile.uid)
                                 trainersProfileIntent.putExtra("name", trainerProfile.name)
                                 trainersProfileIntent.putExtra("gender", trainerProfile.gender)
                                 trainersProfileIntent.putExtra("career", trainerProfile.career)
@@ -263,6 +265,7 @@ class SearchFragment : Fragment() {
                     searchAdapter!!.setOnItemClickListener(object : SearchAdapter.OnItemClickListener{
                         override fun onItemClick(trainerProfile: TrainerProfile) {
                             val trainersProfileIntent = Intent(context, TrainersProfileActivity::class.java)
+                            trainersProfileIntent.putExtra("uid", trainerProfile.uid)
                             trainersProfileIntent.putExtra("name", trainerProfile.name)
                             trainersProfileIntent.putExtra("gender", trainerProfile.gender)
                             trainersProfileIntent.putExtra("career", trainerProfile.career)

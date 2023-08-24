@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kuteam6.homept.HomeActivity
@@ -33,6 +34,10 @@ class SnsUserPostsActivity : AppCompatActivity() {
             finish()
         }
         binding.toolbarBackIv.toolbarBackSubBtn.setImageResource(R.drawable.baseline_contact_page_24)
+
+        if (intent.getBooleanExtra("isTrainee", false)) {
+            binding.toolbarBackIv.toolbarBackSubBtn.visibility = View.GONE
+        }
 
         binding.toolbarBackIv.toolbarBackSubBtn.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
