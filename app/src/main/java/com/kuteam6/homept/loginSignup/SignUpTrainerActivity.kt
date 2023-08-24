@@ -3,6 +3,7 @@ package com.kuteam6.homept.loginSignup
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivitySignupTrainerBinding
@@ -33,18 +34,36 @@ class SignUpTrainerActivity : AppCompatActivity() {
         }
 
         binding.btnSubmit.setOnClickListener {
-            val trainerProfileIntent = Intent(this@SignUpTrainerActivity, TrainerProfileActivity::class.java)
-            trainerProfileIntent.putExtra("name", binding.trainerNameEdit.text.toString())
-            trainerProfileIntent.putExtra("id", binding.trainerIdEdit.text.toString())
-            trainerProfileIntent.putExtra("pwd", binding.trainerPwEdit.text.toString())
-            if (binding.genderFemale.isChecked) {
-                trainerProfileIntent.putExtra("gender", "f")
-            } else {
-                trainerProfileIntent.putExtra("gender", "m")
-            }
-            trainerProfileIntent.putExtra("birth", binding.trainerBirthDateEdit.text.toString())
+            if (binding.trainerNameEdit.text.toString().trim().isEmpty()) {
+                Toast.makeText(this, "이름을 작성해주세요", Toast.LENGTH_SHORT).show()
+            } else if (binding.trainerIdEdit.text.toString().trim().isEmpty()) {
+                Toast.makeText(this, "아이디를 작성해주세요", Toast.LENGTH_SHORT).show()
+            } else if (binding.trainerPwEdit.text.toString().trim().isEmpty()) {
+                Toast.makeText(this, "비밀번호를 작성해주세요", Toast.LENGTH_SHORT).show()
+            } else if (binding.trainerPwCheckEdit.text.toString().trim().isEmpty()) {
+                Toast.makeText(this, "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show()
+            } else if (!binding.genderFemale.isChecked && !binding.genderMale.isChecked) {
+                Toast.makeText(this, "성별을 선택해주세요", Toast.LENGTH_SHORT).show()
+            } else if (binding.trainerBirthDateEdit.text.toString().trim().isEmpty()) {
+                Toast.makeText(this, "생년월일을 작성해주세요", Toast.LENGTH_SHORT).show()
+            } else if (binding.trainerPwEdit.text.toString() != binding.trainerPwCheckEdit.text.toString()) {
+                Toast.makeText(this, "입력한 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+            } else if (binding.checkId.text == "아이디중복x") {
+                val traineeProfileIntent = Intent(this@SignUpTrainerActivity, TrainerProfileActivity::class.java)
+                traineeProfileIntent.putExtra("name", binding.trainerNameEdit.text.toString())
+                traineeProfileIntent.putExtra("id", binding.trainerIdEdit.text.toString())
+                traineeProfileIntent.putExtra("pwd", binding.trainerPwEdit.text.toString())
+                if (binding.genderFemale.isChecked) {
+                    traineeProfileIntent.putExtra("gender", "f")
+                } else {
+                    traineeProfileIntent.putExtra("gender", "m")
+                }
+                traineeProfileIntent.putExtra("birth", binding.trainerBirthDateEdit.text.toString())
 
-            startActivity(trainerProfileIntent)
+                startActivity(traineeProfileIntent)
+            } else {
+                Toast.makeText(this, "아이디 중복 확인해주세요", Toast.LENGTH_SHORT).show()
+            }
         }
 
         val passwordEditText3 = binding.trainerPwEdit
@@ -71,8 +90,7 @@ class SignUpTrainerActivity : AppCompatActivity() {
 
         //트레이너로 잘못 들어간 경우 뒤로가기
         binding.trainerCloseIv.setOnClickListener {
-            val trainerSignUpBackIntent = Intent(this, SignUpActivity::class.java)
-            startActivity(trainerSignUpBackIntent)
+            finish()
         }
     }
 }

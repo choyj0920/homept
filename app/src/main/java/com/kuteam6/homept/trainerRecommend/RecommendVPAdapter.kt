@@ -1,5 +1,6 @@
 package com.kuteam6.homept.trainerRecommend
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kuteam6.homept.databinding.FragmentRecommendVpBinding
 import com.kuteam6.homept.databinding.ItemSearchBinding
+import com.kuteam6.homept.restservice.data.Postdata
 import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.restservice.data.UserData
+import com.kuteam6.homept.tainerProfile.PtApplyConfirmActivity
+import kotlin.coroutines.coroutineContext
 
 class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>) : RecyclerView.Adapter<RecommendVPAdapter.ViewHolder>() {
     lateinit var binding: FragmentRecommendVpBinding
+    private lateinit var itemClickListener : OnItemClickListener
+
+    interface OnItemClickListener{
+        fun onItemClick(trainerProfile: TrainerProfile)
+    }
+
+    fun setOnItemClickListener(onItemClickListener : OnItemClickListener) {
+        itemClickListener = onItemClickListener
+    }
 
     inner class ViewHolder(val binding : FragmentRecommendVpBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(trainerProfile: TrainerProfile) {
@@ -22,6 +35,10 @@ class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>) : Rec
             Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
             if(!UserData.userdata?.isTrainee!!) {
                 binding.btnPt.visibility = View.GONE
+            }
+
+            binding.btnPt.setOnClickListener {
+                itemClickListener.onItemClick(trainerProfile)
             }
         }
     }

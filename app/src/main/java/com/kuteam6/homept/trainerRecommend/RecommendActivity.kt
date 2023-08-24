@@ -12,6 +12,7 @@ import com.kuteam6.homept.databinding.ActivityRecommendBinding
 import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.TrainerProfile
+import com.kuteam6.homept.tainerProfile.PtApplyConfirmActivity
 import com.kuteam6.homept.tainerProfile.TrainersProfileActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,9 +31,6 @@ class RecommendActivity : AppCompatActivity() {
         // 툴바 설정
         binding.toolbarBackIv.toolbarBackMainTv.text = "트레이너 추천"
         binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-//            val searchTrainerIntent = Intent(this, HomeActivity::class.java)
-//            searchTrainerIntent.putExtra("fragment", "recommend")
-//            startActivity(searchTrainerIntent)
             finish()
         }
 
@@ -76,6 +74,13 @@ class RecommendActivity : AppCompatActivity() {
             binding.recommendVp.adapter = recommendVPAdapter
             binding.recommendVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             binding.recommendTvViewpager.text = getString(R.string.recommend_viewpager_text, 1, recommendList.size)
+            recommendVPAdapter!!.setOnItemClickListener(object : RecommendVPAdapter.OnItemClickListener {
+                override fun onItemClick(trainerProfile: TrainerProfile) {
+                    val applyConfirmIntent = Intent(this@RecommendActivity, PtApplyConfirmActivity::class.java)
+                    applyConfirmIntent.putExtra("trainerUid", trainerProfile.uid)
+                    startActivity(applyConfirmIntent)
+                }
+            })
         }
         binding.recommendVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {

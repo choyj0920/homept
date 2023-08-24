@@ -64,7 +64,7 @@ class TrainersProfileActivity : AppCompatActivity() {
         //PT 신청 버튼을 누르면 신청 창으로
         binding.btnPt.setOnClickListener {
             val applyConfirmIntent = Intent(this@TrainersProfileActivity, PtApplyConfirmActivity::class.java)
-            applyConfirmIntent.putExtra("trainerUid", TrainerProfile.trainerprofile?.uid?:-1)
+            applyConfirmIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
             startActivity(applyConfirmIntent)
         }
 
