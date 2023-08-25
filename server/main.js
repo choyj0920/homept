@@ -971,7 +971,7 @@ app.post("/sns/editpost", function (req, res) {
   });
 });
 
-// 내 글 리스트
+// 글 리스트
 app.post("/sns/getPost", function (req, res) {
   console.log(`${new Date().toLocaleString("ko-kr")} [get post list]`);
 
@@ -1072,6 +1072,168 @@ app.post("/trainer/getProfile", function (req, res) {
       code: resultCode,
       message: message,
       trainerProfile: trainerProfile,
+    });
+  });
+});
+
+// 댓글글작성
+app.post("/sns/createComment", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [댓글 작성 ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var uid = dereq.body.uid;
+  var pid = dereq.body.pid;
+  var content = dereq.body.content;
+
+  var sql =
+    "INSERT INTO comment (uid,pid,content,create_at) VALUES (?,?,?,now());";
+  var params = [uid, pid, content];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var commentid = null;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "댓글 작성-오류";
+    } else {
+      if (result.insertId >= 0) {
+        resultCode = 200;
+        message = "글 작성 완료";
+        commentid = result.insertId;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      commentid: commentid,
+    });
+  });
+});
+
+// 댓글 삭제
+app.post("/sns/deleteComment", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [댓글 삭제...]`);
+  console.log(req.body);
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  var uid = dereq.body.uid;
+  var cid = dereq.body.cid;
+
+  // 글 삭제 코드
+  var sql = "delete FROM comment where uid = ? AND cid= ?;";
+  var params = [uid, cid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var isDeleted = false;
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "오류 발생";
+    } else if (result.affectedRows > 0) {
+      // 영향을 받은 행의 개수가 1 이상일 경우 삭제 성공으로 간주
+      resultCode = 200;
+      message = "댓글 삭제 완료";
+      isDeleted = true;
+    } else {
+      // 영향을 받은 행이 없을 경우 삭제 실패로 간주
+      resultCode = 404;
+      message = "댓글 삭제 오류";
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      isDeleted: isDeleted,
+    });
+  });
+});
+
+// 댓글 수정
+app.post("/sns/editComment", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [댓글 수정 ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var cid = dereq.body.cid;
+  var uid = dereq.body.uid;
+  var content = dereq.body.content;
+
+  var sql =
+    "update comment set content=?, create_at=now() where cid = ? and uid=?";
+  var params = [content, cid, uid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "댓글 수정-오류";
+    } else {
+      if (result.affectedRows >= 0) {
+        resultCode = 200;
+        message = "댓글 수정 완료";
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+    });
+  });
+});
+
+// 글의 댓글 리스트
+app.post("/sns/getComment", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [get post list]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var pid = dereq.body.pid;
+
+  var sql = `select pid,u.uid,name,if(role = "1",'true','false') as isTrainee, content,create_at from comment as co inner join user as u on co.uid=u.uid where pid=? order by create_at ;`;
+  var params = [pid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var comments = [];
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "댓글 리스트 오류 발생";
+    } else {
+      if (result.length >= 0) {
+        resultCode = 200;
+        message = "댓글 리스트 성공";
+        comments = result;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      comments: comments,
     });
   });
 });
