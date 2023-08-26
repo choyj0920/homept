@@ -115,6 +115,46 @@ interface ApiService {
         @Body getPostRequest: GetPostRequest
     ): Response<GetPostResponse?>
 
+    @POST("/sns/createComment")
+    suspend fun createComment(
+        @Body createCommentRequest: CreateCommentRequest
+    ): Response<CreateCommentResponse?>
+
+    @POST("/sns/editComment")
+    suspend fun editComment(
+        @Body editCommentRequest: EditCommentRequest
+    ): Response<CommonResponse?>
+
+    @POST("/sns/deleteComment")
+    suspend fun deleteComment(
+        @Body deleteCommentRequest: DeleteCommentRequest
+    ): Response<CommonResponse?>
+
+    @POST("/sns/getComment")
+    suspend fun getComment(
+        @Body getCommentRequest: GetCommentRequest
+    ): Response<GetCommentResponse?>
+
+    @POST("/Review/Create")
+    suspend fun createReview(
+        @Body createReviewRequest: CreateReviewRequest
+    ): Response<CommonResponse?>
+
+    @POST("/Review/Edit")
+    suspend fun editReview(
+        @Body editReviewRequest: EditReviewRequest
+    ): Response<CommonResponse?>
+
+    @POST("/Review/Delete")
+    suspend fun deleteReview(
+        @Body deleteReviewRequest: DeleteReviewRequest
+    ): Response<CommonResponse?>
+
+    @POST("/Review/get")
+    suspend fun getReview(
+        @Body getReviewRequest: GetReviewRequest
+    ): Response<GetReviewResponse?>
+
 }
 
 // 해당 클래스는 싱글톤패턴 클래스로 getinstance로 가져와야함
@@ -562,6 +602,40 @@ object ApiManager {
         null
     }
 
+    /**
+     * 트레이너 프로필 가져오기 -트레이너 서치의 리스트의 객체와 같은 클래스 리턴
+     *
+     * 트레이너의 uid를 매개로 하여
+     *
+     * 트레이너 프로필을 리턴, 오류 null리턴
+     */
+    suspend fun getTrainerProfile (trainerUid:Int): TrainerProfile? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.getTrainerProfile(
+                GetTrainerProfileRequest(trainerUid)
+            )
+            if(response.isSuccessful){
+
+                val resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  response.body()!!.trainerProfile
+                }
+                else{
+                    Log.d("TAG","getTrainerProfile ${response.body()?.message}")
+                    return@withContext null
+                }
+            }else{
+                Log.d("TAG","getTrainerProfile ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
+
+
+    // SNS
+    // 게시글 api
 
     /**
      * createPost 유저가 글 작성 -
@@ -686,30 +760,126 @@ object ApiManager {
         null
     }
 
+
+    // 댓글 api
+
     /**
-     * 트레이너 프로필 가져오기 -트레이너 서치의 리스트의 객체와 같은 클래스 리턴
+     * createComment 유저가 게시글의 댓글 작성 -
      *
-     * 트레이너의 uid를 매개로 하여
+     *유저의 uid, 게시글의 pid ,내용 를 매개
      *
-     * 트레이너 프로필을 리턴, 오류 null리턴
+     * 댓글이 작성되면 작성 된 댓글의 cid 리턴, 작성 오류시 null 리턴
      */
-    suspend fun getTrainerProfile (trainerUid:Int): TrainerProfile? = withContext(Dispatchers.IO){
+    suspend fun createComment (uid:Int,pid:Int,content:String): Int? = withContext(Dispatchers.IO){
         try {
-            val response= apiService.getTrainerProfile(
-                GetTrainerProfileRequest(trainerUid)
+            val response= apiService.createComment(
+                CreateCommentRequest(uid, pid,content)
             )
             if(response.isSuccessful){
 
                 val resultcode =response.body()?.code
                 if(resultcode==200) {
-                    return@withContext  response.body()!!.trainerProfile
+                    return@withContext  response.body()!!.commentid
                 }
                 else{
-                    Log.d("TAG","getTrainerProfile ${response.body()?.message}")
+                    Log.d("TAG","createComment ${response.body()?.message}")
                     return@withContext null
                 }
             }else{
-                Log.d("TAG","getTrainerProfile ${response.body()?.message}")
+                Log.d("TAG","createComment ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
+
+    /**
+     * 댓글 삭제 deleteComment  게시글의 댓글 삭제
+     *
+     * 유저의 uid, 댓글의 cid 를 매개
+     *
+     * 댓글이 삭제되면 true, 삭제된게 없을시 false
+     */
+    suspend fun deleteComment (uid:Int,cid:Int): Boolean = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.deleteComment(
+                DeleteCommentRequest(uid, cid)
+            )
+            if(response.isSuccessful){
+
+                val resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext true
+                }
+                else{
+                    Log.d("TAG","deleteComment ${response.body()?.message}")
+                    return@withContext false
+                }
+            }else{
+                Log.d("TAG","deleteComment ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+    /**
+     * 댓글 수정 editComment  유저가 글 수정
+     *
+     * 작성유저의 uid, 수정될 댓글의 cid , 내용을 매개변수로
+     *
+     *   댓글이 수정되면 true리턴 , 수정 오류시 false
+     */
+    suspend fun editComment (uid:Int, cid: Int,content:String): Boolean = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.editComment(
+                EditCommentRequest(uid, cid,content)
+            )
+            if(response.isSuccessful){
+
+                val resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext true
+                }
+                else{
+                    Log.d("TAG","editComment ${response.body()?.message}")
+                    return@withContext false
+                }
+            }else{
+                Log.d("TAG","editComment ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+    /**
+     * 댓글 리스트 get 해당 게시물의 댓글을 가져온다
+     *
+     * 게시글의 pid 를 매개변수
+     *
+     * 댓글 리스트 리턴 오류시 null 리턴
+     */
+    suspend fun getComment (pid :Int): List<Comment>? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.getComment(
+                GetCommentRequest(pid)
+            )
+            if(response.isSuccessful){
+
+                val resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  response.body()!!.comments
+                }
+                else{
+                    Log.d("TAG","getPost ${response.body()?.message}")
+                    return@withContext null
+                }
+            }else{
+                Log.d("TAG","getPost ${response.body()?.message}")
             }
         }catch (e :Exception){
             Log.d("TAG","error 발생 :--------${e}")
@@ -719,12 +889,140 @@ object ApiManager {
 
 
 
+    // 리뷰 api
 
+    /**
+     * createReview 트레이니가 트레이너의 리뷰 작성 - 아마 session의 존재여부 확인하고 함수실항하는식으로 해야할듯
+     *
+     * 트레이너uid, 트레이니 uid, 별점 (0.0~ 10.0) db자료구조가 demical(3,1)로 되어잇음 ,내용 를 매개
+     *
+     * 리뷰 작성되면 true 리턴 , 작성 오류시 false 리턴 -> 리뷰는 따로 pk id가 없으며, traineruid,traineeuid가 pk이다
+     */
+    suspend fun createReview (traineruid:Int,traineeuid:Int,score:Double,content:String): Boolean = withContext(Dispatchers.IO){
+        if(score<0.0 || score>10.0 ){
+            Log.d("TAG","createReview score은 0<= score<=10 을 만족해야합니다.")
+            return@withContext false;
+        }
+        try {
+            val response= apiService.createReview(
+                CreateReviewRequest(traineruid, traineeuid,content,score)
+            )
+            if(response.isSuccessful){
 
+                val resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  true;
+                }
+                else{
+                    Log.d("TAG","createReview ${response.body()?.message}")
+                    return@withContext false
+                }
+            }else{
+                Log.d("TAG","createReview ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
 
+    /**
+     * deleteReview 작성된 리뷰 삭제
+     *
+     * 트레이너uid, 트레이니 uid 를 매개 -> 리뷰는 따로 pk id가 없으며, traineruid,traineeuid가 pk이다
+     *
+     * 리뷰 삭제되면 true 리턴 , 삭제 오류시 false 리턴
+     */
+    suspend fun deleteReview (traineruid:Int,traineeuid:Int): Boolean = withContext(Dispatchers.IO){
 
+        try {
+            val response= apiService.deleteReview(
+                deleteReviewRequest = DeleteReviewRequest(traineruid, traineeuid)
+            )
+            if(response.isSuccessful){
 
+                val resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  true;
+                }
+                else{
+                    Log.d("TAG","deleteReview ${response.body()?.message}")
+                    return@withContext false
+                }
+            }else{
+                Log.d("TAG","deleteReview ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
 
+    /**
+     * createReview 트레이니가 트레이너의 리뷰 작성 - 아마 session의 존재여부 확인하고 함수실항하는식으로 해야할듯
+     *
+     * 트레이너uid, 트레이니 uid, 별점 (0.0~ 10.0) db자료구조가 demical(3,1)로 되어잇음 ,내용 를 매개
+     *
+     * 리뷰 작성되면 true 리턴 , 작성 오류시 false 리턴 -> 리뷰는 따로 pk id가 없으며, traineruid,traineeuid가 pk이다
+     */
+    suspend fun editReview (traineruid:Int,traineeuid:Int,score:Double,content:String): Boolean = withContext(Dispatchers.IO){
+        if(score<0.0 || score>10.0 ){
+            Log.d("TAG","editReview score은 0<= score<=10 을 만족해야합니다.")
+            return@withContext false;
+        }
+        try {
+            val response= apiService.editReview(
+                EditReviewRequest(traineruid, traineeuid,content,score)
+            )
+            if(response.isSuccessful){
+
+                val resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  true;
+                }
+                else{
+                    Log.d("TAG","editReview ${response.body()?.message}")
+                    return@withContext false
+                }
+            }else{
+                Log.d("TAG","editReview ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        false
+    }
+
+    /**
+     * getReview 리뷰 리스트 해당 트레이너의 리뷰를 가져온다
+     *
+     * traineruid를 매개로 받는다.
+     *
+     * 리뷰 리스트 리턴 오류시 null 리턴
+     */
+    suspend fun getReview (traineruid :Int): List<Review>? = withContext(Dispatchers.IO){
+        try {
+            val response= apiService.getReview(
+                GetReviewRequest(traineruid)
+            )
+            if(response.isSuccessful){
+
+                val resultcode =response.body()?.code
+                if(resultcode==200) {
+                    return@withContext  response.body()!!.reviews
+                }
+                else{
+                    Log.d("TAG","getReview ${response.body()?.message}")
+                    return@withContext null
+                }
+            }else{
+                Log.d("TAG","getReview ${response.body()?.message}")
+            }
+        }catch (e :Exception){
+            Log.d("TAG","error 발생 :--------${e}")
+        }
+        null
+    }
 
 
 

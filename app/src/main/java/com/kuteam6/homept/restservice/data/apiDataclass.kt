@@ -467,3 +467,136 @@ data class Postdata(
 }
 
 
+/**
+ * createComment req , res
+ */
+data class CreateCommentRequest(
+    @SerializedName("uid") val uid: Int,
+    @SerializedName("pid") val pid: Int,
+    @SerializedName("content") val content: String="",
+)
+
+data class CreateCommentResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("commentid")
+    val commentid: Int,
+)
+/**
+ * deleteComment req , res
+ */
+data class DeleteCommentRequest(
+    @SerializedName("uid") val uid: Int,
+    @SerializedName("cid") val cid: Int,
+)
+
+/**
+ * editComment req , res
+ */
+data class EditCommentRequest(
+    @SerializedName("uid") val uid: Int,
+    @SerializedName("cid") val cid: Int,
+    @SerializedName("content") val content: String="",
+)
+
+
+/**
+ * getComment req , res
+ */
+data class GetCommentRequest(
+    @SerializedName("pid") val pid: Int,
+)
+data class GetCommentResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("comments")
+    val comments: List<Comment>,
+)
+data class Comment(
+    @SerializedName("pid")
+    val pid: Int,
+    @SerializedName("uid")
+    val uid: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("isTrainee")
+    val isTrainee: Boolean,
+    @SerializedName("content")
+    val content: String,
+    @SerializedName("create_at")
+    val create_at: String,
+
+    ){
+    override fun toString(): String {
+        return "pid(${pid}) 작성자 ${if(isTrainee)"트레이니" else "트레이너"} ${name}(${uid}) 내용: ${content}, 작성일 ${create_at} \n\n"
+    }
+}
+
+
+
+
+/**
+ * createReview req , res
+ */
+data class CreateReviewRequest(
+    @SerializedName("traineruid") val traineruid: Int,
+    @SerializedName("traineeuid") val traineeuid: Int,
+    @SerializedName("content") val content: String="",
+    @SerializedName("score") val score: Double,
+)
+
+
+/**
+ * deleteComment req , res
+ */
+data class DeleteReviewRequest(
+    @SerializedName("traineruid") val traineruid: Int,
+    @SerializedName("traineeuid") val traineeuid: Int,
+)
+
+/**
+ * editComment req , res
+ */
+data class EditReviewRequest(
+    @SerializedName("traineruid") val traineruid: Int,
+    @SerializedName("traineeuid") val traineeuid: Int,
+    @SerializedName("content") val content: String="",
+    @SerializedName("score") val score: Double,
+)
+
+/**
+ * getComment req , res
+ */
+data class GetReviewRequest(
+    @SerializedName("traineruid") val traineruid: Int,
+)
+data class GetReviewResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("reviews")
+    val reviews: List<Review>,
+)
+data class Review(
+    @SerializedName("uid")
+    val uid: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("score")
+    val score: Double,
+    @SerializedName("content")
+    val content: String,
+    @SerializedName("create_at")
+    val create_at: String,
+
+    ){
+    override fun toString(): String {
+        return "작성자 ${name}(${uid}) 내용: ${content}, 별점 :${score},작성일 ${create_at} \n\n"
+    }
+}
+
