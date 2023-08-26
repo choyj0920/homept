@@ -1201,7 +1201,7 @@ app.post("/sns/editComment", function (req, res) {
 
 // 글의 댓글 리스트
 app.post("/sns/getComment", function (req, res) {
-  console.log(`${new Date().toLocaleString("ko-kr")} [get post list]`);
+  console.log(`${new Date().toLocaleString("ko-kr")} [get comment list]`);
 
   // dereq=decryptAES128(req);
   dereq = req;
@@ -1234,6 +1234,164 @@ app.post("/sns/getComment", function (req, res) {
       code: resultCode,
       message: message,
       comments: comments,
+    });
+  });
+});
+
+// 리뷰 작성
+app.post("/Review/Create", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [리뷰 작성 ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var traineruid = dereq.body.traineruid;
+  var traineeuid = dereq.body.traineeuid;
+  var content = dereq.body.content;
+  var score = dereq.body.score;
+
+  var sql =
+    "INSERT INTO Review (traineruid,traineeuid,content,score,create_at) VALUES (?,?,?,?,now());";
+  var params = [traineruid, traineeuid, content, score];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "리뷰 작성-오류";
+    } else {
+      if (result.insertId >= 0) {
+        resultCode = 200;
+        message = "리뷰 작성 완료";
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+    });
+  });
+});
+
+// 리뷰 삭제
+app.post("/Review/Delete", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [리뷰 삭제...]`);
+  console.log(req.body);
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  var traineruid = dereq.body.traineruid;
+  var traineeuid = dereq.body.traineeuid;
+
+  // 글 삭제 코드
+  var sql = "delete FROM Review where traineruid = ? AND traineeuid= ?;";
+  var params = [traineruid, traineeuid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "리뷰 삭제 오류 발생";
+    } else if (result.affectedRows > 0) {
+      // 영향을 받은 행의 개수가 1 이상일 경우 삭제 성공으로 간주
+      resultCode = 200;
+      message = "리뷰 삭제 완료";
+    } else {
+      // 영향을 받은 행이 없을 경우 삭제 실패로 간주
+      resultCode = 404;
+      message = "리뷰 삭제 오류";
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+    });
+  });
+});
+
+// 리뷰 수정
+app.post("/Review/Edit", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [리뷰 수정 ]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var traineruid = dereq.body.traineruid;
+  var traineeuid = dereq.body.traineeuid;
+  var content = dereq.body.content;
+  var score = dereq.body.score;
+
+  var sql =
+    "update Review set content=?, score=?,create_at=now() where traineruid = ? and traineeuid=?";
+  var params = [content, score, traineruid, traineeuid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "리뷰 수정-오류";
+    } else {
+      if (result.affectedRows >= 0) {
+        resultCode = 200;
+        message = "리뷰 수정 완료";
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+    });
+  });
+});
+
+// 트레이너의 리뷰 리스트
+app.post("/Review/Get", function (req, res) {
+  console.log(`${new Date().toLocaleString("ko-kr")} [get review list]`);
+
+  // dereq=decryptAES128(req);
+  dereq = req;
+
+  console.log(dereq.body);
+
+  var traineruid = dereq.body.traineruid;
+
+  var sql = `select u.uid,name,score ,content,create_at from Review as re inner join user as u on re.traineeuid=u.uid where traineruid=? order by create_at;`;
+  var params = [traineruid];
+
+  connection.query(sql, params, function (err, result) {
+    var resultCode = 404;
+    var message = "에러가 발생했습니다";
+    var reviews = [];
+
+    if (err) {
+      console.log(err);
+      resultCode = 400;
+      message = "리뷰 리스트 오류 발생";
+    } else {
+      if (result.length >= 0) {
+        resultCode = 200;
+        message = "리뷰 리스트 성공";
+        reviews = result;
+      }
+    }
+
+    res.json({
+      code: resultCode,
+      message: message,
+      reviews: reviews,
     });
   });
 });
