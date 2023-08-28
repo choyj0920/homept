@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnAttach
 import androidx.core.view.doOnDetach
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
 
-class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>, private val context: Context) : RecyclerView.Adapter<RecommendVPAdapter.ViewHolder>() {
+class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>, private val context: Context, private val lifecycleCoroutineScope: LifecycleCoroutineScope) : RecyclerView.Adapter<RecommendVPAdapter.ViewHolder>() {
     lateinit var binding: FragmentRecommendVpBinding
     private lateinit var itemClickListener : OnItemClickListener
 
@@ -39,16 +40,8 @@ class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>, priva
     }
 
     inner class ViewHolder(val binding : FragmentRecommendVpBinding) : RecyclerView.ViewHolder(binding.root) {
-        var lifecycleOwner: LifecycleOwner? = null
         var reviewDatas = arrayListOf<Review>()
-        init {
-            itemView.doOnAttach {
-                lifecycleOwner = itemView.findViewTreeLifecycleOwner()
-            }
-            itemView.doOnDetach {
-                lifecycleOwner = null
-            }
-        }
+
         fun bind(trainerProfile: TrainerProfile) {
             binding.recommendTvName.text = trainerProfile.name
             binding.recommendTvCategory.text = trainerProfile.usercategory
@@ -59,7 +52,7 @@ class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>, priva
                 binding.btnPt.visibility = View.GONE
             }
 
-            lifecycleOwner?.lifecycleScope?.launch(Dispatchers.Main) {
+            lifecycleCoroutineScope.launch(Dispatchers.Main) {
                 val reviewList =  ApiManager.getReview(trainerProfile.uid)
                 if (reviewList != null) {
                     reviewDatas = reviewList.toTypedArray().toCollection(ArrayList<Review>())
