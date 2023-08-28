@@ -101,7 +101,13 @@ class SearchFragment : Fragment() {
         Log.d("category", category)
 
         binding.searchSelectCategoryBtn.setOnClickListener {
+            val args = Bundle();
+            args.putBoolean("isSelected", false)
+
             val dialogFragment = CategoryDialog()
+
+            dialogFragment.arguments = args
+
             dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
                 override fun onValueSelected(value: String) {
                     category = value

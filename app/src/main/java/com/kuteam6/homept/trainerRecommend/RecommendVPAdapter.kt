@@ -1,20 +1,32 @@
 package com.kuteam6.homept.trainerRecommend
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnAttach
+import androidx.core.view.doOnDetach
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kuteam6.homept.databinding.FragmentRecommendVpBinding
 import com.kuteam6.homept.databinding.ItemSearchBinding
+import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.Postdata
+import com.kuteam6.homept.restservice.data.Review
 import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.tainerProfile.PtApplyConfirmActivity
+import com.kuteam6.homept.tainerProfile.ReviewAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
 
-class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>) : RecyclerView.Adapter<RecommendVPAdapter.ViewHolder>() {
+class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>, private val context: Context) : RecyclerView.Adapter<RecommendVPAdapter.ViewHolder>() {
     lateinit var binding: FragmentRecommendVpBinding
     private lateinit var itemClickListener : OnItemClickListener
 
@@ -27,6 +39,16 @@ class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>) : Rec
     }
 
     inner class ViewHolder(val binding : FragmentRecommendVpBinding) : RecyclerView.ViewHolder(binding.root) {
+        var lifecycleOwner: LifecycleOwner? = null
+        var reviewDatas = arrayListOf<Review>()
+        init {
+            itemView.doOnAttach {
+                lifecycleOwner = itemView.findViewTreeLifecycleOwner()
+            }
+            itemView.doOnDetach {
+                lifecycleOwner = null
+            }
+        }
         fun bind(trainerProfile: TrainerProfile) {
             binding.recommendTvName.text = trainerProfile.name
             binding.recommendTvCategory.text = trainerProfile.usercategory
@@ -35,6 +57,16 @@ class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>) : Rec
             Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
             if(!UserData.userdata?.isTrainee!!) {
                 binding.btnPt.visibility = View.GONE
+            }
+
+            lifecycleOwner?.lifecycleScope?.launch(Dispatchers.Main) {
+                val reviewList =  ApiManager.getReview(trainerProfile.uid)
+                if (reviewList != null) {
+                    reviewDatas = reviewList.toTypedArray().toCollection(ArrayList<Review>())
+                    val reviewAdapter = ReviewAdapter(reviewDatas)
+                    binding.trainerReviewRv.adapter = reviewAdapter
+                    binding.trainerReviewRv.layoutManager = LinearLayoutManager(context)
+                }
             }
 
             binding.btnPt.setOnClickListener {

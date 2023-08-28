@@ -94,7 +94,13 @@ class RecommendFragment : Fragment() {
         Log.d("category", category)
 
         binding.recommendSelectCategoryBtn.setOnClickListener {
+            val args = Bundle();
+            args.putBoolean("isSelected", false)
+
             val dialogFragment = CategoryDialog()
+
+            dialogFragment.arguments = args
+
             dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
                 override fun onValueSelected(value: String) {
                     category = value
