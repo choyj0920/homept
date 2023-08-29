@@ -290,4 +290,64 @@ class SnsFragment : Fragment() {
             startActivity(postIntent)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        // 데이터를 다시 로드하고 RecyclerView를 새로고침
+        lifecycleScope.launch(Dispatchers.Main) {
+            var resultList = ApiManager.getPost(uid = null)
+            Log.d("post", resultList?.get(0)!!.name)
+            if(resultList!=null) {
+                postDataList = resultList.toTypedArray().toCollection(ArrayList<Postdata>())
+
+                for(list in postDataList) {
+                    var resultCategory : String = ""
+                    Log.d("resultCategory", resultCategory)
+
+                    if(list.postcategory.get(0) == '1')
+                        resultCategory += "체형교정 / "
+                    if(list.postcategory.get(1) == '1')
+                        resultCategory += "근력,체력강화 / "
+                    if(list.postcategory.get(2) == '1')
+                        resultCategory += "유아체육 / "
+                    if(list.postcategory.get(3) == '1')
+                        resultCategory += "재활 / "
+                    if(list.postcategory.get(4) == '1')
+                        resultCategory += "시니어건강 / "
+                    if(list.postcategory.get(5) == '1')
+                        resultCategory += "다이어트 / "
+
+                    if (resultCategory.isNotEmpty()) {
+                        resultCategory = resultCategory.trim().substring(0, resultCategory.length-2)
+                    }
+                    list.postcategory = resultCategory
+                }
+
+                snsAdapter = SnsAdapter(postDataList, requireContext())
+                binding.snsRv.adapter = snsAdapter
+                binding.snsRv.layoutManager = LinearLayoutManager(context)
+                snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
+                    override fun onItemClick(postdata: Postdata) {
+                        val postIntent = Intent(context, SnsPostActivity::class.java)
+                        postIntent.putExtra("uid", postdata.uid)
+                        postIntent.putExtra("pid", postdata.pid)
+                        postIntent.putExtra("name", postdata.name)
+                        postIntent.putExtra("title", postdata.title)
+                        postIntent.putExtra("content", postdata.content)
+                        postIntent.putExtra("category", postdata.postcategory)
+                        postIntent.putExtra("time", postdata.create_at)
+                        startActivity(postIntent)
+                    }
+
+                    override fun onUserItemClick(postdata: Postdata) {
+                        val userPostIntent = Intent(context, SnsUserPostsActivity::class.java)
+                        userPostIntent.putExtra("uid", postdata.uid)
+                        userPostIntent.putExtra("isTrainee", postdata.isTrainee)
+                        userPostIntent.putExtra("name", postdata.name)
+                        startActivity(userPostIntent)
+                    }
+                })
+            }
+        }
+    }
 }
