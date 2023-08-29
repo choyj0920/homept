@@ -78,6 +78,11 @@ class CategoryDialog : DialogFragment() {
                 }
             }
 
+            builder.setNegativeButton("선택안함") { dialog, p1 ->
+                var category : String = "000000"
+                valueSelectedListener?.onValueSelected(category)
+            }
+
             builder.setPositiveButton("Ok") { dialog, p1 ->
                 var category : String = "000000"
                 for (item in selectedItem) {

@@ -8,8 +8,9 @@
 
     <LinearLayout
         android:id="@+id/recommend_spinner_ll"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="250dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,12 +56,13 @@
 
     <Button
         android:id="@+id/btn_hbti"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_weight="1"
         android:background="@drawable/radius_search_button"
-        android:text="헬BTI 검사하러 가기"
+        android:text="헬BTI 검사"
         android:textColor="@color/white"
         android:textSize="13dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,9 +71,10 @@
 
     <Button
         android:id="@+id/trainer_recommend_btn"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_weight="1"
         android:background="@drawable/radius_search_button"
         android:text="추천 결과 보기"

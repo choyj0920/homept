@@ -1,12 +1,16 @@
 package com.kuteam6.homept.sns
 
+import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ItemSnsBinding
 import com.kuteam6.homept.restservice.data.Postdata
 
-class SnsAdapter(private val itemList : ArrayList<Postdata>) : RecyclerView.Adapter<SnsAdapter.ViewHolder>() {
+class SnsAdapter(private val itemList : ArrayList<Postdata>, private val context: Context) : RecyclerView.Adapter<SnsAdapter.ViewHolder>() {
     private lateinit var itemClickListener : OnItemClickListener
 
     interface OnItemClickListener{
@@ -26,6 +30,13 @@ class SnsAdapter(private val itemList : ArrayList<Postdata>) : RecyclerView.Adap
             binding.snsContentTv.text = postdata.content
             binding.snsTypeTv.text = postdata.postcategory
             binding.snsUploadDateTv.text = postdata.create_at
+
+            if (postdata.isTrainee) {
+                binding.snsNameTv.setTextColor(ContextCompat.getColor(context, R.color.orange))
+            } else {
+                binding.snsNameTv.setTextColor(ContextCompat.getColor(context, R.color.green))
+            }
+
             binding.itemSnsCl.setOnClickListener {
                 itemClickListener.onItemClick(postdata)
             }
