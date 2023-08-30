@@ -122,13 +122,4 @@ class CategoryDialog : DialogFragment() {
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
-    fun replaceCharAt(originalString: String, index: Int, newChar: Char): String {
-        if (index < 0 || index >= originalString.length) {
-            return originalString // 인덱스가 유효하지 않으면 원래 문자열 반환
-        }
-
-        val stringBuilder = StringBuilder(originalString)
-        stringBuilder.setCharAt(index, newChar)
-        return stringBuilder.toString()
-    }
 }

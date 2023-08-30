@@ -199,7 +199,7 @@ class SnsFragment : Fragment() {
                 override fun onValueSelected(value: String) {
                     category = value
 
-                    var resultCategory : String = "카테고리: "
+                    var resultCategory : String = "카테고리:  "
 
                     if(category.get(0) == '1')
                         resultCategory += "체형교정, "
