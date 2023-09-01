@@ -94,13 +94,41 @@ class RecommendFragment : Fragment() {
         Log.d("category", category)
 
         binding.recommendSelectCategoryBtn.setOnClickListener {
+            val args = Bundle();
+            args.putBoolean("isSelected", false)
+
             val dialogFragment = CategoryDialog()
+
+            dialogFragment.arguments = args
+
             dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
                 override fun onValueSelected(value: String) {
                     category = value
-                    Log.d("category1", category)
+
+                    var resultCategory : String = "카테고리:  "
+
+                    if(category.get(0) == '1')
+                        resultCategory += "체형교정, "
+                    if(category.get(1) == '1')
+                        resultCategory += "근력,체력강화, "
+                    if(category.get(2) == '1')
+                        resultCategory += "유아체육, "
+                    if(category.get(3) == '1')
+                        resultCategory += "재활, "
+                    if(category.get(4) == '1')
+                        resultCategory += "시니어건강, "
+                    if(category.get(5) == '1')
+                        resultCategory += "다이어트, "
+
+                    if (resultCategory.isNotEmpty()) {
+                        resultCategory = resultCategory.trim().substring(0, resultCategory.length-2)
+                    }
+                    val categoryStr = resultCategory
+
+                    binding.recommendCategoryTv.text = categoryStr
                 }
             })
+
             dialogFragment.show(getParentFragmentManager(), "category_dialog")
             Log.d("category2", category)
         }
