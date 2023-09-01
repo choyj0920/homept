@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/review_btn"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -38,5 +39,16 @@
             android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/mypage_member_iv"
             app:layout_constraintTop_toTopOf="@+id/mypage_member_iv" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="26dp"
+            android:layout_marginBottom="15dp"
+            android:background="#2EC4B6"
+            android:text="리뷰 쓰기"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

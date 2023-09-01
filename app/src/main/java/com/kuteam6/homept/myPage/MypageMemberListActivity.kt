@@ -19,6 +19,8 @@ class MypageMemberListActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityMypageMemberListBinding
 
+    var mySessionAdapter: MySessionAdapter? = null
+    var mySessionList = ArrayList<MySession>()
     val layoutManager = LinearLayoutManager(this)
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -31,9 +33,44 @@ class MypageMemberListActivity: AppCompatActivity() {
             finish()
         }
 
+        binding.rvSession.layoutManager = layoutManager
+
     }
+
     // 내 트레이니/트레이너 리스트 예시
     private fun initGetSession() {
+
+        //트레이니
+        if(UserData.userdata?.isTrainee == true){
+                var uid = UserData.userdata?.uid.toString().toInt()
+
+                lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                    var resultList =ApiManager.getMySession(false,uid);
+                    if(resultList!=null) {
+                        //binding.tvGetSessionResult.setText(resultList.toString())
+
+                        mySessionAdapter = MySessionAdapter(ArrayList(resultList))
+                        binding.rvSession.adapter = mySessionAdapter
+                    }
+                }
+        }
+        //트레이너
+        else{
+            var uid = UserData.userdata?.uid.toString().toInt()
+
+            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+                var resultList =ApiManager.getMySession(true,uid);
+                if(resultList!=null) {
+                    //binding.tvGetSessionResult.setText(resultList.toString())
+
+                    mySessionAdapter = MySessionAdapter(ArrayList(resultList))
+                    binding.rvSession.adapter = mySessionAdapter
+                }
+            }
+        }
+
+
+
 
         binding.cbGetSession.setOnCheckedChangeListener { _, isChecked ->
             binding.etGetSessionMyuid.setText("");
@@ -60,6 +97,8 @@ class MypageMemberListActivity: AppCompatActivity() {
                 if(resultList!=null)
                     binding.tvGetSessionResult.setText(resultList.toString())
 
+                mySessionAdapter = MySessionAdapter(ArrayList(resultList))
+                binding.rvSession.adapter = mySessionAdapter
             }
 
         }

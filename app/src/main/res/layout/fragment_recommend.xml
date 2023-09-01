@@ -55,8 +55,8 @@
 
     <Button
         android:id="@+id/btn_hbti"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
         android:layout_marginTop="30dp"
         android:layout_weight="1"
         android:background="@drawable/radius_search_button"
@@ -65,12 +65,12 @@
         android:textSize="13dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainer_recommend_btn"/>
+        app:layout_constraintTop_toBottomOf="@+id/trainer_recommend_btn" />
 
     <Button
         android:id="@+id/trainer_recommend_btn"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
         android:layout_marginTop="30dp"
         android:layout_weight="1"
         android:background="@drawable/radius_search_button"
@@ -79,7 +79,7 @@
         android:textSize="13dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recommend_spinner_ll"/>
+        app:layout_constraintTop_toBottomOf="@+id/recommend_spinner_ll" />
 
     <TextView
         android:id="@+id/recommend_info_tv"

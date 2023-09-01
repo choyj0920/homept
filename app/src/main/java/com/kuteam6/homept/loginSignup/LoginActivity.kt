@@ -58,6 +58,7 @@ class LoginActivity : AppCompatActivity() {
                 if(userData != null){
                     //로그인에 성공한 경우 동작
                     Log.d("isTrainee", userData.isTrainee.toString())
+                    Log.d("uid", userData.uid.toString())
                     UserData.userdata = userData
                     val homeIntent = Intent(this@LoginActivity, HomeActivity::class.java)
                     startActivity(homeIntent)

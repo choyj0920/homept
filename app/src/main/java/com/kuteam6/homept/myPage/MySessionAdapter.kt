@@ -8,7 +8,7 @@ import com.kuteam6.homept.restservice.data.MySession
 
 class MySessionAdapter(private val itemList : ArrayList<MySession>) : RecyclerView.Adapter<MySessionAdapter.ViewHolder>() {
 
-    class ViewHolder(val binding: ItemMemberListBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: ItemMemberListBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(mySession: MySession){
             binding.mypageMemberTv.text = mySession.sid.toString()
         }
