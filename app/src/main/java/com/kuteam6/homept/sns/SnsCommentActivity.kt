@@ -17,6 +17,7 @@ class SnsCommentActivity: AppCompatActivity() {
 
     var commentAdapter: CommentAdapter? = null
     var commentList = ArrayList<Comment>()
+    val layoutManager = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ class SnsCommentActivity: AppCompatActivity() {
                 if (result != null){
                     commentAdapter = CommentAdapter(commentList)
                     binding.snsCommentRv.adapter = commentAdapter
-                    //binding.snsCommentRv.layoutManager = LinearLayoutManager()
+                    binding.snsCommentRv.layoutManager = layoutManager
                 }
             }
         }

@@ -33,7 +33,7 @@ class MypageMemberListActivity: AppCompatActivity() {
             finish()
         }
 
-        binding.rvSession.layoutManager = layoutManager
+
 
     }
 
@@ -97,8 +97,9 @@ class MypageMemberListActivity: AppCompatActivity() {
                 if(resultList!=null)
                     binding.tvGetSessionResult.setText(resultList.toString())
 
-                mySessionAdapter = MySessionAdapter(ArrayList(resultList))
+                mySessionAdapter = MySessionAdapter(mySessionList)
                 binding.rvSession.adapter = mySessionAdapter
+                binding.rvSession.layoutManager = layoutManager
             }
 
         }
