@@ -11,7 +11,6 @@ import com.kuteam6.homept.databinding.ItemSearchBinding
 import com.kuteam6.homept.restservice.data.Postdata
 import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.restservice.data.UserData
-import com.kuteam6.homept.tainerProfile.PtApplyConfirmActivity
 import kotlin.coroutines.coroutineContext
 
 class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>) : RecyclerView.Adapter<RecommendVPAdapter.ViewHolder>() {

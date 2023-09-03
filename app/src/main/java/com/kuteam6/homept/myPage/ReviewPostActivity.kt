@@ -3,7 +3,6 @@ package com.kuteam6.homept.myPage
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.kuteam6.homept.R
-import com.kuteam6.homept.databinding.ActivityPtApproveBinding
 import com.kuteam6.homept.databinding.ActivityReviewPostBinding
 
 class ReviewPostActivity : AppCompatActivity() {

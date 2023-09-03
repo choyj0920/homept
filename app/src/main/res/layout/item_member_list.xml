@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="108dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -18,37 +18,92 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <View
+            android:id="@+id/bottom_border"
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <ImageView
             android:id="@+id/mypage_member_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="75dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="25dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/mypage_hong" />
 
         <TextView
-            android:id="@+id/mypage_member_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="12dp"
-            android:text="TextView"
+            android:id="@+id/mypage_member_name_tv"
+            android:layout_width="68dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textSize="22sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/mypage_member_iv"
-            app:layout_constraintTop_toTopOf="@+id/mypage_member_iv" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/mypage_member_gender_tv"
+            android:layout_width="68dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:text=""
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/mypage_member_name_tv"
+            app:layout_constraintStart_toEndOf="@+id/mypage_member_name_tv" />
+
+        <TextView
+            android:id="@+id/mypage_member_category_tv"
+            android:layout_width="175dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="8dp"
+            android:text=""
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mypage_member_iv" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="26dp"
-            android:layout_marginBottom="15dp"
+            android:id="@+id/btnApprovesession"
+            android:layout_width="90dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="14dp"
             android:background="#2EC4B6"
-            android:text="리뷰 쓰기"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="승인"
+            app:layout_constraintBottom_toBottomOf="@+id/mypage_member_gender_tv"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btnDisapprovesession"
+            android:layout_width="90dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="4dp"
+            android:background="#2EC4B6"
+            android:text="거절"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_border"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btnWriteReview"
+            android:layout_width="90dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="28dp"
+            android:background="#2EC4B6"
+            android:text="리뷰 작성"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

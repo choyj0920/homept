@@ -127,10 +127,11 @@ class TrainersProfileActivity : AppCompatActivity() {
     private fun initapplysession() {
         var traineeuid = UserData.userdata?.uid.toString().toInt()
         //트레이너 아이디만 나중에 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        var traineruid = UserData.userdata?.uid.toString().toInt()
+        var traineruid = 87
+
 
         lifecycleScope.launch(Dispatchers.Main){
-            //Log.d("sid", MySession.mysession?.sid.toString())
+            Log.d("sid", MySession.mysession?.sid.toString())
             var result = ApiManager.applySession(traineeuid,traineruid)
             val message = if(result) "신청 완료" else "신청 실패"
             showToastMessage(message)
