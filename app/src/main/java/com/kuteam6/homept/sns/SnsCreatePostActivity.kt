@@ -1,8 +1,11 @@
 package com.kuteam6.homept.sns
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.CategoryDialog
@@ -15,6 +18,7 @@ import kotlinx.coroutines.launch
 
 class SnsCreatePostActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySnsCreatePostBinding
+    private var bitmapImage: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +56,12 @@ class SnsCreatePostActivity : AppCompatActivity() {
                     var resultList = ApiManager.createPost(uid = UserData.userdata?.uid!!, title = binding.snsCreatePostTitleEt.text.toString(), content = binding.snsCreatePostContentEt.text.toString(), category = category)
                 }
                 finish()
+            }
+
+            binding.snsImageBtn.setOnClickListener {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, 100)
             }
         } else {
             binding.toolbarBackIv.toolbarBackMainTv.text = "게시물 수정"
@@ -92,9 +102,12 @@ class SnsCreatePostActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
 
-
-
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 100) {
+            bitmapImage = MediaStore.Images.Media.getBitmap(contentResolver, data?.data)
+        }
     }
 }
