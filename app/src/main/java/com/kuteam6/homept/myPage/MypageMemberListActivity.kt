@@ -3,6 +3,8 @@ package com.kuteam6.homept.myPage
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,55 +17,85 @@ import com.kuteam6.homept.restservice.data.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MypageMemberListActivity: AppCompatActivity() {
+class MypageMemberListActivity: AppCompatActivity(), SessionApprovalListener {
 
     private lateinit var binding: ActivityMypageMemberListBinding
 
-    val layoutManager = LinearLayoutManager(this)
+    var mySessionAdapter: MySessionAdapter? = null
+    var mySessionList = ArrayList<MySession>()
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         binding = ActivityMypageMemberListBinding.inflate(layoutInflater)
+
+        //트레이니
+        if(UserData.userdata?.isTrainee == true){
+            binding.cbGetSession.isChecked = false
+            binding.etGetSessionMyuid.hint = "traineeUid"
+        }
+        //트레이너
+        else{
+            binding.cbGetSession.isChecked = true
+            binding.etGetSessionMyuid.hint = "trainerUid"
+        }
+//        binding.cbGetSession.setOnCheckedChangeListener { _, isChecked ->
+//            binding.etGetSessionMyuid.setText("");
+//            binding.etGetSessionMyuid.hint = if(isChecked) "trainerUID" else "traineeUID";
+//
+//        }
+
+        binding.btnGetSession.setOnClickListener {
+            var uid = UserData.userdata?.uid.toString().toInt()
+
+            lifecycleScope.launch(Dispatchers.Main){
+                var resultList = ApiManager.getMySession(binding.cbGetSession.isChecked, uid)
+                if(resultList != null){
+
+                    //binding.tvGetSessionResult.text = resultList.toString()
+                    mySessionList = resultList.toTypedArray().toCollection(ArrayList<MySession>())
+                    mySessionAdapter = MySessionAdapter(mySessionList, this@MypageMemberListActivity)
+                    binding.rvSession.adapter = mySessionAdapter
+                    binding.rvSession.layoutManager = LinearLayoutManager(this@MypageMemberListActivity)
+                }
+            }
+        }
         setContentView(binding.root)
 
         binding.toolbarMypageMemberList.toolbarBackMainTv.text = "내 리스트"
         binding.toolbarMypageMemberList.toolbarBackIv.setOnClickListener {
-            initGetSession()
             finish()
         }
 
     }
-    // 내 트레이니/트레이너 리스트 예시
-    private fun initGetSession() {
 
-        binding.cbGetSession.setOnCheckedChangeListener { _, isChecked ->
-            binding.etGetSessionMyuid.setText("");
-            if(isChecked){
-                var trainerUid = intent.getIntExtra("trainerUid", TrainerProfile.trainerprofile?.uid?:-1)
-                binding.etGetSessionMyuid.setText(trainerUid.toString())
-                Log.d("trainerUid", trainerUid.toString())
-
-            } else {
-                var traineeUid = intent.getIntExtra("uid", UserData.userdata?.uid?:-1)
-                binding.etGetSessionMyuid.setText(traineeUid.toString())
-                Log.d("traineeUid", traineeUid.toString())
-
+    override fun onApproveSession(trainerUid: Int, sessionId: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("승인 확인")
+            .setMessage("정말로 승인하시겠습니까?")
+            .setPositiveButton("예"){_, _->
+                lifecycleScope.launch(Dispatchers.Main){
+                    val result = ApiManager.approveSession(trainerUid, sessionId)
+                    Toast.makeText(this@MypageMemberListActivity, if(result) "승인 완료" else "승인 실패",Toast.LENGTH_SHORT).show()
+                    mySessionAdapter?.notifyDataSetChanged()
+                }
             }
-
-        }
-
-        binding.btnGetSession.setOnClickListener {
-
-            var uid =binding.etGetSessionMyuid.text.toString().toInt()
-
-            lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
-                var resultList =ApiManager.getMySession(binding.cbGetSession.isChecked,uid);
-                if(resultList!=null)
-                    binding.tvGetSessionResult.setText(resultList.toString())
-
-            }
-
-        }
-
+            .setNegativeButton("아니요", null)
+            .show()
     }
 
+    override fun onDisapproveSession(trainerUid: Int, sessionId: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("거절 확인")
+            .setMessage("정말로 거절하시겠습니까?")
+            .setPositiveButton("예"){_,_->
+                lifecycleScope.launch(Dispatchers.Main){
+                    val result = ApiManager.approveSession(trainerUid,sessionId,true)
+                    Toast.makeText(this@MypageMemberListActivity, if(result) "거절 완료" else "거절 실패", Toast.LENGTH_SHORT).show()
+                    mySessionAdapter?.notifyDataSetChanged()
+                }
+            }
+            .setNegativeButton("아니요", null)
+            .show()
+    }
 }
+

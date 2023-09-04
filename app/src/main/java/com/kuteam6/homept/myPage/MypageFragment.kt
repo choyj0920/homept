@@ -10,10 +10,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kuteam6.homept.R
-import com.kuteam6.homept.databinding.ActivityPtApproveBinding
 import com.kuteam6.homept.databinding.FragmentMypageBinding
 import com.kuteam6.homept.hbtiTest.HbtiStartActivity
-import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.restservice.data.UserData
 
 
@@ -85,12 +83,6 @@ class MypageFragment : Fragment() {
         if(UserData.userdata?.isTrainee!!){
             binding.ivPtApplyAlarm.visibility = View.GONE
             binding.btnMyPageCareer.visibility = View.GONE
-        }
-
-        //PT 승인 거절 화면 이동
-        binding.ivPtApplyAlarm.setOnClickListener {
-            val ptApplyAlarmIntent = Intent(activity, PtApproveActivity::class.java)
-            startActivity(ptApplyAlarmIntent)
         }
 
         return binding.root

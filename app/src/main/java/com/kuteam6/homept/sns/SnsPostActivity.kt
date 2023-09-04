@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.transition.Visibility
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import com.google.android.material.snackbar.Snackbar
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivitySnsCreatePostBinding
@@ -48,11 +50,36 @@ class SnsPostActivity : AppCompatActivity() {
             startActivity(editIntent)
         }
 
+        //좋아요 버튼 (서버 연결은 x)
+        binding.snsLikeIv.setOnClickListener {
+            val likeButton = it as ImageView
+            if(likeButton.isSelected){
+                //좋아요 해제
+                likeButton.isSelected = false
+                showLikeSnackBar("좋아요 취소", false)
+            }
+            else{
+                likeButton.isSelected = true
+                showLikeSnackBar("좋아요를 눌렀어요!", true)
+            }
+        }
+
         //댓글 창으로 이동하는 부분
         binding.snsCommentIv.setOnClickListener {
             val commentIntent = Intent(this, SnsCommentActivity::class.java)
 
             startActivity(commentIntent)
         }
+    }
+
+    private fun showLikeSnackBar(message: String, like: Boolean){
+        val snackBar = Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
+        if(like){
+            snackBar.setAction("❤️"){}
+        }
+        else{
+
+        }
+        snackBar.show()
     }
 }

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kuteam6.homept.HomeActivity
@@ -27,6 +29,8 @@ class TrainersProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTrainersProfileBinding
     private lateinit var careerAdapter: CareerAdapter
     private lateinit var certificateAdapter: CertificateAdapter
+
+    private var trainerProfile : TrainerProfile? = null
 
     val careerDatas = arrayListOf<CareerData>()
     val certificateDatas = arrayListOf<CertificateData>()
@@ -68,11 +72,14 @@ class TrainersProfileActivity : AppCompatActivity() {
         initDataList()
         initRecyclerView()
 
-        //PT 신청 버튼을 누르면 신청 창으로
+        //PT 신청 버튼
         binding.btnPt.setOnClickListener {
-            val applyConfirmIntent = Intent(this@TrainersProfileActivity, PtApplyConfirmActivity::class.java)
-            applyConfirmIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
-            startActivity(applyConfirmIntent)
+            showPtApplyConfirmationDialog()
+
+
+//            val applyConfirmIntent = Intent(this@TrainersProfileActivity, PtApplyConfirmActivity::class.java)
+//            applyConfirmIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
+//            startActivity(applyConfirmIntent)
         }
 
     }
@@ -110,5 +117,41 @@ class TrainersProfileActivity : AppCompatActivity() {
             add(CertificateData("생활체육지도자 1급"))
         }
 
+    }
+    private fun showPtApplyConfirmationDialog(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("PT 신청")
+        builder.setMessage("PT를 신청하시겠습니까?")
+
+        //"예"버튼
+        builder.setPositiveButton("예"){_,_ ->
+            initapplysession()
+        }
+
+        //"아니요" 버튼
+        builder.setNegativeButton("아니요"){dialog, _->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun initapplysession() {
+        var traineeuid = UserData.userdata?.uid.toString().toInt()
+        //트레이너 아이디만 나중에 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        var traineruid = 87
+
+
+        lifecycleScope.launch(Dispatchers.Main){
+            Log.d("sid", MySession.mysession?.sid.toString())
+            var result = ApiManager.applySession(traineeuid,traineruid)
+            val message = if(result) "신청 완료" else "신청 실패"
+            showToastMessage(message)
+        }
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

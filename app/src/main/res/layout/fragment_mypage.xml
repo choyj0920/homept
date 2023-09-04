@@ -74,6 +74,7 @@
         android:layout_marginTop="21dp"
         android:drawableTop="@drawable/baseline_text_snippet_24"
         android:paddingBottom="5dp"
+        android:background="#CBF3F0"
         android:text="내 정보 관리"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -85,6 +86,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:drawableTop="@drawable/baseline_content_paste_search_24"
+        android:background="#CBF3F0"
         android:text="HBTI"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnMyPageInfo" />
@@ -95,6 +97,7 @@
         android:layout_height="92dp"
         android:layout_marginStart="31dp"
         android:drawableTop="@drawable/baseline_people_24"
+        android:background="#CBF3F0"
         android:text="내 리스트"
         app:layout_constraintBottom_toBottomOf="@+id/btnMyPageInfo"
         app:layout_constraintStart_toEndOf="@+id/btnMyPageInfo" />
@@ -107,6 +110,7 @@
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="136dp"
         android:drawableTop="@drawable/baseline_chat_24"
+        android:background="#CBF3F0"
         android:paddingBottom="5dp"
         android:text="채팅"
         app:layout_constraintBottom_toTopOf="@+id/view2"
@@ -120,6 +124,7 @@
         android:layout_height="92dp"
         android:layout_marginStart="31dp"
         android:layout_marginTop="16dp"
+        android:background="#CBF3F0"
         android:drawableTop="@drawable/baseline_mode_24"
         android:text="이력 수정"
         app:layout_constraintBottom_toBottomOf="@+id/btnMypageHealthMBTI"
