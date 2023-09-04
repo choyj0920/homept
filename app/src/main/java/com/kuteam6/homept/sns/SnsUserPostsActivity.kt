@@ -109,7 +109,7 @@ class SnsUserPostsActivity : AppCompatActivity() {
                     list.postcategory = resultCategory
                 }
 
-                snsAdapter = SnsAdapter(postDataList)
+                snsAdapter = SnsAdapter(postDataList, context = applicationContext)
                 binding.snsUserRv.adapter = snsAdapter
                 binding.snsUserRv.layoutManager = LinearLayoutManager(this@SnsUserPostsActivity)
                 snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{

@@ -15,6 +15,7 @@ import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.restservice.data.MySession
+import com.kuteam6.homept.restservice.data.Review
 import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.trainerSearch.SearchFragment
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +34,7 @@ class TrainersProfileActivity : AppCompatActivity() {
 
     val careerDatas = arrayListOf<CareerData>()
     val certificateDatas = arrayListOf<CertificateData>()
+    var reviewDatas = arrayListOf<Review>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +68,7 @@ class TrainersProfileActivity : AppCompatActivity() {
 //            certificateDatas.add(CertificateData(certificateString))
 //        }
 
+
         initDataList()
         initRecyclerView()
 
@@ -89,6 +92,16 @@ class TrainersProfileActivity : AppCompatActivity() {
         val certificateAdapter = CertificateAdapter(certificateDatas)
         binding.rvCertificate.adapter = certificateAdapter
         binding.rvCertificate.layoutManager = LinearLayoutManager(this)
+
+        lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+            val reviewList =  ApiManager.getReview(intent.getIntExtra("uid", 0))
+            if (reviewList != null) {
+                reviewDatas = reviewList.toTypedArray().toCollection(ArrayList<Review>())
+                val reviewAdapter = ReviewAdapter(reviewDatas)
+                binding.trainerReviewRv.adapter = reviewAdapter
+                binding.trainerReviewRv.layoutManager = LinearLayoutManager(applicationContext)
+            }
+        }
     }
 
     private fun initDataList(){

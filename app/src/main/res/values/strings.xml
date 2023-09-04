@@ -6,7 +6,7 @@
     <string name="multiline_hint">(수술 이력/ 질환 유무/ \n기타 요청사항이 있으면 적어주세요)</string>
     <string name="recommend_viewpager_text">%1$d / %2$d</string>
 
-    <string name = "take_photo">사진찍기</string>
-    <string name = "choose_from_gallery">앨범에서 가져오기</string>
-    <string name = "cancel_dialog">취소</string>
+    <string name="take_photo">사진찍기</string>
+    <string name="choose_from_gallery">앨범에서 가져오기</string>
+    <string name="cancel_dialog">취소</string>
 </resources>

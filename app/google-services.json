@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "387484882525",
+    "project_id": "homept-483f7",
+    "storage_bucket": "homept-483f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387484882525:android:a1c746b95752ea766a5fb4",
+        "android_client_info": {
+          "package_name": "com.kuteam6.homept"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387484882525-m63vh723f3boai89akinvr883nrdcckl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsqNG58d8fae6aS55EF8sk5K3iDnC5g10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387484882525-m63vh723f3boai89akinvr883nrdcckl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

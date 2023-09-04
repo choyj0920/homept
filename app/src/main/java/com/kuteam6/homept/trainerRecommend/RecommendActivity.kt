@@ -67,7 +67,7 @@ class RecommendActivity : AppCompatActivity() {
                     list.usercategory = category
                 }
             }
-            recommendVPAdapter = RecommendVPAdapter(recommendList)
+            recommendVPAdapter = RecommendVPAdapter(recommendList, applicationContext, lifecycleScope)
             binding.recommendVp.adapter = recommendVPAdapter
             binding.recommendVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             binding.recommendTvViewpager.text = getString(R.string.recommend_viewpager_text, 1, recommendList.size)

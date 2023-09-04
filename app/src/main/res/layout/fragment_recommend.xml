@@ -8,8 +8,9 @@
 
     <LinearLayout
         android:id="@+id/recommend_spinner_ll"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="250dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,15 +53,27 @@
             app:layout_constraintStart_toEndOf="@id/search_lacation_sp"
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
+    
+    <TextView
+        android:id="@+id/recommend_category_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="카테고리: "
+        android:textSize="11sp"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintTop_toBottomOf="@id/recommend_spinner_ll"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/btn_hbti"
-        android:layout_width="120dp"
-        android:layout_height="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
         android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_weight="1"
         android:background="@drawable/radius_search_button"
-        android:text="헬BTI 검사하러 가기"
+        android:text="헬BTI 검사"
         android:textColor="@color/white"
         android:textSize="13dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,9 +82,10 @@
 
     <Button
         android:id="@+id/trainer_recommend_btn"
-        android:layout_width="120dp"
-        android:layout_height="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
         android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_weight="1"
         android:background="@drawable/radius_search_button"
         android:text="추천 결과 보기"
@@ -79,7 +93,7 @@
         android:textSize="13dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recommend_spinner_ll" />
+        app:layout_constraintTop_toBottomOf="@+id/recommend_category_tv"/>
 
     <TextView
         android:id="@+id/recommend_info_tv"
@@ -87,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="130dp"
         android:text="추천 결과는 본인이 실시한 헬bti 검사 결과를 바탕으로 합니다."
-        app:layout_constraintTop_toBottomOf="@+id/trainer_recommend_btn"
+        app:layout_constraintTop_toBottomOf="@+id/btn_hbti"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
