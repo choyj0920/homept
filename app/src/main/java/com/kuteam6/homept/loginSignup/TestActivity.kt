@@ -1,14 +1,22 @@
 package com.kuteam6.homept.loginSignup
 
 import android.R
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import com.kuteam6.homept.databinding.ActivityTestBinding
 import com.kuteam6.homept.restservice.ApiManager
@@ -17,14 +25,22 @@ import com.kuteam6.homept.restservice.data.TrainerData
 import com.kuteam6.homept.restservice.data.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.net.URL
 import java.time.LocalDate
 import java.util.*
+import java.util.concurrent.Executors
 
 
 class TestActivity : AppCompatActivity() {
     lateinit var binding: ActivityTestBinding
     // 로그인 구현 예시
+    var selectedimagefile :File? =null
 
+    companion object {
+        private const val REQUEST_IMAGE_PICK = 1000
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +77,78 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
+    private fun ivToFile(image: ImageView): File {
+        var bitmap = (image.drawable as BitmapDrawable).bitmap
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+
+
+        // 크기 너무 크게하면 api에서 안받아줌  크기 줄이기 최대 400으로
+        val width = bitmap.width
+        val height = bitmap.height
+        val maxSide = if (width > height) width else height // 가로, 세로 중 큰 쪽 찾기
+        val scale = 400f / maxSide // 큰 쪽이 400이 되도록 비율 계산
+        val newWidth = (width * scale).toInt()
+        val newHeight = (height * scale).toInt()
+        val newbitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+
+        var filepath= getExternalFilesDir(null).toString() +"/image"
+        val dir= File(filepath)
+        if(!dir.exists())
+            dir.mkdirs()
+
+        val fileName="temp.png"
+        var file = File(dir,fileName)
+        filepath=file.absolutePath
+
+        file.writeBitmap(newbitmap, Bitmap.CompressFormat.PNG,50)
+        //var file = File(filepath+"/"+fileName)
+        file= File(filepath)
+        return file
+    }
+    private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int) {
+        outputStream().use { out ->
+            bitmap.compress(format, quality, out)
+            out.flush()
+            out.close()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK){
+            val imageUri = data?.data
+            // uri 객체를 이용하여 파일 경로 생성
+            val filePath = getPathFromUri(imageUri)
+
+
+            // 파일 객체 생성
+            selectedimagefile = File(filePath)
+            binding.ivPostsns.setImageURI(imageUri)
+
+        }
+    }
+    private fun getPathFromUri(uri: Uri?): String {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri!!, projection, null, null, null)
+        val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        val path = cursor.getString(columnIndex)
+        cursor.close()
+        return path
+    }
+
     private  fun initSNS(){
+
+        val pickImageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+        binding.ivPostsns.setOnClickListener {
+
+            startActivityForResult(pickImageIntent, REQUEST_IMAGE_PICK)
+
+        }
+
         
         // 글작성
         binding.btnCreatepost.setOnClickListener {
@@ -69,8 +156,12 @@ class TestActivity : AppCompatActivity() {
             var title=binding.etCreatepostTitle.text.toString()
             var content="content"
 
+
+            var image = if(selectedimagefile==null) null else ivToFile(binding.ivPostsns)
+
+
             lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
-                var result =ApiManager.createPost(uid,title,content,"000000");
+                var result =ApiManager.createPost(uid,title,content,"000000", imageFile = image);
                 if(result != null)
                     binding.tvCreatepostResult.text = result.toString()
 
@@ -85,9 +176,11 @@ class TestActivity : AppCompatActivity() {
             var title=binding.etEditpostTitle.text.toString()
             var content="content"
 
+            var image = if(selectedimagefile==null) null else ivToFile(binding.ivPostsns)
+
 
             lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
-                var result =ApiManager.editPost(uid,pid,title,content,"000000");
+                var result =ApiManager.editPost(uid,pid,title,content,"000000", isimagechange = true,image);
                 if(result != null)
                     binding.tvEditpostResult.text = result.toString()
 
@@ -118,8 +211,35 @@ class TestActivity : AppCompatActivity() {
             lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
                 val result=ApiManager.getPost(uid,"000000");
 
-                if(result != null)
+                if(result != null){
                     binding.tvGetpostResult.text = result.toString()
+                    for(i in result){
+                        if(i.isImagehave==1){
+                            ImageLoader.load(ApiManager.getSnsImage(i.pid), binding.ivPostlist)
+                            break
+
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //이미지 로더
+    object ImageLoader {
+        fun load(url : String, view : ImageView){
+
+            val executors = Executors.newSingleThreadExecutor()
+            var image : Bitmap? = null
+
+            executors.execute {
+                try {
+                    image = BitmapFactory.decodeStream(URL(url).openStream())
+                    view.setImageBitmap(image)
+                }catch (e : Exception){
+                    e.printStackTrace()
+                }
             }
         }
     }

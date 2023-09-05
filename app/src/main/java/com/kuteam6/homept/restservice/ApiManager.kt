@@ -5,10 +5,13 @@ import com.kuteam6.homept.restservice.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.*
 import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -97,12 +100,13 @@ interface ApiService {
 
     @POST("/sns/createpost")
     suspend fun createPost(
-        @Body createPostRequest: CreatePostRequest
+        @Body createPostRequest: MultipartBody
     ): Response<CreatePostResponse?>
 
     @POST("/sns/editpost")
     suspend fun editPost(
-        @Body editPostRequest: EditPostRequest
+        @Body editPostRequest: MultipartBody
+
     ): Response<CommonResponse?>
 
     @POST("/sns/deletepost")
@@ -643,11 +647,30 @@ object ApiManager {
      *
      * 글이 작성되면 작성 된 글의 pid 리턴, 작성 오류시 null 리턴
      */
-    suspend fun createPost (uid:Int,title:String,content:String,category: String="000000"): Int? = withContext(Dispatchers.IO){
+    suspend fun createPost (uid:Int,title:String,content:String,category: String="000000",imageFile: File?=null): Int? = withContext(Dispatchers.IO){
         try {
+
+            var tempbody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("uid",uid.toString())
+                .addFormDataPart("title",title)
+                .addFormDataPart("content",content)
+                .addFormDataPart("category",category)
+            if(imageFile!=null){
+                tempbody.addFormDataPart("image",imageFile.name,
+                    imageFile.asRequestBody("image/jpeg".toMediaType())
+                )
+            }
+            var body=tempbody.build()
+
+
+//
+
             val response= apiService.createPost(
-                CreatePostRequest(uid, title,content,category)
+                body
             )
+
+
+
             if(response.isSuccessful){
 
                 val resultcode =response.body()?.code
@@ -702,13 +725,31 @@ object ApiManager {
      * 글 수정 editPost  유저가 글 수정
      *
      * 유저의 uid, 원게시글의 pid ,제목, 내용, 글의 카테고리(입력안하면=000000 카테고리 없음) 를 매개변수로
+     * isimagechange는 기존의 이미지를 수정할지 안할지 true/false  ex) true하고 imagefile을 null로하면 글 이미지 삭제
      *
      *   글이 수정되면 true리턴 , 수정 오류시 false
      */
-    suspend fun editPost (uid:Int, pid: Int,title:String,content:String,category: String="000000"): Boolean = withContext(Dispatchers.IO){
+    suspend fun editPost (uid:Int, pid: Int,title:String,content:String,category: String="000000",isimagechange:Boolean=false,imageFile: File?=null): Boolean = withContext(Dispatchers.IO){
         try {
+            var tempbody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("uid",uid.toString())
+                .addFormDataPart("pid",pid.toString())
+                .addFormDataPart("title",title)
+                .addFormDataPart("content",content)
+                .addFormDataPart("category",category)
+            if(isimagechange){
+                tempbody.addFormDataPart("isImagechange","true");
+            }
+
+            if(isimagechange&& imageFile!=null){
+                tempbody.addFormDataPart("image",imageFile.name,
+                    imageFile.asRequestBody("image/jpeg".toMediaType())
+                )
+            }
+            var body=tempbody.build()
+
             val response= apiService.editPost(
-                EditPostRequest(uid, pid,title,content,category)
+                body
             )
             if(response.isSuccessful){
 
@@ -1022,6 +1063,17 @@ object ApiManager {
             Log.d("TAG","error 발생 :--------${e}")
         }
         null
+    }
+
+    /**
+     * getSnsImage 해당 게시글 이미지 가져오기
+     *
+     * pid를 매개로 받는다.
+     *
+     * 이미지가 있는지 없는지 check 미구현 단순 url출력
+     */
+    fun getSnsImage(pid: Int) :String{
+        return "$apiBaseUrl/snsimage/${pid}"
     }
 
 
