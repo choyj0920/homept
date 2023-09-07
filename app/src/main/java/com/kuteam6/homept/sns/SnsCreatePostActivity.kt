@@ -59,6 +59,28 @@ class SnsCreatePostActivity : AppCompatActivity() {
                 dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
                     override fun onValueSelected(value: String) {
                         category = value
+
+                        var resultCategory : String = ""
+
+                        if(category.get(0) == '1')
+                            resultCategory += "체형교정, "
+                        if(category.get(1) == '1')
+                            resultCategory += "근력,체력강화, "
+                        if(category.get(2) == '1')
+                            resultCategory += "유아체육, "
+                        if(category.get(3) == '1')
+                            resultCategory += "재활, "
+                        if(category.get(4) == '1')
+                            resultCategory += "시니어건강, "
+                        if(category.get(5) == '1')
+                            resultCategory += "다이어트, "
+
+                        if (resultCategory.isNotEmpty()) {
+                            resultCategory = resultCategory.trim().substring(0, resultCategory.length-2)
+                        }
+                        val categoryStr = resultCategory
+
+                        binding.snsCreatePostCategoryTv.text = categoryStr
                     }
                 })
                 dialogFragment.show(supportFragmentManager, "category_dialog")
@@ -102,6 +124,28 @@ class SnsCreatePostActivity : AppCompatActivity() {
                 dialogFragment.setValueSelectedListener(object : CategoryDialog.OnValueSelectedListener{
                     override fun onValueSelected(value: String) {
                         category = value
+
+                        var resultCategory : String = ""
+
+                        if(category.get(0) == '1')
+                            resultCategory += "체형교정, "
+                        if(category.get(1) == '1')
+                            resultCategory += "근력,체력강화, "
+                        if(category.get(2) == '1')
+                            resultCategory += "유아체육, "
+                        if(category.get(3) == '1')
+                            resultCategory += "재활, "
+                        if(category.get(4) == '1')
+                            resultCategory += "시니어건강, "
+                        if(category.get(5) == '1')
+                            resultCategory += "다이어트, "
+
+                        if (resultCategory.isNotEmpty()) {
+                            resultCategory = resultCategory.trim().substring(0, resultCategory.length-2)
+                        }
+                        val categoryStr = resultCategory
+
+                        binding.snsCreatePostCategoryTv.text = categoryStr
                     }
                 })
                 dialogFragment.show(supportFragmentManager, "category_dialog")
@@ -109,10 +153,25 @@ class SnsCreatePostActivity : AppCompatActivity() {
 
             binding.toolbarBackIv.toolbarBackSubTv.setOnClickListener {
                 lifecycleScope.launch(Dispatchers.Main) {
-                    Log.d("category2", category)
-                    var resultList = ApiManager.editPost(uid = UserData.userdata?.uid!!, title = binding.snsCreatePostTitleEt.text.toString(), content = binding.snsCreatePostContentEt.text.toString(), category = category, pid = intent.getIntExtra("pid", 0))
+                    var isimagechange = false
+                    var image = if(selectedimagefile==null) null else ivToFile(binding.snsCreatePostIv)
+
+                    if (selectedimagefile != null) {
+                        isimagechange = true
+                    }
+
+                    var resultList = ApiManager.editPost(uid = UserData.userdata?.uid!!,
+                        pid = intent.getIntExtra("pid", 0),
+                        title = binding.snsCreatePostTitleEt.text.toString(),
+                        content = binding.snsCreatePostContentEt.text.toString(),
+                        category = category, isimagechange = isimagechange, image)
                 }
                 finish()
+            }
+
+            binding.snsImageBtn.setOnClickListener {
+                val pickImageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(pickImageIntent, REQUEST_IMAGE_PICK)
             }
         }
     }
