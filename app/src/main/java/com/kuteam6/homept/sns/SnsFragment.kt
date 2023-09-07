@@ -62,7 +62,7 @@ class SnsFragment : Fragment() {
                     list.postcategory = resultCategory
                 }
 
-                snsAdapter = SnsAdapter(postDataList, requireContext())
+                snsAdapter = SnsAdapter(postDataList, requireContext(), lifecycleScope)
                 binding.snsRv.adapter = snsAdapter
                 binding.snsRv.layoutManager = LinearLayoutManager(context)
                 snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
@@ -75,6 +75,7 @@ class SnsFragment : Fragment() {
                         postIntent.putExtra("content", postdata.content)
                         postIntent.putExtra("category", postdata.postcategory)
                         postIntent.putExtra("time", postdata.create_at)
+                        postIntent.putExtra("isImagehave", postdata.isImagehave)
                         startActivity(postIntent)
                     }
 
@@ -142,7 +143,7 @@ class SnsFragment : Fragment() {
                                 }
                             }
 
-                            snsAdapter = SnsAdapter(dataList, requireContext())
+                            snsAdapter = SnsAdapter(dataList, requireContext(), lifecycleScope)
                             binding.snsRv.adapter = snsAdapter
                             binding.snsRv.layoutManager = LinearLayoutManager(context)
                             snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
@@ -155,6 +156,7 @@ class SnsFragment : Fragment() {
                                     postIntent.putExtra("content", postdata.content)
                                     postIntent.putExtra("category", postdata.postcategory)
                                     postIntent.putExtra("time", postdata.create_at)
+                                    postIntent.putExtra("isImagehave", postdata.isImagehave)
                                     startActivity(postIntent)
                                 }
 
@@ -255,7 +257,7 @@ class SnsFragment : Fragment() {
                         list.postcategory = resultCategory
                     }
 
-                    snsAdapter = SnsAdapter(postDataList, requireContext())
+                    snsAdapter = SnsAdapter(postDataList, requireContext(), lifecycleScope)
                     binding.snsRv.adapter = snsAdapter
                     binding.snsRv.layoutManager = LinearLayoutManager(context)
                     snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
@@ -268,6 +270,7 @@ class SnsFragment : Fragment() {
                             postIntent.putExtra("content", postdata.content)
                             postIntent.putExtra("category", postdata.postcategory)
                             postIntent.putExtra("time", postdata.create_at)
+                            postIntent.putExtra("isImagehave", postdata.isImagehave)
                             startActivity(postIntent)
                         }
 
@@ -323,7 +326,7 @@ class SnsFragment : Fragment() {
                     list.postcategory = resultCategory
                 }
 
-                snsAdapter = SnsAdapter(postDataList, requireContext())
+                snsAdapter = SnsAdapter(postDataList, requireContext(), lifecycleScope)
                 binding.snsRv.adapter = snsAdapter
                 binding.snsRv.layoutManager = LinearLayoutManager(context)
                 snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
@@ -336,6 +339,7 @@ class SnsFragment : Fragment() {
                         postIntent.putExtra("content", postdata.content)
                         postIntent.putExtra("category", postdata.postcategory)
                         postIntent.putExtra("time", postdata.create_at)
+                        postIntent.putExtra("isImagehave", postdata.isImagehave)
                         startActivity(postIntent)
                     }
 
