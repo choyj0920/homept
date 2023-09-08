@@ -1,18 +1,28 @@
 package com.kuteam6.homept.sns
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.Visibility
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivitySnsCreatePostBinding
 import com.kuteam6.homept.databinding.ActivitySnsPostBinding
+import com.kuteam6.homept.loginSignup.TestActivity
+import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.UserData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.net.URL
+import java.util.concurrent.Executors
 
 class SnsPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySnsPostBinding
@@ -37,6 +47,17 @@ class SnsPostActivity : AppCompatActivity() {
 
         if (intent.getIntExtra("uid", 0) != UserData.userdata?.uid) {
             binding.snsEditBtn.visibility = View.GONE
+        }
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (intent.getIntExtra("isImagehave", 0) == 1) {
+                Log.d("pid", intent.getIntExtra("pid", 0).toString())
+                Glide.with(applicationContext)
+                    .load(ApiManager.getSnsImage(intent.getIntExtra("pid", 0)))
+                    .error(R.color.grey)
+                    .fallback(R.drawable.baseline_close_24)
+                    .into(binding.imageView)
+            }
         }
 
         binding.snsEditBtn.setOnClickListener {
@@ -82,4 +103,5 @@ class SnsPostActivity : AppCompatActivity() {
         }
         snackBar.show()
     }
+
 }

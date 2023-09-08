@@ -2,8 +2,12 @@
 var mysql = require("mysql");
 var express = require("express");
 var bodyParser = require("body-parser");
+const path = require("path");
 var config = require("./db_info").maindb;
 var app = express();
+const fs = require("fs");
+
+const fileUpload = require("express-fileupload");
 const crypto = require("crypto");
 
 const options = { timeZone: "Asia/Seoul" };
@@ -27,6 +31,15 @@ function encryptAES128(plainText) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  fileUpload({
+    createParentPath: true,
+    limits: {
+      //file사이즈 제한
+      fileSize: 2 * 1024 * 1024 * 1024,
+    },
+  })
+);
 
 //db 연결
 var connection = mysql.createConnection({
@@ -858,9 +871,16 @@ app.post("/sns/createpost", function (req, res) {
   var title = dereq.body.title;
   var content = dereq.body.content;
   var category = dereq.body.category;
-
+  var image;
+  if (!dereq.files) {
+    image = null;
+  } else {
+    image = dereq.files.image;
+  }
   var sql =
-    "INSERT INTO post (uid,title,content,category,create_at) VALUES (?,?,?,b?,now());";
+    image == null
+      ? "INSERT INTO post (uid,title,content,category,create_at) VALUES (?,?,?,b?,now());"
+      : "INSERT INTO post (uid,title,content,category,create_at,image) VALUES (?,?,?,b?,now(),1);";
   var params = [uid, title, content, category];
 
   connection.query(sql, params, function (err, result) {
@@ -877,6 +897,7 @@ app.post("/sns/createpost", function (req, res) {
         resultCode = 200;
         message = "글 작성 완료";
         postid = result.insertId;
+        saveImageSns(image, postid);
       }
     }
 
@@ -888,7 +909,7 @@ app.post("/sns/createpost", function (req, res) {
   });
 });
 
-// 글 삭제
+// 글 삭제 - 이미지 삭제 안만들어져있음
 app.post("/sns/deletepost", function (req, res) {
   console.log(`${new Date().toLocaleString("ko-kr")} [글 삭제...]`);
   console.log(req.body);
@@ -916,6 +937,7 @@ app.post("/sns/deletepost", function (req, res) {
       resultCode = 200;
       message = "글 삭제 완료";
       isDeleted = true;
+      deleteImageSns(pid);
     } else {
       // 영향을 받은 행이 없을 경우 삭제 실패로 간주
       resultCode = 404;
@@ -943,10 +965,21 @@ app.post("/sns/editpost", function (req, res) {
   var uid = dereq.body.uid;
   var title = dereq.body.title;
   var content = dereq.body.content;
+  var isImagechange = dereq.body.isImagechange;
+  var image; // 이미지 파일
+  if (!dereq.files) {
+    image = null;
+  } else {
+    image = dereq.files.image;
+    isImagechange = true;
+  }
   var category = dereq.body.category;
 
-  var sql =
-    "update post set title=?,content=?,category=b?, create_at=now() where uid = ? and pid=?";
+  var sql = isImagechange
+    ? image == null
+      ? "update post set title=?,content=?,category=b?, create_at=now(), image=0 where uid = ? and pid=?"
+      : "update post set title=?,content=?,category=b?, create_at=now(),image=1 where uid = ? and pid=?"
+    : "update post set title=?,content=?,category=b?, create_at=now() where uid = ? and pid=?";
   var params = [title, content, category, uid, pid];
 
   connection.query(sql, params, function (err, result) {
@@ -961,6 +994,9 @@ app.post("/sns/editpost", function (req, res) {
       if (result.affectedRows >= 0) {
         resultCode = 200;
         message = "글 수정 완료";
+        if (isImagechange && image != null) {
+          saveImageSns(image, pid);
+        }
       }
     }
 
@@ -984,7 +1020,7 @@ app.post("/sns/getPost", function (req, res) {
   var category = dereq.body.category;
 
   var sql =
-    `select pid,u.uid,name,if(role = "1",'true','false') as isTrainee, LPAD(BIN(po.category),6,"0") as postcategory,title,content,create_at from post as po inner join user as u on po.uid=u.uid where true` +
+    `select pid,u.uid,name,if(role = "1",'true','false') as isTrainee, LPAD(BIN(po.category),6,"0") as postcategory,title,content,create_at,image from post as po inner join user as u on po.uid=u.uid where true` +
     (category == null ? "" : ` and (category & b?)=b?`) +
     (uid == null ? "" : ` and u.uid=?`) +
     " order by create_at desc ;";
@@ -1394,4 +1430,36 @@ app.post("/Review/Get", function (req, res) {
       reviews: reviews,
     });
   });
+});
+
+function saveImageSns(image, index) {
+  try {
+    let f = image;
+    f.mv("./uploads/sns/" + `${index}.png`);
+    return true;
+  } catch (error) {
+    return false;
+  }
+  return false;
+}
+
+function deleteImageSns(index) {
+  try {
+    fs.unlink("./uploads/sns/" + `${index}.png`, (err) => {
+      if (err) {
+        console.error(err);
+        return false;
+      }
+
+      console.log("File is deleted.");
+    });
+  } catch (error) {
+    return false;
+  }
+  return false;
+}
+
+app.get("/snsimage/:pid", (req, res) => {
+  const pid = req.params.pid;
+  res.sendFile(path.join(__dirname, "uploads/sns", `${pid}.png`));
 });

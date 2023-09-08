@@ -8,15 +8,24 @@ import com.kuteam6.homept.databinding.ItemMemberListBinding
 import com.kuteam6.homept.restservice.data.MySession
 import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.sns.SnsAdapter
+import com.kuteam6.homept.trainerSearch.SearchAdapter
 import java.security.KeyStore.TrustedCertificateEntry
 
-interface SessionApprovalListener {
-    fun onApproveSession(trainerUid: Int, sessionId: Int)
-    fun onDisapproveSession(trainerUid: Int, sessionId: Int)
-}
 
 
-class MySessionAdapter(private val itemList : ArrayList<MySession>, private val approvalListener: SessionApprovalListener) : RecyclerView.Adapter<MySessionAdapter.ViewHolder>() {
+
+class MySessionAdapter(private val itemList : ArrayList<MySession>) : RecyclerView.Adapter<MySessionAdapter.ViewHolder>() {
+    private lateinit var itemClickListener : SessionApprovalListener
+
+    interface SessionApprovalListener {
+        fun onApproveSession(trainerUid: Int, sessionId: Int)
+        fun onDisapproveSession(trainerUid: Int, sessionId: Int)
+        fun onPostReview(name: String, trainerUid: Int)
+    }
+
+    fun setOnItemClickListener(sessionApprovalListenerr : SessionApprovalListener) {
+        itemClickListener = sessionApprovalListenerr
+    }
 
     inner class ViewHolder(val binding: ItemMemberListBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(mySession: MySession){
@@ -35,6 +44,10 @@ class MySessionAdapter(private val itemList : ArrayList<MySession>, private val 
                 }
                 else{
                     binding.mypageMemberGenderTv.text = "여성"
+                }
+
+                binding.btnWriteReview.setOnClickListener {
+                    itemClickListener.onPostReview(mySession.myTrainerProfile!!.name, mySession.myTrainerProfile!!.uid)
                 }
             }
             //트레이너가 트레이니를 조회할 때
@@ -66,14 +79,14 @@ class MySessionAdapter(private val itemList : ArrayList<MySession>, private val 
                     var sid = mySession.sid
                     var trainerUid = UserData.userdata?.uid.toString().toInt()
 
-                    approvalListener.onApproveSession(trainerUid,sid)
+                    itemClickListener.onApproveSession(trainerUid,sid)
                 }
                 //거절하기
                 binding.btnDisapprovesession.setOnClickListener {
                     var sid = mySession.sid
                     var trainerUid = UserData.userdata?.uid.toString().toInt()
 
-                    approvalListener.onDisapproveSession(trainerUid,sid)
+                    itemClickListener.onDisapproveSession(trainerUid,sid)
                 }
 
                 val userCategory = mySession.myTraineeProfile?.usercategory

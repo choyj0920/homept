@@ -109,7 +109,7 @@ class SnsUserPostsActivity : AppCompatActivity() {
                     list.postcategory = resultCategory
                 }
 
-                snsAdapter = SnsAdapter(postDataList, context = applicationContext)
+                snsAdapter = SnsAdapter(postDataList, context = applicationContext, lifecycleScope)
                 binding.snsUserRv.adapter = snsAdapter
                 binding.snsUserRv.layoutManager = LinearLayoutManager(this@SnsUserPostsActivity)
                 snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
@@ -122,6 +122,7 @@ class SnsUserPostsActivity : AppCompatActivity() {
                         postIntent.putExtra("content", postdata.content)
                         postIntent.putExtra("category", postdata.postcategory)
                         postIntent.putExtra("time", postdata.create_at)
+                        postIntent.putExtra("isImagehave", postdata.isImagehave)
                         startActivity(postIntent)
                         Log.d("post2", postdata.name)
                     }

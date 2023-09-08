@@ -459,10 +459,12 @@ data class Postdata(
     val content: String,
     @SerializedName("create_at")
     val create_at: String,
+    @SerializedName("image") // 1이면 이미지 존재,아닐경우 이미지x
+    val isImagehave: Int,
 
 ){
     override fun toString(): String {
-        return "[${title}]pid(${pid}) 작성자 ${if(isTrainee)"트레이니" else "트레이너"} ${name}(${uid}) 내용: ${content}, 작성일 ${create_at} \n\n"
+        return "[이미지${if(isImagehave==1)"O" else "X"},${title}]pid(${pid}) 작성자 ${if(isTrainee)"트레이니" else "트레이너"} ${name}(${uid}) 내용: ${content}, 작성일 ${create_at} \n\n"
     }
 }
 
