@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.databinding.ActivityLoginBinding
 import com.kuteam6.homept.restservice.ApiManager
@@ -46,6 +48,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initlogin(){
+
+        val auth = Firebase.auth
+
+
         binding.btnLogin.setOnClickListener {
             var id = binding.etLoginid.text.toString()
             var password = binding.etLoginpassword.text.toString()
@@ -60,8 +66,30 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("isTrainee", userData.isTrainee.toString())
                     Log.d("uid", userData.uid.toString())
                     UserData.userdata = userData
+
+                    //Firebase
+                    auth.signInWithEmailAndPassword("$id@test.com", password)
+                        .addOnCompleteListener(this@LoginActivity) { task ->
+                            if (task.isSuccessful) {
+                                Log.d("로그인", "성공")
+                                val user = auth.currentUser
+//                                updateUI(user)
+//                                finish()
+//                                startActivity(intentMain)
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(this@LoginActivity, "정확한 아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+//                                Log.d("로그인", "실패")
+//                                updateUI(null)
+                            }
+                    // [END Firebase]
+
                     val homeIntent = Intent(this@LoginActivity, HomeActivity::class.java)
                     startActivity(homeIntent)
+
+
+                }
+
                 }
                 else{
                     //로그인에 실패한 경우 동작
