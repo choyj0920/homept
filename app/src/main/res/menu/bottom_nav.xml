@@ -30,4 +30,20 @@
         app:showAsAction="always"
         android:title="mypage"/>
 
+<!--    <item-->
+<!--        android:id="@+id/chatFragment"-->
+<!--        android:icon="@drawable/nav_icon_chat"-->
+<!--        android:enabled="true"-->
+<!--        app:showAsAction="always"-->
+<!--        android:title="chat"/>-->
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/user"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title="home"/>
+
+
+
 </menu>

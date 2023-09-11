@@ -1,5 +1,7 @@
 package com.kuteam6.homept.myPage
 
+import ChatFragment
+import ProfileFragment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,36 +25,42 @@ class MypageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentMypageBinding.inflate(inflater,container, false)
+        binding = FragmentMypageBinding.inflate(inflater, container, false)
 
         //프로필 사진 변경
         binding.ivMyPageImage.setOnClickListener {
-            val bottomSheetDialog = BottomSheetDialog(requireActivity())
-            val sheetView = layoutInflater.inflate(R.layout.dialog_bottom_sheet, null)
-
-            bottomSheetDialog.setContentView(sheetView)
-
-            val btnTakePhoto = sheetView.findViewById<Button>(R.id.btn_take_photo)
-            val btnChooseFromGallery = sheetView.findViewById<Button>(R.id.btn_choose_from_gallery)
-            val btnCancelDialog = sheetView.findViewById<Button>(R.id.btn_cancel_dialog)
-
-            btnTakePhoto.setOnClickListener {
-                //카메라
-                bottomSheetDialog.dismiss()
-            }
-
-            btnChooseFromGallery.setOnClickListener {
-                //갤러리
-                bottomSheetDialog.dismiss()
-            }
-
-            btnCancelDialog.setOnClickListener {
-                //취소
-                bottomSheetDialog.dismiss()
-            }
-
-            bottomSheetDialog.show()
+            binding.clSub.visibility = View.GONE
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            val profileFragment = ProfileFragment()
+            transaction?.replace(R.id.cl_main, profileFragment)
+            transaction?.commit()
         }
+//            val bottomSheetDialog = BottomSheetDialog(requireActivity())
+//            val sheetView = layoutInflater.inflate(R.layout.dialog_bottom_sheet, null)
+//
+//            bottomSheetDialog.setContentView(sheetView)
+//
+//            val btnTakePhoto = sheetView.findViewById<Button>(R.id.btn_take_photo)
+//            val btnChooseFromGallery = sheetView.findViewById<Button>(R.id.btn_choose_from_gallery)
+//            val btnCancelDialog = sheetView.findViewById<Button>(R.id.btn_cancel_dialog)
+//
+//            btnTakePhoto.setOnClickListener {
+//                //카메라
+//                bottomSheetDialog.dismiss()
+//            }
+//
+//            btnChooseFromGallery.setOnClickListener {
+//                //갤러리
+//                bottomSheetDialog.dismiss()
+//            }
+//
+//            btnCancelDialog.setOnClickListener {
+//                //취소
+//                bottomSheetDialog.dismiss()
+//            }
+//
+//            bottomSheetDialog.show()
+//        }
 
         // 회원명
         val name = UserData.userdata?.name.toString()
@@ -80,9 +88,17 @@ class MypageFragment : Fragment() {
         }
 
         Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
-        if(UserData.userdata?.isTrainee!!){
+        if (UserData.userdata?.isTrainee!!) {
             binding.ivPtApplyAlarm.visibility = View.GONE
             binding.btnMyPageCareer.visibility = View.GONE
+        }
+
+        binding.btnMyPageChat.setOnClickListener {
+            binding.clSub.visibility = View.GONE
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            val fragment = ChatFragment()
+            transaction?.replace(R.id.cl_main, fragment)
+            transaction?.commit()
         }
 
         return binding.root

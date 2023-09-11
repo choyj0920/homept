@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+//import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -73,23 +74,19 @@ class SignUpTraineeActivity : AppCompatActivity() {
 
                 //database.child("test").setValue("test")
                 auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            Log.d("task","success")
-                            val user = Firebase.auth.currentUser
-                            val userId = user?.uid
-                            val userIdSt = userId.toString()
-                            Log.d("show uid", userIdSt)
+                    .addOnSuccessListener {
+                        Log.e("task", "success")
+                        val user = Firebase.auth.currentUser
+                        val userId = user?.uid
+                        val userIdSt = userId.toString()
+                        Log.d("show uid", userIdSt)
 
-                            val friend = Friend(email.toString() , name.toString(), "null", userIdSt)
-                            //database.child("users").child(userId.toString()).setValue(friend)
-                            database.child("users").child(userId.toString()).setValue(Friend("a","b","c","d"))
-
-                        }
-                        if (!(task.isSuccessful)) {
-                            Log.d("signup","fail")
-                        }
+                        val friend = Friend(email.toString(), name.toString(), "null", userIdSt)
+                        database.child("users").child(userId.toString()).setValue(friend)
+                    }.addOnFailureListener {
+                        Log.e("task", "fail")
                     }
+
 
                 val traineeProfileIntent =
                     Intent(this@SignUpTraineeActivity, TraineeProfileActivity::class.java)

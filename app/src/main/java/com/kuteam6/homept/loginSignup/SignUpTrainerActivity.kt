@@ -22,16 +22,16 @@ import kotlinx.coroutines.launch
 
 class SignUpTrainerActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivitySignupTrainerBinding
-    private lateinit var auth : FirebaseAuth
-    lateinit var database : DatabaseReference
+    lateinit var binding: ActivitySignupTrainerBinding
+    private lateinit var auth: FirebaseAuth
+    lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupTrainerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var name : String? = null
+        var name: String? = null
         auth = Firebase.auth
         database = Firebase.database.reference
 
@@ -40,10 +40,10 @@ class SignUpTrainerActivity : AppCompatActivity() {
         binding.checkIdBtn.setOnClickListener {
 
             lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
-                var checkid=binding.trainerIdEdit.text.toString()
+                var checkid = binding.trainerIdEdit.text.toString()
                 binding.checkId.setText("load...");
                 var result = ApiManager.checkIdDupicated(checkid);
-                binding.checkId.setText("${ if(result)"아이디중복" else "아이디중복x"}")
+                binding.checkId.setText("${if (result) "아이디중복" else "아이디중복x"}")
 
             }
 
@@ -68,25 +68,28 @@ class SignUpTrainerActivity : AppCompatActivity() {
 
                 //Firebase
                 name = binding.trainerNameEdit.text.toString()
-                val email = binding.trainerIdEdit.text.toString()
+                val email = binding.trainerIdEdit.text.toString() + "@test.com"
                 val password = binding.trainerPwEdit.text.toString()
 
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this){ task ->
-                    if(task.isSuccessful){
+
+                //database.child("test").setValue("test")
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        Log.e("task", "success")
                         val user = Firebase.auth.currentUser
                         val userId = user?.uid
                         val userIdSt = userId.toString()
+                        Log.d("show uid", userIdSt)
 
-
-                                val friend = Friend(email.toString(), name.toString(), null, userIdSt)
-                                database.child("users").child(userId.toString()).setValue(friend)
-
+                        val friend = Friend(email.toString(), name.toString(), "null", userIdSt)
+                        database.child("users").child(userId.toString()).setValue(friend)
+                    }.addOnFailureListener {
+                        Log.e("task", "fail")
                     }
-                }
 
 
-
-                val traineeProfileIntent = Intent(this@SignUpTrainerActivity, TrainerProfileActivity::class.java)
+                val traineeProfileIntent =
+                    Intent(this@SignUpTrainerActivity, TrainerProfileActivity::class.java)
                 traineeProfileIntent.putExtra("name", binding.trainerNameEdit.text.toString())
                 traineeProfileIntent.putExtra("id", binding.trainerIdEdit.text.toString())
                 traineeProfileIntent.putExtra("pwd", binding.trainerPwEdit.text.toString())
@@ -106,10 +109,9 @@ class SignUpTrainerActivity : AppCompatActivity() {
         val passwordEditText3 = binding.trainerPwEdit
 
         passwordEditText3.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus){
+            if (hasFocus) {
                 passwordEditText3.transformationMethod = null
-            }
-            else{
+            } else {
                 passwordEditText3.transformationMethod = PasswordTransformationMethod.getInstance()
             }
         }
@@ -117,10 +119,9 @@ class SignUpTrainerActivity : AppCompatActivity() {
         val passwordEditText4 = binding.trainerPwCheckEdit
 
         passwordEditText4.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus){
+            if (hasFocus) {
                 passwordEditText4.transformationMethod = null
-            }
-            else{
+            } else {
                 passwordEditText4.transformationMethod = PasswordTransformationMethod.getInstance()
             }
         }
