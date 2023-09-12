@@ -7,13 +7,6 @@
     android:orientation="vertical"
     android:padding="17dp">
 
-    <TextView
-        android:id="@+id/tv_created_at"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2023.08.23"
-        android:textSize="11sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -50,15 +43,38 @@
         android:text="친절하시고 효과가 있었습니다"
         android:textSize="18sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_reviewImg"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_marginTop="5dp">
 
+        <TextView
+            android:id="@+id/tv_created_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2023.08.23"
+            android:textSize="13sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="20dp"/>
+
+        <ImageView
+            android:id="@+id/review_edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/baseline_mode_edit_24"/>
+
+        <ImageView
+            android:id="@+id/review_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_delete_24"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

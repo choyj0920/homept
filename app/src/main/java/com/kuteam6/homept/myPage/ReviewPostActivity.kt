@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.RatingBar
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.common.api.Api
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivityMypageMemberListBinding
 import com.kuteam6.homept.databinding.ActivityReviewPostBinding
@@ -22,23 +23,48 @@ class ReviewPostActivity : AppCompatActivity() {
         binding = ActivityReviewPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbarBackIv.toolbarBackMainTv.text = "리뷰 작성"
-        binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
-            finish()
-        }
-        binding.toolbarBackIv.toolbarBackSubTv.text = "완료"
-
-        binding.reviewTrainerNameTv.text = intent.getStringExtra("name")
-
-        binding.rbScore.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser ->
-            score = rating.toDouble()
-        }
-
-        binding.toolbarBackIv.toolbarBackSubTv.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.Main) {
-                ApiManager.createReview(intent.getIntExtra("trainerUid", 0), UserData.userdata!!.uid, score, binding.reviewEt.text.toString())
+        if (intent.getBooleanExtra("isCreate", true)) {
+            Log.d("iscreate", intent.getBooleanExtra("isCreate", true).toString())
+            binding.toolbarBackIv.toolbarBackMainTv.text = "리뷰 작성"
+            binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
+                finish()
             }
-            finish()
+            binding.toolbarBackIv.toolbarBackSubTv.text = "완료"
+
+            binding.reviewTrainerNameTv.text = intent.getStringExtra("name")
+
+            binding.rbScore.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser ->
+                score = rating.toDouble()
+            }
+
+            binding.toolbarBackIv.toolbarBackSubTv.setOnClickListener {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    ApiManager.createReview(intent.getIntExtra("trainerUid", 0), UserData.userdata!!.uid, score, binding.reviewEt.text.toString())
+                }
+                finish()
+            }
+        } else {
+            Log.d("iscreate", intent.getBooleanExtra("isCreate", true).toString())
+            binding.toolbarBackIv.toolbarBackMainTv.text = "리뷰 수정"
+            binding.toolbarBackIv.toolbarBackIv.setOnClickListener {
+                finish()
+            }
+            binding.toolbarBackIv.toolbarBackSubTv.text = "완료"
+
+            binding.reviewTrainerNameTv.text = intent.getStringExtra("name")
+
+            binding.rbScore.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { ratingBar, rating, fromUser ->
+                score = rating.toDouble()
+            }
+
+            binding.toolbarBackIv.toolbarBackSubTv.setOnClickListener {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    ApiManager.editReview(intent.getIntExtra("trainerUid", 0), UserData.userdata!!.uid, score, binding.reviewEt.text.toString())
+                }
+                finish()
+            }
         }
+
+
     }
 }
