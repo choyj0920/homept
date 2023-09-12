@@ -70,6 +70,7 @@ class SnsPostActivity : AppCompatActivity() {
             editIntent.putExtra("uid", intent.getIntExtra("uid", 0))
             editIntent.putExtra("pid", intent.getIntExtra("pid", 0))
             startActivity(editIntent)
+            finish()
         }
 
         binding.snsDeleteBtn.setOnClickListener {

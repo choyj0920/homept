@@ -197,6 +197,7 @@ class TrainersProfileActivity : AppCompatActivity() {
                         val reviewEditIntent = Intent(this@TrainersProfileActivity, ReviewPostActivity::class.java)
                         reviewEditIntent.putExtra("name", intent.getStringExtra("name"))
                         reviewEditIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
+                        reviewEditIntent.putExtra("isCreate", false)
                         startActivity(reviewEditIntent)
                     }
 
