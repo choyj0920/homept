@@ -45,7 +45,7 @@ class TraineeProfileActivity : AppCompatActivity() {
 
                 var user: UserData = TraineeData(
                     name = name.toString(), id = id.toString(), password = pwd.toString(), gender = gender.toString(), birth = birthDate,
-                    isTrainee = true, userCategory = category, description = binding.injuryHistory.text.toString()
+                    isTrainee = true, userCategory = category, description = injuryHistory
                 )
 
                 var userData: UserData? = ApiManager.register(user);

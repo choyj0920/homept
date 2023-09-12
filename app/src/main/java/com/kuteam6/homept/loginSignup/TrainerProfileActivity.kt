@@ -31,6 +31,18 @@ class TrainerProfileActivity : AppCompatActivity() {
                 if (binding.purpose5.isChecked) category += "1" else category += "0"
                 if (binding.purpose6.isChecked) category += "1" else category += "0"
 
+                var location = ""
+                if (binding.location1.isChecked) location += "서울,"
+                if (binding.location2.isChecked) location += "경기,"
+                if (binding.location3.isChecked) location += "인천,"
+                if (binding.location4.isChecked) location += "강원,"
+                if (binding.location5.isChecked) location += "충청,"
+                if (binding.location6.isChecked) location += "전라,"
+                if (binding.location7.isChecked) location += "경상,"
+                if (binding.location8.isChecked) location += "제주,"
+                if (location.isNotEmpty())
+                    location.substring(location.length-2)
+
                 var name = intent.getStringExtra("name")
                 var id = intent.getStringExtra("id")
                 var pwd = intent.getStringExtra("pwd")
@@ -41,9 +53,12 @@ class TrainerProfileActivity : AppCompatActivity() {
                 val patterned = birth?.format(pattern)
                 val birthDate = LocalDate.parse(patterned, pattern)
 
+                val career = binding.careerHistory.text.toString()
+                val lesson = binding.lessionInfo.text.toString()
+
                 var user: UserData = TrainerData(    // 트레이너 일경우 TrainerData생성해서 register함수 매개로
                     name = name.toString(), id = id.toString(), password = pwd.toString(), gender = gender.toString(), birth = birthDate,
-                    isTrainee = false, userCategory = category, career = binding.careerHistory.text.toString(), lesson =  binding.lessionInfo.text.toString()
+                    isTrainee = false, userCategory = category, location = location, career = career, lesson = lesson
                 )
 
                 var userData: UserData? = ApiManager.register(user);

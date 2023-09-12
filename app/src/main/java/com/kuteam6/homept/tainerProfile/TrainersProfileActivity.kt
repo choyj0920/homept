@@ -59,12 +59,12 @@ class TrainersProfileActivity : AppCompatActivity() {
         binding.tvLesson.text = intent.getStringExtra("lesson")
 
 
-//        val career = intent.getStringExtra("career")!!.split("\r?\n|\r".toRegex()).toTypedArray()
-//
-//        for (careerString in career) {
-//            careerDatas.add(CareerData(careerString))
-//        }
-//
+        val career = intent.getStringExtra("career")!!.split("\r?\n|\r".toRegex()).toTypedArray()
+
+        for (careerString in career) {
+            careerDatas.add(CareerData(careerString))
+        }
+
 //        val certificate = intent.getStringExtra("certificate")!!.split("\r?\n|\r".toRegex()).toTypedArray()
 //
 //        for (certificateString in certificate) {
@@ -133,12 +133,11 @@ class TrainersProfileActivity : AppCompatActivity() {
 
     private fun initDataList(){
 
-
-        with(careerDatas){
-            add(CareerData("미스터 올림피아 8회 연속 우승"))
-            add(CareerData("한국체육대학교 박사"))
-            add(CareerData("트레이닝 경력 8년"))
-        }
+//        with(careerDatas){
+//            add(CareerData("미스터 올림피아 8회 연속 우승"))
+//            add(CareerData("한국체육대학교 박사"))
+//            add(CareerData("트레이닝 경력 8년"))
+//        }
 
         with(certificateDatas){
             add(CertificateData("생활체육지도자 1급"))
