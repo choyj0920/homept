@@ -2,6 +2,8 @@ package com.kuteam6.homept.sns
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +19,7 @@ import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.FragmentSnsBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.Postdata
+import com.kuteam6.homept.restservice.data.TrainerProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -286,6 +289,55 @@ class SnsFragment : Fragment() {
 
             }
         }
+
+        binding.snsSearchEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var tempList = ArrayList<Postdata>()
+                if(postDataList != null) {
+                    for(list in postDataList) {
+                        if(!(p0.toString()=="")) {
+                            if(list.content.contains(p0.toString()) || list.title.contains(p0.toString())){
+                                tempList.add(list)
+                            }
+                        }
+                    }
+                    snsAdapter = SnsAdapter(tempList, requireContext(), lifecycleScope)
+                    binding.snsRv.adapter = snsAdapter
+                    binding.snsRv.layoutManager = LinearLayoutManager(context)
+                    snsAdapter!!.setOnItemClickListener(object : SnsAdapter.OnItemClickListener{
+                        override fun onItemClick(postdata: Postdata) {
+                            val postIntent = Intent(context, SnsPostActivity::class.java)
+                            postIntent.putExtra("uid", postdata.uid)
+                            postIntent.putExtra("pid", postdata.pid)
+                            postIntent.putExtra("name", postdata.name)
+                            postIntent.putExtra("title", postdata.title)
+                            postIntent.putExtra("content", postdata.content)
+                            postIntent.putExtra("category", postdata.postcategory)
+                            postIntent.putExtra("time", postdata.create_at)
+                            postIntent.putExtra("isImagehave", postdata.isImagehave)
+                            startActivity(postIntent)
+                        }
+
+                        override fun onUserItemClick(postdata: Postdata) {
+                            val userPostIntent = Intent(context, SnsUserPostsActivity::class.java)
+                            userPostIntent.putExtra("uid", postdata.uid)
+                            userPostIntent.putExtra("isTrainee", postdata.isTrainee)
+                            userPostIntent.putExtra("name", postdata.name)
+                            startActivity(userPostIntent)
+                        }
+                    })
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
 
         binding.snsPostBtn.setOnClickListener {
             val postIntent = Intent(context, SnsCreatePostActivity::class.java)
