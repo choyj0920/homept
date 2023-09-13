@@ -182,7 +182,7 @@
                     android:id="@+id/trainer_review_rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginBottom="120dp" />
 
 
             </LinearLayout>
@@ -194,12 +194,13 @@
         android:layout_width="154dp"
         android:layout_height="75dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/pt_button_background"
         android:text="PT 신청"
         android:textColor="@color/green"
         android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

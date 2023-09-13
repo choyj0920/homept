@@ -1,5 +1,7 @@
 package com.kuteam6.homept.tainerProfile
 
+import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.R
 import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
+import com.kuteam6.homept.myPage.ReviewPostActivity
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.restservice.data.MySession
@@ -56,12 +59,12 @@ class TrainersProfileActivity : AppCompatActivity() {
         binding.tvLesson.text = intent.getStringExtra("lesson")
 
 
-//        val career = intent.getStringExtra("career")!!.split("\r?\n|\r".toRegex()).toTypedArray()
-//
-//        for (careerString in career) {
-//            careerDatas.add(CareerData(careerString))
-//        }
-//
+        val career = intent.getStringExtra("career")!!.split("\r?\n|\r".toRegex()).toTypedArray()
+
+        for (careerString in career) {
+            careerDatas.add(CareerData(careerString))
+        }
+
 //        val certificate = intent.getStringExtra("certificate")!!.split("\r?\n|\r".toRegex()).toTypedArray()
 //
 //        for (certificateString in certificate) {
@@ -100,18 +103,44 @@ class TrainersProfileActivity : AppCompatActivity() {
                 val reviewAdapter = ReviewAdapter(reviewDatas)
                 binding.trainerReviewRv.adapter = reviewAdapter
                 binding.trainerReviewRv.layoutManager = LinearLayoutManager(applicationContext)
+                reviewAdapter.setOnItemClickListener(object : ReviewAdapter.OnItemClickListener {
+                    override fun onEditItemClick(review: Review) {
+                        Log.d("edit", intent.getStringExtra("name").toString())
+                        val reviewEditIntent = Intent(this@TrainersProfileActivity, ReviewPostActivity::class.java)
+                        reviewEditIntent.putExtra("name", intent.getStringExtra("name"))
+                        reviewEditIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
+                        reviewEditIntent.putExtra("isCreate", false)
+                        startActivity(reviewEditIntent)
+                        reviewAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onDeleteItemClick(review: Review) {
+                        Log.d("delete", intent.getStringExtra("name").toString())
+                        val builder = AlertDialog.Builder(this@TrainersProfileActivity)
+                        builder.setTitle("제목")
+                            .setMessage("댓글을 삭제하시겠습니까?")
+                            .setPositiveButton("확인") { dialog, id ->
+                                lifecycleScope.launch(Dispatchers.Main){
+                                    ApiManager.deleteReview(intent.getIntExtra("uid", 0), review.uid)
+                                    reviewDatas.remove(review)
+                                    reviewAdapter.notifyDataSetChanged()
+                                }
+                            }
+                        val dialog = builder.create()
+                        dialog.show()
+                    }
+                })
             }
         }
     }
 
     private fun initDataList(){
 
-
-        with(careerDatas){
-            add(CareerData("미스터 올림피아 8회 연속 우승"))
-            add(CareerData("한국체육대학교 박사"))
-            add(CareerData("트레이닝 경력 8년"))
-        }
+//        with(careerDatas){
+//            add(CareerData("미스터 올림피아 8회 연속 우승"))
+//            add(CareerData("한국체육대학교 박사"))
+//            add(CareerData("트레이닝 경력 8년"))
+//        }
 
         with(certificateDatas){
             add(CertificateData("생활체육지도자 1급"))
@@ -153,5 +182,45 @@ class TrainersProfileActivity : AppCompatActivity() {
 
     private fun showToastMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
+            val reviewList =  ApiManager.getReview(intent.getIntExtra("uid", 0))
+            if (reviewList != null) {
+                reviewDatas = reviewList.toTypedArray().toCollection(ArrayList<Review>())
+                val reviewAdapter = ReviewAdapter(reviewDatas)
+                binding.trainerReviewRv.adapter = reviewAdapter
+                binding.trainerReviewRv.layoutManager = LinearLayoutManager(applicationContext)
+                reviewAdapter.setOnItemClickListener(object : ReviewAdapter.OnItemClickListener {
+                    override fun onEditItemClick(review: Review) {
+                        Log.d("edit", intent.getStringExtra("name").toString())
+                        val reviewEditIntent = Intent(this@TrainersProfileActivity, ReviewPostActivity::class.java)
+                        reviewEditIntent.putExtra("name", intent.getStringExtra("name"))
+                        reviewEditIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
+                        reviewEditIntent.putExtra("isCreate", false)
+                        startActivity(reviewEditIntent)
+                        reviewAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onDeleteItemClick(review: Review) {
+                        Log.d("delete", intent.getStringExtra("name").toString())
+                        val builder = AlertDialog.Builder(this@TrainersProfileActivity)
+                        builder.setTitle("제목")
+                            .setMessage("댓글을 삭제하시겠습니까?")
+                            .setPositiveButton("확인") { dialog, id ->
+                                lifecycleScope.launch(Dispatchers.Main){
+                                    ApiManager.deleteReview(intent.getIntExtra("uid", 0), review.uid)
+                                    reviewDatas.remove(review)
+                                    reviewAdapter.notifyDataSetChanged()
+                                }
+                            }
+                        val dialog = builder.create()
+                        dialog.show()
+                    }
+                })
+            }
+        }
     }
 }
