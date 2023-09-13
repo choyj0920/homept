@@ -111,6 +111,7 @@ class TrainersProfileActivity : AppCompatActivity() {
                         reviewEditIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
                         reviewEditIntent.putExtra("isCreate", false)
                         startActivity(reviewEditIntent)
+                        reviewAdapter.notifyDataSetChanged()
                     }
 
                     override fun onDeleteItemClick(review: Review) {
@@ -121,6 +122,8 @@ class TrainersProfileActivity : AppCompatActivity() {
                             .setPositiveButton("확인") { dialog, id ->
                                 lifecycleScope.launch(Dispatchers.Main){
                                     ApiManager.deleteReview(intent.getIntExtra("uid", 0), review.uid)
+                                    reviewDatas.remove(review)
+                                    reviewAdapter.notifyDataSetChanged()
                                 }
                             }
                         val dialog = builder.create()
@@ -198,6 +201,7 @@ class TrainersProfileActivity : AppCompatActivity() {
                         reviewEditIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
                         reviewEditIntent.putExtra("isCreate", false)
                         startActivity(reviewEditIntent)
+                        reviewAdapter.notifyDataSetChanged()
                     }
 
                     override fun onDeleteItemClick(review: Review) {
@@ -208,6 +212,8 @@ class TrainersProfileActivity : AppCompatActivity() {
                             .setPositiveButton("확인") { dialog, id ->
                                 lifecycleScope.launch(Dispatchers.Main){
                                     ApiManager.deleteReview(intent.getIntExtra("uid", 0), review.uid)
+                                    reviewDatas.remove(review)
+                                    reviewAdapter.notifyDataSetChanged()
                                 }
                             }
                         val dialog = builder.create()
