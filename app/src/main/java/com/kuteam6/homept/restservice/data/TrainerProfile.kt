@@ -37,7 +37,4 @@ data class TrainerProfile(
                 " ${if(matchingscore!=null) ", 매칭 점수 ${matchingscore}" else ""} \n"
     }
 
-    companion object{
-        var trainerprofile : TrainerProfile ?= null
-    }
 }

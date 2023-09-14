@@ -2,6 +2,7 @@ package com.kuteam6.homept.myPage
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,21 +26,19 @@ class MypageMemberListActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMypageMemberListBinding.inflate(layoutInflater)
 
+        binding.cbGetSession.visibility = View.GONE
+
         //트레이니
         if(UserData.userdata?.isTrainee == true){
             binding.cbGetSession.isChecked = false
-            binding.etGetSessionMyuid.hint = "traineeUid"
+            //binding.etGetSessionMyuid.hint = UserData.userdata?.name
+            binding.tvGetSessionResult.text = "내 트레이너"
         }
         //트레이너
         else{
             binding.cbGetSession.isChecked = true
-            binding.etGetSessionMyuid.hint = "trainerUid"
+            binding.tvGetSessionResult.text = "내 트레이니"
         }
-//        binding.cbGetSession.setOnCheckedChangeListener { _, isChecked ->
-//            binding.etGetSessionMyuid.setText("");
-//            binding.etGetSessionMyuid.hint = if(isChecked) "trainerUID" else "traineeUID";
-//
-//        }
 
         binding.btnGetSession.setOnClickListener {
             var uid = UserData.userdata?.uid.toString().toInt()

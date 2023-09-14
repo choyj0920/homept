@@ -24,20 +24,6 @@
         app:layout_constraintTop_toBottomOf="@+id/btnMypageHealthMBTI"
         tools:layout_editor_absoluteX="0dp" />
 
-    <TextView
-        android:id="@+id/myPageReservationList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="299dp"
-        android:text="예약 현황"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
     <ImageView
         android:id="@+id/ivMyPageImage"
         android:layout_width="251dp"
@@ -73,9 +59,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="21dp"
         android:drawableTop="@drawable/baseline_text_snippet_24"
-        android:paddingBottom="5dp"
-        android:background="#CBF3F0"
+        android:background="@drawable/rounded_button"
         android:text="내 정보 관리"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -86,8 +72,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:drawableTop="@drawable/baseline_content_paste_search_24"
-        android:background="#CBF3F0"
+        android:background="@drawable/rounded_button"
         android:text="HBTI"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnMyPageInfo" />
 
@@ -97,8 +84,9 @@
         android:layout_height="92dp"
         android:layout_marginStart="31dp"
         android:drawableTop="@drawable/baseline_people_24"
-        android:background="#CBF3F0"
+        android:background="@drawable/rounded_button"
         android:text="내 리스트"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnMyPageInfo"
         app:layout_constraintStart_toEndOf="@+id/btnMyPageInfo" />
 
@@ -110,9 +98,9 @@
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="136dp"
         android:drawableTop="@drawable/baseline_chat_24"
-        android:background="#CBF3F0"
-        android:paddingBottom="5dp"
+        android:background="@drawable/rounded_button"
         android:text="채팅"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/view2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -124,7 +112,7 @@
         android:layout_height="92dp"
         android:layout_marginStart="31dp"
         android:layout_marginTop="16dp"
-        android:background="#CBF3F0"
+        android:background="@drawable/rounded_button"
         android:drawableTop="@drawable/baseline_mode_24"
         android:text="이력 수정"
         app:layout_constraintBottom_toBottomOf="@+id/btnMypageHealthMBTI"

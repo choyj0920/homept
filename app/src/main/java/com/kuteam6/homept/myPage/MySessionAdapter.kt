@@ -7,11 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kuteam6.homept.databinding.ItemMemberListBinding
 import com.kuteam6.homept.restservice.data.MySession
 import com.kuteam6.homept.restservice.data.UserData
-import com.kuteam6.homept.sns.SnsAdapter
-import com.kuteam6.homept.trainerSearch.SearchAdapter
-import java.security.KeyStore.TrustedCertificateEntry
-
-
 
 
 class MySessionAdapter(private val itemList : ArrayList<MySession>) : RecyclerView.Adapter<MySessionAdapter.ViewHolder>() {
@@ -23,8 +18,8 @@ class MySessionAdapter(private val itemList : ArrayList<MySession>) : RecyclerVi
         fun onPostReview(name: String, trainerUid: Int)
     }
 
-    fun setOnItemClickListener(sessionApprovalListenerr : SessionApprovalListener) {
-        itemClickListener = sessionApprovalListenerr
+    fun setOnItemClickListener(sessionApprovalListener : SessionApprovalListener) {
+        itemClickListener = sessionApprovalListener
     }
 
     inner class ViewHolder(val binding: ItemMemberListBinding) : RecyclerView.ViewHolder(binding.root){
