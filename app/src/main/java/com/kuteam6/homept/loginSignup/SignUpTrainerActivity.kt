@@ -23,17 +23,15 @@ import kotlinx.coroutines.launch
 class SignUpTrainerActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySignupTrainerBinding
-    private lateinit var auth: FirebaseAuth
-    lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupTrainerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var name: String? = null
-        auth = Firebase.auth
-        database = Firebase.database.reference
+//        var name: String? = null
+//        auth = Firebase.auth
+//        database = Firebase.database.reference
 
 
         // 중복 체크 구현
@@ -66,26 +64,26 @@ class SignUpTrainerActivity : AppCompatActivity() {
                 Toast.makeText(this, "입력한 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             } else if (binding.checkId.text == "아이디중복x") {
 
-                //Firebase
-                name = binding.trainerNameEdit.text.toString()
-                val email = binding.trainerIdEdit.text.toString() + "@test.com"
-                val password = binding.trainerPwEdit.text.toString()
-
-
-                //database.child("test").setValue("test")
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnSuccessListener {
-                        Log.e("task", "success")
-                        val user = Firebase.auth.currentUser
-                        val userId = user?.uid
-                        val userIdSt = userId.toString()
-                        Log.d("show uid", userIdSt)
-
-                        val friend = Friend(email.toString(), name.toString(), "null", userIdSt)
-                        database.child("users").child(userId.toString()).setValue(friend)
-                    }.addOnFailureListener {
-                        Log.e("task", "fail")
-                    }
+//                //Firebase
+//                name = binding.trainerNameEdit.text.toString()
+//                val email = binding.trainerIdEdit.text.toString() + "@test.com"
+//                val password = binding.trainerPwEdit.text.toString()
+//
+//
+//                //database.child("test").setValue("test")
+//                auth.createUserWithEmailAndPassword(email, password)
+//                    .addOnSuccessListener {
+//                        Log.e("task", "success")
+//                        val user = Firebase.auth.currentUser
+//                        val userId = user?.uid
+//                        val userIdSt = userId.toString()
+//                        Log.d("show uid", userIdSt)
+//
+//                        val friend = Friend(email.toString(), name.toString(), "null", userIdSt)
+//                        database.child("users").child(userId.toString()).setValue(friend)
+//                    }.addOnFailureListener {
+//                        Log.e("task", "fail")
+//                    }
 
 
                 val traineeProfileIntent =

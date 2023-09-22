@@ -3,7 +3,14 @@ package com.kuteam6.homept.loginSignup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.kuteam6.homept.Friend
 import com.kuteam6.homept.databinding.ActivityTraineeProfileBinding
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.TraineeData
@@ -15,10 +22,15 @@ import java.time.format.DateTimeFormatter
 
 class TraineeProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityTraineeProfileBinding
+    private lateinit var auth: FirebaseAuth
+    lateinit var database: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTraineeProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        auth = Firebase.auth
+        database = Firebase.database.reference
 
         binding.btnSubmitTraineeProfile.setOnClickListener{
 
@@ -49,6 +61,29 @@ class TraineeProfileActivity : AppCompatActivity() {
                 )
 
                 var userData: UserData? = ApiManager.register(user);
+
+                //Firebase
+                val fname = name.toString()
+                val email = id.toString() + "@test.com"
+                val password = pwd.toString()
+
+
+                //database.child("test").setValue("test")
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        Log.e("task", "success")
+                        val user = Firebase.auth.currentUser
+                        val userId = user?.uid
+                        val userIdSt = userId.toString()
+                        val suid = userData!!.uid
+                        Log.d("show uid", userIdSt)
+
+                        val friend = Friend(email.toString(), fname.toString(), "null", userIdSt, suid)
+                        database.child("users").child(userId.toString()).setValue(friend)
+                    }.addOnFailureListener {
+                        Log.e("task", "fail")
+                    }
+
                 val intent = Intent(this@TraineeProfileActivity, LoginActivity::class.java)
                 startActivity(intent)
             }
