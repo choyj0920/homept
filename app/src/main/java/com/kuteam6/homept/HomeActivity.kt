@@ -5,6 +5,7 @@ import HomeFragment
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.FragmentTransaction
 import com.kuteam6.homept.trainerSearch.SearchFragment
 import com.kuteam6.homept.databinding.ActivityHomeBinding
@@ -21,13 +22,6 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        if (!UserData.userdata?.isTrainee!!) {
-            if (UserData.userdata?.hbti == null) {
-                val hbtiIntent = Intent(this, HbtiStartActivity::class.java)
-                startActivity(hbtiIntent)
-            }
-        }
 
         initBottomNavigation()
         binding.homeBnv.itemIconTintList = null
