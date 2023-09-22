@@ -1,25 +1,40 @@
 package com.kuteam6.homept.myPage
 
+import android.app.Activity
 import ChatFragment
 import ProfileFragment
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kuteam6.homept.R
+import com.kuteam6.homept.chat.ChatListActivity
 import com.kuteam6.homept.databinding.FragmentMypageBinding
 import com.kuteam6.homept.hbtiTest.HbtiStartActivity
 import com.kuteam6.homept.restservice.data.UserData
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 
 class MypageFragment : Fragment() {
 
-    lateinit var binding: FragmentMypageBinding
+    private lateinit var binding: FragmentMypageBinding
+    private var selectedProfilePhoto : File? = null
+
+    companion object{
+        private const val GALLERY_REQUEST_CODE = 1
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,8 +42,36 @@ class MypageFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentMypageBinding.inflate(inflater, container, false)
 
-        //프로필 사진 변경
+        //프로필 사진
         binding.ivMyPageImage.setOnClickListener {
+            val bottomSheetDialog = BottomSheetDialog(requireActivity())
+            val sheetView = layoutInflater.inflate(R.layout.dialog_bottom_sheet, null)
+
+            bottomSheetDialog.setContentView(sheetView)
+
+            val btnTakePhoto = sheetView.findViewById<Button>(R.id.btn_take_photo)
+            val btnChooseFromGallery = sheetView.findViewById<Button>(R.id.btn_choose_from_gallery)
+            val btnCancelDialog = sheetView.findViewById<Button>(R.id.btn_cancel_dialog)
+
+            btnTakePhoto.setOnClickListener {
+                //카메라
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(cameraIntent, GALLERY_REQUEST_CODE)
+                bottomSheetDialog.dismiss()
+            }
+
+            btnChooseFromGallery.setOnClickListener {
+                //갤러리
+                bottomSheetDialog.dismiss()
+            }
+
+            btnCancelDialog.setOnClickListener {
+                //취소
+                bottomSheetDialog.dismiss()
+            }
+
+            bottomSheetDialog.show()
+
             binding.clSub.visibility = View.GONE
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             val profileFragment = ProfileFragment()
@@ -80,6 +123,10 @@ class MypageFragment : Fragment() {
         }
 
         // 채팅 버튼 클릭 이벤트
+        binding.btnMyPageChat.setOnClickListener {
+            val chatIntent = Intent(activity, ChatListActivity::class.java)
+            startActivity(chatIntent)
+        }
 
         // HBTI 바로가기
         binding.btnMypageHealthMBTI.setOnClickListener {
@@ -104,4 +151,66 @@ class MypageFragment : Fragment() {
         return binding.root
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            val imageUri = data?.data
+            // uri 객체를 이용하여 파일 경로 생성
+            //val filePath = getPathFromUri(imageUri)
+
+            // 파일 객체 생성
+            //selectedProfilePhoto = File(filePath)
+            binding.ivMyPageImage.setImageURI(imageUri)
+            Log.d("SelectedProfileImageFile", selectedProfilePhoto.toString())
+        }
+    }
+
+//    private fun getPathFromUri(uri: Uri?): String {
+//        val projection = arrayOf(MediaStore.Images.Media.DATA)
+//        val cursor = contentResolver.query(uri!!, projection, null, null, null)
+//        val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//        cursor.moveToFirst()
+//        val path = cursor.getString(columnIndex)
+//        cursor.close()
+//        return path
+//    }
+//
+//    private fun ivToFile(image: ImageView): File {
+//        var bitmap = (image.drawable as BitmapDrawable).bitmap
+//        val stream = ByteArrayOutputStream()
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100,stream)
+//
+//        // 크기 너무 크게하면 api에서 안 받아줌. 크기 줄이기 최대 400으로
+//
+//        val width = bitmap.width
+//        val height = bitmap.height
+//        val maxSide = if(width > height) width else height
+//        val scale = 400f /maxSide
+//        val newWidth = (width*scale).toInt()
+//        val newHeight = (height*scale).toInt()
+//        val newBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+//
+//        var filepath= getExternalFilesDir(null).toString() +"/image"
+//        val dir= File(filepath)
+//        if(!dir.exists())
+//            dir.mkdirs()
+//
+//        val fileName="temp.png"
+//        var file = File(dir,fileName)
+//        filepath=file.absolutePath
+//
+//        file.writeBitmap(newbitmap, Bitmap.CompressFormat.PNG,50)
+//        //var file = File(filepath+"/"+fileName)
+//        file= File(filepath)
+//        return file
+//    }
+
+    private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int) {
+        outputStream().use { out ->
+            bitmap.compress(format, quality, out)
+            out.flush()
+            out.close()
+        }
+    }
 }

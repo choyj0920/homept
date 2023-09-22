@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_comment_delete"
+        android:layout_width="390dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_button"
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"
+        android:text="삭제하기"
+        android:topLeftRadius="5dp"
+        android:topRightRadius="5dp" />
+
+    <Button
+        android:id="@+id/btn_cancel_in_comment"
+        android:layout_width="390dp"
+        android:layout_height="wrap_content"
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"
+        android:topLeftRadius="5dp"
+        android:topRightRadius="5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_button"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/cancel_dialog" />
+
+</LinearLayout>

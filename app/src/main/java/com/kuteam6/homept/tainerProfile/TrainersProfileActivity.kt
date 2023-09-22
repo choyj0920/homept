@@ -78,13 +78,24 @@ class TrainersProfileActivity : AppCompatActivity() {
         //PT 신청 버튼
         binding.btnPt.setOnClickListener {
             showPtApplyConfirmationDialog()
-
+            initTrainerProfile()
 
 //            val applyConfirmIntent = Intent(this@TrainersProfileActivity, PtApplyConfirmActivity::class.java)
 //            applyConfirmIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
 //            startActivity(applyConfirmIntent)
         }
 
+    }
+
+    private fun initTrainerProfile() {
+        val traineruid = intent.getIntExtra("traineruid",0)
+
+        lifecycleScope.launch(Dispatchers.Main){
+            var result = ApiManager.getTrainerProfile(traineruid)
+            if(result != null){
+
+            }
+        }
     }
 
     private fun initRecyclerView(){
@@ -168,9 +179,10 @@ class TrainersProfileActivity : AppCompatActivity() {
 
     private fun initapplysession() {
         var traineeuid = UserData.userdata?.uid.toString().toInt()
+        Log.d("traineeuid",traineeuid.toString())
         //트레이너 아이디만 나중에 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         var traineruid = 87
-
+        Log.d("traineruid", traineruid.toString())
 
         lifecycleScope.launch(Dispatchers.Main){
             Log.d("sid", MySession.mysession?.sid.toString())

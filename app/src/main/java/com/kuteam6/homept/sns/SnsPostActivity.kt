@@ -23,10 +23,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.URL
 import java.util.concurrent.Executors
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+
 
 class SnsPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySnsPostBinding
+    private val database = FirebaseDatabase.getInstance()
+    private lateinit var likesRef: DatabaseReference
 
+    companion object{
+        private const val TAG = "SnsPostActivity"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -80,24 +91,41 @@ class SnsPostActivity : AppCompatActivity() {
             }
         }
 
-        //좋아요 버튼 (서버 연결은 x)
+        val postId = intent.getIntExtra("pid",0).toString()
+        likesRef = database.getReference("likes").child(postId)
+
+        likesRef.child(UserData.userdata?.uid.toString()).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                binding.snsLikeIv.isSelected = snapshot.exists()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(TAG, "Failed to read value", error.toException())
+            }
+        })
+
+        //좋아요 버튼
         binding.snsLikeIv.setOnClickListener {
             val likeButton = it as ImageView
             if(likeButton.isSelected){
                 //좋아요 해제
                 likeButton.isSelected = false
                 showLikeSnackBar("좋아요 취소", false)
+
+                likesRef.child(UserData.userdata?.uid.toString()).removeValue()
             }
             else{
                 likeButton.isSelected = true
                 showLikeSnackBar("좋아요를 눌렀어요!", true)
+
+                likesRef.child(UserData.userdata?.uid.toString()).setValue(true)
             }
         }
 
         //댓글 창으로 이동하는 부분
         binding.snsCommentIv.setOnClickListener {
             val commentIntent = Intent(this, SnsCommentActivity::class.java)
-
+            commentIntent.putExtra("pid", intent.getIntExtra("pid", 0))
             startActivity(commentIntent)
         }
     }

@@ -31,6 +31,10 @@ class MypageInfoActivity : AppCompatActivity() {
         val userName = UserData.userdata?.name.toString()
         binding.tvMyPageInfoName.text = userName
 
+        // 회원 아이디
+        val userId = UserData.userdata?.id.toString()
+        binding.tvMyPageInfoID.text = userId
+
         //회원 이름 수정 이벤트
         binding.ivNameEdit.setOnClickListener {
             val nameEditIntent = Intent(this, MypageEditnameActivity::class.java)
@@ -38,7 +42,6 @@ class MypageInfoActivity : AppCompatActivity() {
             startActivityForResult(nameEditIntent, NAME_EDIT_REQUEST_CODE)
         }
 
-        // 전화번호
 
         //비밀 번호 변경 버튼 이벤트
         binding.btnMyPageChangePw.setOnClickListener {
