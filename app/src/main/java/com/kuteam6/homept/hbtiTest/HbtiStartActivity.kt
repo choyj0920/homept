@@ -3,6 +3,7 @@ package com.kuteam6.homept.hbtiTest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.kuteam6.homept.databinding.ActivityHbtiStartBinding
 
 class HbtiStartActivity : AppCompatActivity() {
@@ -20,9 +21,17 @@ class HbtiStartActivity : AppCompatActivity() {
             finish()
         }
 
+        if (intent.getBooleanExtra("firstPage", false)) {
+            binding.toolbarBackIv.toolbarBackIv.visibility = View.GONE
+        }
+
         binding.btnStartTest.setOnClickListener {
-            val intent = Intent(this, HbtiTestActivity::class.java)
-            startActivity(intent)
+            val HbtiTestIntent = Intent(this, HbtiTestActivity::class.java)
+            HbtiTestIntent.putExtra("firstPage", intent.getBooleanExtra("firstPage", false))
+            startActivity(HbtiTestIntent)
+            if (intent.getBooleanExtra("firstPage", false)) {
+                finish()
+            }
         }
     }
 }

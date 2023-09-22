@@ -3,6 +3,7 @@ package com.kuteam6.homept.hbtiTest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.databinding.ActivityHbtiResultBinding
 import com.kuteam6.homept.trainerRecommend.RecommendActivity
@@ -32,8 +33,18 @@ class HbtiResultActivity : AppCompatActivity() {
         binding.btnMove.setOnClickListener {
             finish()
             val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("fragment", "recommend")
+            if (intent.getBooleanExtra("firstPage" ,false)) {
+                intent.putExtra("fragment", "recommend")
+            }
             startActivity(intent)
+        }
+
+        if (intent.getBooleanExtra("firstPage" ,false)) {
+            binding.toolbarBackIv.toolbarBackIv.visibility = View.GONE
+        }
+
+        if (intent.getBooleanExtra("firstPage" ,false)) {
+            binding.btnMove.text = "앱 시작하기"
         }
     }
 

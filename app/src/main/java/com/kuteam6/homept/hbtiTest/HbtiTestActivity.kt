@@ -42,6 +42,10 @@ class HbtiTestActivity : AppCompatActivity() {
             finish()
         }
 
+        if (intent.getBooleanExtra("firstPage", false)) {
+            binding.toolbarBackIv.toolbarBackIv.visibility = View.GONE
+        }
+
         var hScore = 0.0
         var bScore = 0.0
         var fScore = 0.0
@@ -138,9 +142,13 @@ class HbtiTestActivity : AppCompatActivity() {
                     ApiManager.setHbti(uid,scoreListInt)
                 }
 
-                val intent = Intent(this, HbtiResultActivity::class.java)
-                intent.putExtra("scoreList", scoreList)
-                startActivity(intent)
+                val HbtiResultIntent = Intent(this, HbtiResultActivity::class.java)
+                HbtiResultIntent.putExtra("firstPage", intent.getBooleanExtra("firstPage", false))
+                HbtiResultIntent.putExtra("scoreList", scoreList)
+                startActivity(HbtiResultIntent)
+                if (intent.getBooleanExtra("firstPage", false)) {
+                    finish()
+                }
             }
 
         }
