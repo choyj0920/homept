@@ -86,6 +86,7 @@ class MypageMemberListActivity: AppCompatActivity() {
                             val postReviewIntent = Intent(this@MypageMemberListActivity, ReviewPostActivity::class.java)
                             postReviewIntent.putExtra("name", name)
                             postReviewIntent.putExtra("trainerUid", trainerUid)
+                            postReviewIntent.putExtra("isCreate", true)
                             startActivity(postReviewIntent)
                         }
 

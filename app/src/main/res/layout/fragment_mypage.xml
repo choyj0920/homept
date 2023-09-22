@@ -4,25 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".myPage.MypageFragment">
+    tools:context=".myPage.MypageFragment"
+    android:id="@+id/cl_main">
 
-    <View
-        android:id="@+id/view"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_sub"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/myPageName"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="match_parent"
+        >
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="27dp"
-        android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/btnMypageHealthMBTI"
-        tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
         android:id="@+id/ivMyPageImage"
@@ -36,22 +26,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/myPageName"
-        android:layout_width="78dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="166dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="167dp"
-        android:gravity="center"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivMyPageImage" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/myPageName"
+            tools:layout_editor_absoluteX="0dp" />
 
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="27dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/btnMypageHealthMBTI"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/myPageReservationList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="299dp"
+            android:text="예약 현황"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <ImageView
+            android:id="@+id/ivMyPageImage"
+            android:layout_width="251dp"
+            android:layout_height="148dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="80dp"
+            android:src="@drawable/mypage_hong"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+      
     <Button
         android:id="@+id/btnMyPageInfo"
         android:layout_width="95dp"
@@ -119,14 +137,95 @@
         app:layout_constraintStart_toEndOf="@+id/btnMypageHealthMBTI"
         app:layout_constraintTop_toBottomOf="@+id/btnMyPageTrainer_Trainee" />
 
-    <ImageView
-        android:id="@+id/ivPtApplyAlarm"
-        android:layout_width="39dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/baseline_notification_important_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/myPageName"
+            android:layout_width="78dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="166dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="167dp"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivMyPageImage" />
 
+        <Button
+            android:id="@+id/btnMyPageInfo"
+            android:layout_width="95dp"
+            android:layout_height="92dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="21dp"
+            android:background="#CBF3F0"
+            android:drawableTop="@drawable/baseline_text_snippet_24"
+            android:paddingBottom="5dp"
+            android:text="내 정보 관리"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <Button
+            android:id="@+id/btnMypageHealthMBTI"
+            android:layout_width="95dp"
+            android:layout_height="92dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:background="#CBF3F0"
+            android:drawableTop="@drawable/baseline_content_paste_search_24"
+            android:text="HBTI"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnMyPageInfo" />
+
+        <Button
+            android:id="@+id/btnMyPageTrainer_Trainee"
+            android:layout_width="95dp"
+            android:layout_height="92dp"
+            android:layout_marginStart="31dp"
+            android:background="#CBF3F0"
+            android:drawableTop="@drawable/baseline_people_24"
+            android:text="내 리스트"
+            app:layout_constraintBottom_toBottomOf="@+id/btnMyPageInfo"
+            app:layout_constraintStart_toEndOf="@+id/btnMyPageInfo" />
+
+        <Button
+            android:id="@+id/btnMyPageChat"
+            android:layout_width="95dp"
+            android:layout_height="92dp"
+            android:layout_marginStart="31dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="136dp"
+            android:background="#CBF3F0"
+            android:drawableTop="@drawable/baseline_chat_24"
+            android:paddingBottom="5dp"
+            android:text="채팅"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/btnMyPageTrainer_Trainee" />
+
+        <Button
+            android:id="@+id/btnMyPageCareer"
+            android:layout_width="95dp"
+            android:layout_height="92dp"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="16dp"
+            android:background="#CBF3F0"
+            android:drawableTop="@drawable/baseline_mode_24"
+            android:text="이력 수정"
+            app:layout_constraintBottom_toBottomOf="@+id/btnMypageHealthMBTI"
+            app:layout_constraintStart_toEndOf="@+id/btnMypageHealthMBTI"
+            app:layout_constraintTop_toBottomOf="@+id/btnMyPageTrainer_Trainee" />
+
+        <ImageView
+            android:id="@+id/ivPtApplyAlarm"
+            android:layout_width="39dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/baseline_notification_important_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

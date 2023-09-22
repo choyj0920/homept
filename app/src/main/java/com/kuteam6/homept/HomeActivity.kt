@@ -1,5 +1,7 @@
 package com.kuteam6.homept
 
+import ChatFragment
+import HomeFragment
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -81,6 +83,18 @@ class HomeActivity : AppCompatActivity() {
                 R.id.mypageFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.home_frm, MypageFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+//                R.id.chatFragment -> {
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.home_frm, ChatFragment())
+//                        .commitAllowingStateLoss()
+//                    return@setOnItemSelectedListener true
+//                }
+                R.id.homeFragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.home_frm, HomeFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }

@@ -1,11 +1,20 @@
 package com.kuteam6.homept.loginSignup
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.kuteam6.homept.Friend
 import com.kuteam6.homept.databinding.ActivitySignupTrainerBinding
 import com.kuteam6.homept.restservice.ApiManager
 import kotlinx.coroutines.Dispatchers
@@ -13,21 +22,28 @@ import kotlinx.coroutines.launch
 
 class SignUpTrainerActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivitySignupTrainerBinding
+    lateinit var binding: ActivitySignupTrainerBinding
+    private lateinit var auth: FirebaseAuth
+    lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupTrainerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var name: String? = null
+        auth = Firebase.auth
+        database = Firebase.database.reference
+
+
         // 중복 체크 구현
         binding.checkIdBtn.setOnClickListener {
 
             lifecycleScope.launch(Dispatchers.Main) { // 비동기 형태라 외부 쓰레드에서 실행해야함
-                var checkid=binding.trainerIdEdit.text.toString()
+                var checkid = binding.trainerIdEdit.text.toString()
                 binding.checkId.setText("load...");
                 var result = ApiManager.checkIdDupicated(checkid);
-                binding.checkId.setText("${ if(result)"아이디중복" else "아이디중복x"}")
+                binding.checkId.setText("${if (result) "아이디중복" else "아이디중복x"}")
 
             }
 
@@ -49,7 +65,31 @@ class SignUpTrainerActivity : AppCompatActivity() {
             } else if (binding.trainerPwEdit.text.toString() != binding.trainerPwCheckEdit.text.toString()) {
                 Toast.makeText(this, "입력한 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             } else if (binding.checkId.text == "아이디중복x") {
-                val traineeProfileIntent = Intent(this@SignUpTrainerActivity, TrainerProfileActivity::class.java)
+
+                //Firebase
+                name = binding.trainerNameEdit.text.toString()
+                val email = binding.trainerIdEdit.text.toString() + "@test.com"
+                val password = binding.trainerPwEdit.text.toString()
+
+
+                //database.child("test").setValue("test")
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        Log.e("task", "success")
+                        val user = Firebase.auth.currentUser
+                        val userId = user?.uid
+                        val userIdSt = userId.toString()
+                        Log.d("show uid", userIdSt)
+
+                        val friend = Friend(email.toString(), name.toString(), "null", userIdSt)
+                        database.child("users").child(userId.toString()).setValue(friend)
+                    }.addOnFailureListener {
+                        Log.e("task", "fail")
+                    }
+
+
+                val traineeProfileIntent =
+                    Intent(this@SignUpTrainerActivity, TrainerProfileActivity::class.java)
                 traineeProfileIntent.putExtra("name", binding.trainerNameEdit.text.toString())
                 traineeProfileIntent.putExtra("id", binding.trainerIdEdit.text.toString())
                 traineeProfileIntent.putExtra("pwd", binding.trainerPwEdit.text.toString())
@@ -69,10 +109,9 @@ class SignUpTrainerActivity : AppCompatActivity() {
         val passwordEditText3 = binding.trainerPwEdit
 
         passwordEditText3.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus){
+            if (hasFocus) {
                 passwordEditText3.transformationMethod = null
-            }
-            else{
+            } else {
                 passwordEditText3.transformationMethod = PasswordTransformationMethod.getInstance()
             }
         }
@@ -80,10 +119,9 @@ class SignUpTrainerActivity : AppCompatActivity() {
         val passwordEditText4 = binding.trainerPwCheckEdit
 
         passwordEditText4.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus){
+            if (hasFocus) {
                 passwordEditText4.transformationMethod = null
-            }
-            else{
+            } else {
                 passwordEditText4.transformationMethod = PasswordTransformationMethod.getInstance()
             }
         }

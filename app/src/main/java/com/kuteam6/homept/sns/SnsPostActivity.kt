@@ -58,6 +58,7 @@ class SnsPostActivity : AppCompatActivity() {
 
         if (intent.getIntExtra("uid", 0) != UserData.userdata?.uid) {
             binding.snsEditBtn.visibility = View.GONE
+            binding.snsDeleteBtn.visibility = View.GONE
         }
 
         lifecycleScope.launch(Dispatchers.Main) {
@@ -80,6 +81,14 @@ class SnsPostActivity : AppCompatActivity() {
             editIntent.putExtra("uid", intent.getIntExtra("uid", 0))
             editIntent.putExtra("pid", intent.getIntExtra("pid", 0))
             startActivity(editIntent)
+            finish()
+        }
+
+        binding.snsDeleteBtn.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.Main) {
+                ApiManager.deletePost(UserData.userdata!!.uid, intent.getIntExtra("pid", 0))
+                finish()
+            }
         }
 
         val postId = intent.getIntExtra("pid",0).toString()

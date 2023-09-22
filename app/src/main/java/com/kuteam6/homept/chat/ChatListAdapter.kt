@@ -16,7 +16,7 @@ class ChatListAdapter(private val itemList: ArrayList<User>) :
         fun bind(chatListItem: User) {
             //binding.tvCareerName.text = careerData.careerName
             //binding.civImg.setImageResource(chatListItem.img)
-            binding.tvName.text = chatListItem.name
+            //binding.tvName.text = chatListItem.name
             //binding.tvLastChat.text = chatListItem.lastChat
 
             //채팅창 선택 시 이동
