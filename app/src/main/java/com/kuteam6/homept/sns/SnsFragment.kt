@@ -38,7 +38,6 @@ class SnsFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.Main) {
             var resultList = ApiManager.getPost(uid = null)
-            Log.d("post", resultList?.get(0)!!.name)
             if(resultList!=null) {
                 postDataList = resultList.toTypedArray().toCollection(ArrayList<Postdata>())
 
@@ -351,7 +350,6 @@ class SnsFragment : Fragment() {
         // 데이터를 다시 로드하고 RecyclerView를 새로고침
         lifecycleScope.launch(Dispatchers.Main) {
             var resultList = ApiManager.getPost(uid = null)
-            Log.d("post", resultList?.get(0)!!.name)
             if(resultList!=null) {
                 postDataList = resultList.toTypedArray().toCollection(ArrayList<Postdata>())
 

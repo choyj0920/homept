@@ -11,6 +11,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.databinding.ActivityLoginBinding
+import com.kuteam6.homept.hbtiTest.HbtiStartActivity
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.UserData
 import kotlinx.coroutines.Dispatchers
@@ -67,6 +68,15 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("uid", userData.uid.toString())
                     UserData.userdata = userData
 
+                    if (!UserData.userdata?.isTrainee!! &&  UserData.userdata?.hbti.toString() == "[0, 0, 0, 0]") {
+                        val hbtiIntent = Intent(this@LoginActivity, HbtiStartActivity::class.java)
+                        hbtiIntent.putExtra("firstPage", true)
+                        startActivity(hbtiIntent)
+                    } else {
+                        val homeIntent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        startActivity(homeIntent)
+                    }
+
                     //Firebase
                     auth.signInWithEmailAndPassword("$id@test.com", password)
                         .addOnCompleteListener(this@LoginActivity) { task ->
@@ -84,8 +94,6 @@ class LoginActivity : AppCompatActivity() {
                             }
                     // [END Firebase]
 
-                    val homeIntent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    startActivity(homeIntent)
 
 
                 }
