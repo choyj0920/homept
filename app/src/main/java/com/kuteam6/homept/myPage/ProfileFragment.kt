@@ -53,10 +53,23 @@ class ProfileFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if(result.resultCode == AppCompatActivity.RESULT_OK) {
                 imageUri = result.data?.data //이미지 경로 원본
+                Log.d("imageUri", imageUri.toString())
+                if(imageUri == null) view?.findViewById<ImageView>(R.id.profile_imageview)!!.setImageResource(R.drawable.empty_profile)
                 view?.findViewById<ImageView>(R.id.profile_imageview)!!.setImageURI(imageUri) //이미지 뷰를 바꿈
 
                 //기존 사진을 삭제 후 새로운 사진을 등록
                 fireStorage.child("userImages/$uid/photo").delete().addOnSuccessListener {
+                    Log.d("profile delete","success")
+                    fireStorage.child("userImages/$uid/photo").putFile(imageUri!!).addOnSuccessListener {
+                        fireStorage.child("userImages/$uid/photo").downloadUrl.addOnSuccessListener {
+                            val photoUri : Uri = it
+                            println("$photoUri")
+                            fireDatabase.child("users/$uid/profileImageUrl").setValue(photoUri.toString())
+                            Toast.makeText(requireContext(), "프로필사진이 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }.addOnFailureListener {
+                    Log.d("profile delete","fail")
                     fireStorage.child("userImages/$uid/photo").putFile(imageUri!!).addOnSuccessListener {
                         fireStorage.child("userImages/$uid/photo").downloadUrl.addOnSuccessListener {
                             val photoUri : Uri = it
@@ -96,11 +109,18 @@ class ProfileFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userProfile = snapshot.getValue<Friend>()
                 println(userProfile)
-                Glide.with(requireContext()).load(userProfile?.profileImageUrl)
-                    .apply(RequestOptions().circleCrop())
-                    .into(photo!!)
-                email?.text = userProfile?.email
+                Log.d("imageurl",userProfile?.profileImageUrl.toString())
+                if(userProfile?.profileImageUrl == "null"){
+                    photo!!.setImageResource(R.drawable.empty_profile)
+                }else{
+                    Glide.with(requireContext()).load(userProfile?.profileImageUrl)
+                        .apply(RequestOptions().circleCrop())
+                        .into(photo!!)
+                }
+                Log.d("imageurl2",userProfile?.profileImageUrl.toString())
+                //email?.text = userProfile?.email
                 name?.text = userProfile?.name
+                Log.d("nameText",userProfile?.name.toString())
             }
         })
         //프로필사진 바꾸기

@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(this@LoginActivity, "정확한 아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
-//                                Log.d("로그인", "실패")
+                                Log.d("로그인", "실패")
 //                                updateUI(null)
                             }
                     // [END Firebase]

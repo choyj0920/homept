@@ -1,6 +1,7 @@
 package com.kuteam6.homept.chat
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -155,7 +157,14 @@ class MessageActivity : AppCompatActivity() {
 
         @SuppressLint("RtlHardcoded")
         override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-            holder.textView_message.textSize = 20F
+            Log.d("coments",comments[position].hasPT.toString())
+            if(comments[position].hasPT == true){
+                holder.textView_message.textSize = 25F
+                holder.textView_message.setTypeface(null, Typeface.BOLD);
+                holder.textView_message.setTextColor(ContextCompat.getColor(applicationContext!!, R.color.white))
+            }else{
+                holder.textView_message.textSize = 20F
+            }
             holder.textView_message.text = comments[position].message
             holder.textView_time.text = comments[position].time
             if (comments[position].uid.equals(uid)) { // 본인 채팅
@@ -164,10 +173,14 @@ class MessageActivity : AppCompatActivity() {
                 holder.layout_destination.visibility = View.INVISIBLE
                 holder.layout_main.gravity = Gravity.RIGHT
             } else { // 상대방 채팅
-                Glide.with(holder.itemView.context)
-                    .load(friend?.profileImageUrl)
-                    .apply(RequestOptions().circleCrop())
-                    .into(holder.imageView_profile)
+                if(friend?.profileImageUrl == "null"){
+                    holder.imageView_profile.setImageResource(R.drawable.empty_profile)
+                }else{
+                    Glide.with(holder.itemView.context)
+                        .load(friend?.profileImageUrl)
+                        .apply(RequestOptions().circleCrop())
+                        .into(holder.imageView_profile)
+                }
                 holder.textView_name.text = friend?.name
                 holder.layout_destination.visibility = View.VISIBLE
                 holder.textView_name.visibility = View.VISIBLE
