@@ -142,6 +142,8 @@ class HbtiTestActivity : AppCompatActivity() {
                     ApiManager.setHbti(uid,scoreListInt)
                 }
 
+                UserData.userdata!!.hbti = scoreListInt
+
                 val HbtiResultIntent = Intent(this, HbtiResultActivity::class.java)
                 HbtiResultIntent.putExtra("firstPage", intent.getBooleanExtra("firstPage", false))
                 HbtiResultIntent.putExtra("scoreList", scoreList)

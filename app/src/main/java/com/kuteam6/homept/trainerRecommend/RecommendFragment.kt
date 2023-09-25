@@ -140,7 +140,8 @@ class RecommendFragment : Fragment() {
 
         binding.trainerRecommendBtn.setOnClickListener{
             if (UserData.userdata?.isTrainee!!) {
-                if (UserData.userdata?.hbti == null) {
+                Log.d("hbti", UserData.userdata?.hbti.toString())
+                if (UserData.userdata?.hbti.toString() == "[0, 0, 0, 0]") {
                     val hbtiIntent = Intent(activity, HbtiStartActivity::class.java)
                     startActivity(hbtiIntent)
                 } else {

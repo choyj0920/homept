@@ -32,11 +32,11 @@ class HbtiResultActivity : AppCompatActivity() {
         //리스너
         binding.btnMove.setOnClickListener {
             finish()
-            val intent = Intent(this, HomeActivity::class.java)
-            if (intent.getBooleanExtra("firstPage" ,false)) {
-                intent.putExtra("fragment", "recommend")
+            val homeIntent = Intent(this, HomeActivity::class.java)
+            if (!intent.getBooleanExtra("firstPage" ,false)) {
+                homeIntent.putExtra("fragment", "recommend")
             }
-            startActivity(intent)
+            startActivity(homeIntent)
         }
 
         if (intent.getBooleanExtra("firstPage" ,false)) {
