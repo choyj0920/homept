@@ -1,7 +1,5 @@
 package com.kuteam6.homept.tainerProfile
 
-import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -13,12 +11,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -27,9 +22,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.kuteam6.homept.Friend
-import com.kuteam6.homept.HomeActivity
 import com.kuteam6.homept.R
 import com.kuteam6.homept.chat.ChatModel
 import com.kuteam6.homept.databinding.ActivityTrainersProfileBinding
@@ -38,8 +31,6 @@ import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.UserData
 import com.kuteam6.homept.restservice.data.MySession
 import com.kuteam6.homept.restservice.data.Review
-import com.kuteam6.homept.restservice.data.TrainerProfile
-import com.kuteam6.homept.trainerSearch.SearchFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -54,14 +45,11 @@ class TrainersProfileActivity : AppCompatActivity() {
     private lateinit var careerAdapter: CareerAdapter
     private lateinit var certificateAdapter: CertificateAdapter
 
-    private var trainerProfile: TrainerProfile? = null
-
     val careerDatas = arrayListOf<CareerData>()
     val certificateDatas = arrayListOf<CertificateData>()
     var reviewDatas = arrayListOf<Review>()
 
     private val fireDatabase = FirebaseDatabase.getInstance().reference
-    private val user = Firebase.auth.currentUser
     private var uid: String? = null
     private lateinit var trainerUid: String
 
@@ -161,7 +149,6 @@ class TrainersProfileActivity : AppCompatActivity() {
         //PT 신청 버튼
         binding.btnPt.setOnClickListener {
             showPtApplyConfirmationDialog()
-            initTrainerProfile()
 
 //            val applyConfirmIntent = Intent(this@TrainersProfileActivity, PtApplyConfirmActivity::class.java)
 //            applyConfirmIntent.putExtra("trainerUid", intent.getIntExtra("uid", 0))
@@ -225,16 +212,7 @@ class TrainersProfileActivity : AppCompatActivity() {
             })
     }
 
-    private fun initTrainerProfile() {
-        val traineruid = intent.getIntExtra("traineruid", 0)
-        Log.d("traineruid", traineruid.toString())
-        lifecycleScope.launch(Dispatchers.Main) {
-            var result = ApiManager.getTrainerProfile(traineruid)
-            if (result != null) {
 
-            }
-        }
-    }
 
     private fun initRecyclerView() {
         val careerAdapter = CareerAdapter(careerDatas)
@@ -322,15 +300,15 @@ class TrainersProfileActivity : AppCompatActivity() {
     }
 
     private fun initapplysession() {
-        var traineeuid = UserData.userdata?.uid.toString().toInt()
+        val traineeuid = UserData.userdata?.uid.toString().toInt()
         Log.d("traineeuid", traineeuid.toString())
-        //트레이너 아이디만 나중에 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        var traineruid = 87
+
+        val traineruid = intent.getIntExtra("uid", 0)
         Log.d("traineruid", traineruid.toString())
 
         lifecycleScope.launch(Dispatchers.Main) {
             Log.d("sid", MySession.mysession?.sid.toString())
-            var result = ApiManager.applySession(traineeuid, traineruid)
+            val result = ApiManager.applySession(traineeuid, traineruid)
             val message = if (result) "신청 완료" else "신청 실패"
             showToastMessage(message)
         }
