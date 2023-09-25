@@ -1,6 +1,7 @@
 package com.kuteam6.homept.chat
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -45,6 +47,7 @@ class MessageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_message)
         val imageView = findViewById<ImageView>(R.id.messageActivity_ImageView)
         val editText = findViewById<TextView>(R.id.messageActivity_editText)
+        val btnPT = findViewById<ImageButton>(R.id.iv_writePT)
 
         //메세지를 보낸 시간
         val time = System.currentTimeMillis()
@@ -54,6 +57,15 @@ class MessageActivity : AppCompatActivity() {
         destinationUid = intent.getStringExtra("destinationUid")
         uid = Firebase.auth.currentUser?.uid.toString()
         recyclerView = findViewById(R.id.messageActivity_recyclerview)
+
+
+        btnPT.setOnClickListener {
+            val intent = Intent(this, PTApplicationActivity::class.java)
+            intent.putExtra("uid", uid)
+            intent.putExtra("destinationUid", destinationUid)
+            intent.putExtra("chatRoomUid",chatRoomUid)
+            startActivity(intent)
+        }
 
         imageView.setOnClickListener {
             Log.d("클릭 시 dest", "$destinationUid")
@@ -98,7 +110,7 @@ class MessageActivity : AppCompatActivity() {
                         val chatModel = item.getValue<ChatModel>()
                         if (chatModel?.users!!.containsKey(destinationUid)) {
                             chatRoomUid = item.key
-                            findViewById<ImageView>(R.id.messageActivity_ImageView).isEnabled  = true
+                            findViewById<ImageView>(R.id.messageActivity_ImageView).isEnabled = true
                             recyclerView?.layoutManager = LinearLayoutManager(this@MessageActivity)
                             recyclerView?.adapter = RecyclerViewAdapter()
                         }
@@ -122,7 +134,8 @@ class MessageActivity : AppCompatActivity() {
 
                     override fun onDataChange(snapshot: DataSnapshot) {
                         friend = snapshot.getValue<Friend>()
-                        findViewById<TextView>(R.id.messageActivity_textView_topName).text = friend?.name
+                        findViewById<TextView>(R.id.messageActivity_textView_topName).text =
+                            friend?.name
                         getMessageList()
                     }
                 })
@@ -157,12 +170,17 @@ class MessageActivity : AppCompatActivity() {
 
         @SuppressLint("RtlHardcoded")
         override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-            Log.d("coments",comments[position].hasPT.toString())
-            if(comments[position].hasPT == true){
+            Log.d("coments", comments[position].hasPT.toString())
+            if (comments[position].hasPT == true) {
                 holder.textView_message.textSize = 25F
                 holder.textView_message.setTypeface(null, Typeface.BOLD);
-                holder.textView_message.setTextColor(ContextCompat.getColor(applicationContext!!, R.color.white))
-            }else{
+                holder.textView_message.setTextColor(
+                    ContextCompat.getColor(
+                        applicationContext!!,
+                        R.color.white
+                    )
+                )
+            } else {
                 holder.textView_message.textSize = 20F
             }
             holder.textView_message.text = comments[position].message
@@ -173,9 +191,9 @@ class MessageActivity : AppCompatActivity() {
                 holder.layout_destination.visibility = View.INVISIBLE
                 holder.layout_main.gravity = Gravity.RIGHT
             } else { // 상대방 채팅
-                if(friend?.profileImageUrl == "null"){
+                if (friend?.profileImageUrl == "null") {
                     holder.imageView_profile.setImageResource(R.drawable.empty_profile)
-                }else{
+                } else {
                     Glide.with(holder.itemView.context)
                         .load(friend?.profileImageUrl)
                         .apply(RequestOptions().circleCrop())

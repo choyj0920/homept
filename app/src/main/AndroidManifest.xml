@@ -22,12 +22,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Homept"
         tools:targetApi="31">
+        <activity
+            android:name=".chat.PTApplicationActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/pt_alarm" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/teal_200" />
@@ -122,7 +127,7 @@
         <activity
             android:name=".myPage.MypageMemberListActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".loginSignup.FindIdActivity"
             android:exported="false" />

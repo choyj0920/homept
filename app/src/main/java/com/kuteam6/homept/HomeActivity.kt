@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentTransaction
+import com.kuteam6.homept.chat.ChatListActivity
 import com.kuteam6.homept.trainerSearch.SearchFragment
 import com.kuteam6.homept.databinding.ActivityHomeBinding
 import com.kuteam6.homept.hbtiTest.HbtiStartActivity
@@ -86,9 +87,9 @@ class HomeActivity : AppCompatActivity() {
 //                        .commitAllowingStateLoss()
 //                    return@setOnItemSelectedListener true
 //                }
-                R.id.homeFragment -> {
+                R.id.chatFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.home_frm, HomeFragment())
+                        .replace(R.id.home_frm, ChatFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
