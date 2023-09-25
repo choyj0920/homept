@@ -152,5 +152,13 @@ class RecommendFragment : Fragment() {
                 }
             }
         }
+
+        if (!UserData.userdata?.isTrainee!!) {
+            binding.trainerRecommendBtn.visibility = View.GONE
+            binding.recommendLacationSp.visibility = View.GONE
+            binding.recommendGenderSp.visibility = View.GONE
+            binding.recommendCategoryTv.visibility = View.GONE
+            binding.recommendSelectCategoryBtn.visibility = View.GONE
+        }
     }
 }
