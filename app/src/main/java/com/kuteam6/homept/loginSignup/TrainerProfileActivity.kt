@@ -53,7 +53,9 @@ class TrainerProfileActivity : AppCompatActivity() {
                 if (binding.location7.isChecked) location += "경상,"
                 if (binding.location8.isChecked) location += "제주,"
                 if (location.isNotEmpty())
-                    location.substring(location.length-2)
+                    location = location.substring(0, location.length-1)
+
+                Log.d("location", location)
 
                 var name = intent.getStringExtra("name")
                 var id = intent.getStringExtra("id")

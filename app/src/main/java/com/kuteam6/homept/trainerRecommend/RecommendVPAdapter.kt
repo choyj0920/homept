@@ -13,6 +13,8 @@ import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.Review
 import com.kuteam6.homept.restservice.data.TrainerProfile
 import com.kuteam6.homept.restservice.data.UserData
+import com.kuteam6.homept.tainerProfile.CareerAdapter
+import com.kuteam6.homept.tainerProfile.CareerData
 import com.kuteam6.homept.tainerProfile.ReviewAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,11 +33,21 @@ class RecommendVPAdapter(private val itemList : ArrayList<TrainerProfile>, priva
 
     inner class ViewHolder(val binding : FragmentRecommendVpBinding) : RecyclerView.ViewHolder(binding.root) {
         var reviewDatas = arrayListOf<Review>()
+        val careerDatas = arrayListOf<CareerData>()
 
         fun bind(trainerProfile: TrainerProfile) {
             binding.recommendTvName.text = trainerProfile.name
             binding.recommendTvCategory.text = trainerProfile.usercategory
             binding.recommendTvLesson.text = trainerProfile.lesson
+            val career = trainerProfile.career!!.split("\r?\n|\r".toRegex()).toTypedArray()
+
+            for (careerString in career) {
+                careerDatas.add(CareerData(careerString))
+            }
+
+            val careerAdapter = CareerAdapter(careerDatas)
+            binding.recommendRvCareer.adapter = careerAdapter
+            binding.recommendRvCareer.layoutManager = LinearLayoutManager(context)
 
             Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
             if(!UserData.userdata?.isTrainee!!) {
