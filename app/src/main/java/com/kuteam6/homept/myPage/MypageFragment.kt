@@ -140,10 +140,10 @@ class MypageFragment : Fragment() {
         }
 
         // 채팅 버튼 클릭 이벤트
-        binding.btnMyPageChat.setOnClickListener {
-            val chatIntent = Intent(activity, ChatListActivity::class.java)
-            startActivity(chatIntent)
-        }
+//        binding.btnMyPageChat.setOnClickListener {
+//            val chatIntent = Intent(activity, ChatListActivity::class.java)
+//            startActivity(chatIntent)
+//        }
 
         // HBTI 바로가기
         binding.btnMypageHealthMBTI.setOnClickListener {
@@ -157,13 +157,13 @@ class MypageFragment : Fragment() {
             binding.btnMyPageCareer.visibility = View.GONE
         }
 
-        binding.btnMyPageChat.setOnClickListener {
-            binding.clSub.visibility = View.GONE
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            val fragment = ChatFragment()
-            transaction?.replace(R.id.cl_main, fragment)
-            transaction?.commit()
-        }
+//        binding.btnMyPageChat.setOnClickListener {
+//            binding.clSub.visibility = View.GONE
+//            val transaction = activity?.supportFragmentManager?.beginTransaction()
+//            val fragment = ChatFragment()
+//            transaction?.replace(R.id.cl_main, fragment)
+//            transaction?.commit()
+//        }
 
         return binding.root
     }
