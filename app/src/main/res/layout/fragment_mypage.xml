@@ -41,7 +41,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="27dp"
             android:background="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/btnMypageHealthMBTI"
+            app:layout_constraintTop_toBottomOf="@+id/btnMyPageCareer"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView
@@ -84,14 +84,14 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <Button
-        android:id="@+id/btnMypageHealthMBTI"
+        android:id="@+id/btnMyPageCareer"
         android:layout_width="95dp"
         android:layout_height="92dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:drawableTop="@drawable/baseline_content_paste_search_24"
+        android:drawableTop="@drawable/baseline_mode_24"
         android:background="@drawable/rounded_button"
-        android:text="HBTI"
+        android:text="이력 수정"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnMyPageInfo" />
@@ -108,34 +108,32 @@
         app:layout_constraintBottom_toBottomOf="@+id/btnMyPageInfo"
         app:layout_constraintStart_toEndOf="@+id/btnMyPageInfo" />
 
-    <Button
-        android:id="@+id/btnMyPageChat"
-        android:layout_width="95dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="136dp"
-        android:drawableTop="@drawable/baseline_chat_24"
-        android:background="@drawable/rounded_button"
-        android:text="채팅"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btnMyPageTrainer_Trainee" />
+        <!--    <Button-->
+<!--        android:id="@+id/btnMyPageCareer"-->
+<!--        android:layout_width="95dp"-->
+<!--        android:layout_height="92dp"-->
+<!--        android:layout_marginStart="31dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:background="@drawable/rounded_button"-->
+<!--        android:drawableTop="@drawable/baseline_mode_24"-->
+<!--        android:text="이력 수정"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/btnMypageHealthMBTI"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/btnMypageHealthMBTI"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnMyPageTrainer_Trainee" />-->
 
-    <Button
-        android:id="@+id/btnMyPageCareer"
-        android:layout_width="95dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_button"
-        android:drawableTop="@drawable/baseline_mode_24"
-        android:text="이력 수정"
-        app:layout_constraintBottom_toBottomOf="@+id/btnMypageHealthMBTI"
-        app:layout_constraintStart_toEndOf="@+id/btnMypageHealthMBTI"
-        app:layout_constraintTop_toBottomOf="@+id/btnMyPageTrainer_Trainee" />
+        <Button
+            android:id="@+id/btnMypageHealthMBTI"
+            android:layout_width="95dp"
+            android:layout_height="92dp"
+            android:layout_marginStart="31dp"
+            android:layout_marginEnd="36dp"
+            android:background="@drawable/rounded_button"
+            android:drawableTop="@drawable/baseline_content_paste_search_24"
+            android:text="HBTI"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/btnMyPageTrainer_Trainee"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnMyPageTrainer_Trainee" />
 
         <TextView
             android:id="@+id/myPageName"
