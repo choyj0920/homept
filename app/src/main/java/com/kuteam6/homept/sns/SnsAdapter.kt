@@ -58,7 +58,7 @@ class SnsAdapter(private val itemList : ArrayList<Postdata>, private val context
                         .load(imageId)
                         .into(binding.snsImageIv)
                 } else {
-                    binding.snsImageIv.setImageResource(R.drawable.baseline_close_24)
+                    binding.snsImageIv.visibility = View.GONE
                 }
             }
 
