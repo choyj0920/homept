@@ -66,9 +66,9 @@ class SnsPostActivity : AppCompatActivity() {
                 Log.d("pid", intent.getIntExtra("pid", 0).toString())
                 Glide.with(applicationContext)
                     .load(ApiManager.getSnsImage(intent.getIntExtra("pid", 0)))
-                    .error(R.color.grey)
-                    .fallback(R.drawable.baseline_close_24)
                     .into(binding.imageView)
+            } else {
+                binding.imageView.visibility = View.GONE
             }
         }
 
