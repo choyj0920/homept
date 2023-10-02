@@ -1,39 +1,35 @@
 package com.kuteam6.homept.sns
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.transition.Visibility
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.kuteam6.homept.HomeActivity
-import com.kuteam6.homept.R
-import com.kuteam6.homept.databinding.ActivitySnsCreatePostBinding
 import com.kuteam6.homept.databinding.ActivitySnsPostBinding
-import com.kuteam6.homept.loginSignup.TestActivity
 import com.kuteam6.homept.restservice.ApiManager
 import com.kuteam6.homept.restservice.data.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.net.URL
-import java.util.concurrent.Executors
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
 
 
 class SnsPostActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivitySnsPostBinding
     private val database = FirebaseDatabase.getInstance()
     private lateinit var likesRef: DatabaseReference
+    private lateinit var likesCountRef: DatabaseReference
 
     companion object{
         private const val TAG = "SnsPostActivity"
@@ -85,18 +81,37 @@ class SnsPostActivity : AppCompatActivity() {
         }
 
         binding.snsDeleteBtn.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.Main) {
-                ApiManager.deletePost(UserData.userdata!!.uid, intent.getIntExtra("pid", 0))
-                finish()
-            }
+            AlertDialog.Builder(this)
+                .setTitle("확인")
+                .setMessage("정말로 지우시겠습니까?")
+                .setPositiveButton("예"){_,_->
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        ApiManager.deletePost(UserData.userdata!!.uid, intent.getIntExtra("pid", 0))
+                        finish()
+                    }
+                }
+                .setNegativeButton("아니요", null)
+                .show()
         }
 
         val postId = intent.getIntExtra("pid",0).toString()
         likesRef = database.getReference("likes").child(postId)
+        likesCountRef = database.getReference("likesCount").child(postId)
 
         likesRef.child(UserData.userdata?.uid.toString()).addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 binding.snsLikeIv.isSelected = snapshot.exists()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(TAG, "Failed to read value", error.toException())
+            }
+        })
+
+        likesCountRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val likeCount = snapshot.getValue(Int::class.java)?:0
+                binding.likesTv.text = "좋아요 $likeCount 개"
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -113,12 +128,38 @@ class SnsPostActivity : AppCompatActivity() {
                 showLikeSnackBar("좋아요 취소", false)
 
                 likesRef.child(UserData.userdata?.uid.toString()).removeValue()
+                likesCountRef.runTransaction(object : Transaction.Handler{
+                    override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                        val currValue = mutableData.getValue(Int::class.java)?:0
+                        mutableData.value = currValue - 1
+
+                        return Transaction.success(mutableData)
+                    }
+
+                    override fun onComplete(
+                        databaseError: DatabaseError?,
+                        committed: Boolean,
+                        currentData: DataSnapshot?
+                    ) {
+
+                    }
+                })
             }
             else{
                 likeButton.isSelected = true
                 showLikeSnackBar("좋아요를 눌렀어요!", true)
 
                 likesRef.child(UserData.userdata?.uid.toString()).setValue(true)
+                likesCountRef.runTransaction(object : Transaction.Handler {
+                    override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                        val currValue = mutableData.getValue(Int::class.java) ?: 0
+                        mutableData.value = currValue + 1
+
+                        return Transaction.success(mutableData)
+                    }
+
+                    override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {}
+                })
             }
         }
 
@@ -128,6 +169,7 @@ class SnsPostActivity : AppCompatActivity() {
             commentIntent.putExtra("pid", intent.getIntExtra("pid", 0))
             startActivity(commentIntent)
         }
+
     }
 
     private fun showLikeSnackBar(message: String, like: Boolean){
