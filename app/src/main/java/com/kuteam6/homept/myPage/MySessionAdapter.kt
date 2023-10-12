@@ -33,13 +33,8 @@ class MySessionAdapter(private val itemList : ArrayList<MySession>) : RecyclerVi
                 binding.btnDisapprovesession.visibility = View.GONE
 
                 binding.mypageMemberNameTv.text = mySession.myTrainerProfile?.name
-
-                if(mySession.myTrainerProfile?.gender == "m"){
-                    binding.mypageMemberGenderTv.text = "남성"
-                }
-                else{
-                    binding.mypageMemberGenderTv.text = "여성"
-                }
+                //성별tv를 '트레이너'로
+                binding.mypageMemberGenderTv.text = "트레이너"
 
                 binding.btnWriteReview.setOnClickListener {
                     itemClickListener.onPostReview(mySession.myTrainerProfile!!.name, mySession.myTrainerProfile!!.uid)

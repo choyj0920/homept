@@ -1,12 +1,10 @@
 package com.kuteam6.homept.myPage
 
 import android.app.Activity
-import ChatFragment
+
 import ProfileFragment
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -14,10 +12,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -28,12 +35,11 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.kuteam6.homept.Friend
 import com.kuteam6.homept.R
-import com.kuteam6.homept.chat.ChatListActivity
 import com.kuteam6.homept.databinding.FragmentMypageBinding
 import com.kuteam6.homept.hbtiTest.HbtiStartActivity
 import com.kuteam6.homept.restservice.data.UserData
-import java.io.ByteArrayOutputStream
 import java.io.File
+import java.util.Calendar
 
 
 class MypageFragment : Fragment() {
@@ -94,33 +100,6 @@ class MypageFragment : Fragment() {
             transaction?.replace(R.id.cl_main, profileFragment)
             transaction?.commit()
         }
-//            val bottomSheetDialog = BottomSheetDialog(requireActivity())
-//            val sheetView = layoutInflater.inflate(R.layout.dialog_bottom_sheet, null)
-//
-//            bottomSheetDialog.setContentView(sheetView)
-//
-//            val btnTakePhoto = sheetView.findViewById<Button>(R.id.btn_take_photo)
-//            val btnChooseFromGallery = sheetView.findViewById<Button>(R.id.btn_choose_from_gallery)
-//            val btnCancelDialog = sheetView.findViewById<Button>(R.id.btn_cancel_dialog)
-//
-//            btnTakePhoto.setOnClickListener {
-//                //카메라
-//                bottomSheetDialog.dismiss()
-//            }
-//
-//            btnChooseFromGallery.setOnClickListener {
-//                //갤러리
-//                bottomSheetDialog.dismiss()
-//            }
-//
-//            btnCancelDialog.setOnClickListener {
-//                //취소
-//                bottomSheetDialog.dismiss()
-//            }
-//
-//            bottomSheetDialog.show()
-//        }
-
 
         // 회원명
         val name = UserData.userdata?.name.toString()
@@ -151,10 +130,79 @@ class MypageFragment : Fragment() {
             startActivity(hbtiIntent)
         }
 
+        //운동 시간
+        binding.btnMyPageTime.setOnClickListener {
+            val TimerIntent = Intent(activity, MypageTimerActivity::class.java)
+            startActivity(TimerIntent)
+        }
+
+        val barChart: BarChart = binding.workoutChart
+
+        barChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                if(e != null){
+                    val workoutTime = (e.y * 60f).toInt() //운동시간
+
+                    Toast.makeText(requireContext(), "$workoutTime 분", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onNothingSelected() {
+            }
+        })
+
+        //Firebase에서 실시간으로 데이터 읽기
+        fireDatabase.child("exerciseTime").child(UserData.userdata?.uid.toString()).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val entries = Array<BarEntry?>(7){index -> BarEntry(index.toFloat(), 0f) }
+
+                snapshot.children.forEach { dataSnapshot ->
+                    val timeInMinutes = dataSnapshot.getValue(Long::class.java)
+                    if(timeInMinutes != null){
+                        val dataParts = dataSnapshot.key?.split(" ")
+                            val dayOfWeek = when(dataParts?.get(3)){
+                                "Mon" -> 0
+                                "Tue" -> 1
+                                "Wed" -> 2
+                                "Thu" -> 3
+                                "Fri" -> 4
+                                "Sat" -> 5
+                                else -> 6
+                            }
+                            entries[dayOfWeek] = BarEntry(dayOfWeek.toFloat(),(timeInMinutes / 60f))
+                    }
+                }
+
+                val barDataSet = BarDataSet(entries.toList(), "Workout Time")
+                barDataSet.color = ContextCompat.getColor(requireContext(), R.color.teal_200)
+                val barData = BarData(barDataSet)
+
+                with(barChart){
+                    data = barData
+
+                    xAxis.valueFormatter = IndexAxisValueFormatter(arrayListOf("월", "화", "수", "목", "금", "토", "일"))
+                    xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+                    axisRight.isEnabled = false
+                    axisLeft.axisMinimum = 0f
+                    axisLeft.axisMaximum = 3f
+
+                    axisLeft.setLabelCount(4, true)
+
+                    description.isEnabled = false
+
+                    invalidate()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("MypageFragment", "Failed to read data", error.toException())
+            }
+        })
+
         Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
         if (UserData.userdata?.isTrainee!!) {
             binding.ivPtApplyAlarm.visibility = View.GONE
-            binding.btnMyPageCareer.visibility = View.GONE
         }
 
 //        binding.btnMyPageChat.setOnClickListener {

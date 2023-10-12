@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar_back_iv"
+        layout="@layout/toolbar_back"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"/>
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="212dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginEnd="153dp"
+        android:layout_marginBottom="355dp"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/Timer_Date_tv"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="176dp"
+        android:layout_marginEnd="177dp"
+        android:gravity="center"
+        android:text=""
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_back_iv" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="265dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="73dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/btn_background"
+        android:gravity="center"
+        android:text="시작하기"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_continue"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/btn_background"
+        android:text="계속하기"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_end"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/radius_search"
+        android:backgroundTint="@color/black"
+        android:text="운동종료"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.kuteam6.homept.R
+import androidx.viewpager2.widget.ViewPager2
 import com.kuteam6.homept.databinding.ActivityMainBinding
-import com.kuteam6.homept.tainerProfile.TrainersProfileActivity
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -18,16 +18,23 @@ class MainActivity : AppCompatActivity() {
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnTestact.setOnClickListener {
-            val nextIntent = Intent(this, TestActivity::class.java)
-            startActivity(nextIntent)
-        }
+        val viewPagerTutorial : ViewPager2 = binding.viewPagerTutorial
+        val dotsIndicator : DotsIndicator = binding.dotsIndicator
+
+        val tutorialPageAdapter = TutorialPagerAdapter(this)
+
+        viewPagerTutorial.adapter = tutorialPageAdapter
+
+        dotsIndicator.setViewPager2(viewPagerTutorial)
+
+        viewPagerTutorial.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+            }
+        })
+
         binding.btnLoginact.setOnClickListener {
             val nextIntent = Intent(this, LoginActivity::class.java)
-            startActivity(nextIntent)
-        }
-        binding.btnTrainersProfile.setOnClickListener {
-            val nextIntent = Intent(this, TrainersProfileActivity::class.java)
             startActivity(nextIntent)
         }
     }

@@ -41,8 +41,8 @@
             android:name=".chat.MessageActivity"
             android:exported="false" />
         <activity
-            android:name=".sns.SnsSearchActivity"
-            android:exported="false" />
+            android:name=".myPage.MypageTimerActivity"
+            android:exported="false"/>
         <activity
             android:name=".myPage.ReviewPostActivity"
             android:exported="false" />
