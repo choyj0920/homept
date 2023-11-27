@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,22 +7,14 @@
     tools:context=".myPage.MypageFragment"
     android:id="@+id/cl_main">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_sub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
         <ImageView
             android:id="@+id/ivMyPageImage"
-            android:layout_width="220dp"
-            android:layout_height="130dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="80dp"
-            android:src="@drawable/mypage_hong"
+            android:layout_width="180dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="113dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="118dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +31,7 @@
             android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -66,7 +58,7 @@
             android:layout_width="95dp"
             android:layout_height="92dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/rounded_button"
             android:drawableTop="@drawable/baseline_timer_24"
             android:text="운동 시간"
@@ -79,7 +71,7 @@
             android:layout_width="95dp"
             android:layout_height="92dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="9dp"
             android:background="@drawable/rounded_button"
             android:drawableTop="@drawable/baseline_text_snippet_24"
             android:text="내 정보 관리"
@@ -104,7 +96,7 @@
             android:layout_width="78dp"
             android:layout_height="32dp"
             android:layout_marginStart="166dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="3dp"
             android:layout_marginEnd="167dp"
             android:gravity="center"
             android:text=""
@@ -116,22 +108,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivMyPageImage" />
 
-        <ImageView
-            android:id="@+id/ivPtApplyAlarm"
-            android:layout_width="39dp"
-            android:layout_height="31dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="14dp"
-            android:src="@drawable/baseline_notification_important_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/this_week_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:text="이번주 운동 현황"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -142,11 +124,9 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/workout_chart"
             android:layout_width="match_parent"
-            android:layout_height="310dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="315dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/this_week_tv" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

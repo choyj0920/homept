@@ -39,6 +39,7 @@ import com.kuteam6.homept.databinding.FragmentMypageBinding
 import com.kuteam6.homept.hbtiTest.HbtiStartActivity
 import com.kuteam6.homept.restservice.data.UserData
 import java.io.File
+import java.lang.IllegalArgumentException
 import java.util.Calendar
 
 
@@ -94,7 +95,10 @@ class MypageFragment : Fragment() {
 //
 //            bottomSheetDialog.show()
 
-            binding.clSub.visibility = View.GONE
+            binding.btnMyPageTime.visibility = View.GONE
+            binding.btnMyPageInfo.visibility = View.GONE
+            binding.btnMypageHealthMBTI.visibility = View.GONE
+            binding.btnMyPageTrainerTrainee.visibility = View.GONE
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             val profileFragment = ProfileFragment()
             transaction?.replace(R.id.cl_main, profileFragment)
@@ -160,14 +164,19 @@ class MypageFragment : Fragment() {
                     val timeInMinutes = dataSnapshot.getValue(Long::class.java)
                     if(timeInMinutes != null){
                         val dataParts = dataSnapshot.key?.split(" ")
-                            val dayOfWeek = when(dataParts?.get(3)){
+                        if (dataParts == null || dataParts.size < 4){
+                            throw IllegalArgumentException("Invalid dataParts: $dataParts")
+                        }
+                            val dayOfWeekStr = dataParts[3]
+                            val dayOfWeek = when(dayOfWeekStr){
                                 "Mon" -> 0
                                 "Tue" -> 1
                                 "Wed" -> 2
                                 "Thu" -> 3
                                 "Fri" -> 4
                                 "Sat" -> 5
-                                else -> 6
+                                "Sun" -> 6
+                                else -> throw IllegalArgumentException("Invalid day of week: $dayOfWeekStr")
                             }
                             entries[dayOfWeek] = BarEntry(dayOfWeek.toFloat(),(timeInMinutes / 60f))
                     }
@@ -199,11 +208,6 @@ class MypageFragment : Fragment() {
                 Log.e("MypageFragment", "Failed to read data", error.toException())
             }
         })
-
-        Log.d("isTrainee", UserData.userdata?.isTrainee.toString())
-        if (UserData.userdata?.isTrainee!!) {
-            binding.ivPtApplyAlarm.visibility = View.GONE
-        }
 
 //        binding.btnMyPageChat.setOnClickListener {
 //            binding.clSub.visibility = View.GONE
